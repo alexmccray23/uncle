@@ -23,3 +23,9 @@ Neovim plugin for adding the 'TOTAL BASE' row in Uncle tables
 
 # init_clean.lua
 Neovim plugin that performs an initial cleaning of the Uncle .E file
+
+# banner_column.lua
+Neovim plugin for adding "C &CE" to the banners
+
+# rank_table.lua
+Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables

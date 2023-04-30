@@ -6,4 +6,7 @@ require('usr.plugins.custom.sum_init')
 require('usr.plugins.custom.number')
 require('usr.plugins.custom.base_row')
 require('usr.plugins.custom.init_clean')
+require('usr.plugins.custom.rank_table')
+require('usr.plugins.custom.banner_column')
+
 
