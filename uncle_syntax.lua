@@ -22,7 +22,7 @@ local function parseLayout()
     }
   end
   SpecTable = {}
-  local specs = vim.split(selectQuestions(), ' +', { plain = false, trimemtpy = true })
+  local specs = vim.split(string.upper(selectQuestions()), ' +', { plain = false, trimemtpy = true })
   for index, value in ipairs(specs) do
     if value:match("[oO][rR]") then
       SpecTable[index] = {
