@@ -8,7 +8,7 @@ end
 
 local function parseLayout()
   Data = {}
-  local layDir = vim.split(vim.fn.bufname(), "/", { plain = true })
+  local layDir = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
   table.remove(layDir, #layDir)
   local fullPath = table.concat(layDir, "/") .. "/*.[Ll][Aa][Yy]"
   local layout = vim.fn.readfile(vim.fn.glob(fullPath))
