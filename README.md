@@ -17,7 +17,6 @@ Plugin that performs an initial cleanup of the specs used for summary tables.
 
 # number.lua
 Neovim plugin for numbering Uncle tables
-
 # base_row.lua
 Neovim plugin for adding the 'TOTAL BASE' row in Uncle tables
 
@@ -28,4 +27,11 @@ Neovim plugin that performs an initial cleaning of the Uncle .E file
 Neovim plugin for adding "C &CE" to the banners
 
 # rank_table.lua
+
 Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables
+
+# norank.lua
+Neovim plugin for adding the "NORANK" command to Uncle stub tables
+
+# series.lua
+Neovim plugin for formatting a series of questions
