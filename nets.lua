@@ -3,28 +3,23 @@
 local M = {}
 
 function M.one()
-  local ls = require("luasnip")
-  local s = ls.snippet
-  local i = ls.insert_node
-  local t = ls.text_node
-  --local snippets = {
-  --  s("punch_code", {
-  --    t("R &IN2**D//S ("),
-  --    t({ "" }, { name = "punch_1" }),
-  --    t(" - "),
-  --    t({ "" }, { name = "punch_2" }),
-  --    t(");NONE;EX(RD1-RD2) NOSZR"),
-  --  }),
-  --}
-  ls.snippets = {
-    all = {
-      ls.parser.parse_snippet("ds", "R &IN2**D//S ($1 - $2);NONE;EX(RD$3-RD$0) NOSZR"),
-    },
-  }
-  --return snippets
+  vim.cmd("normal ds")
 end
-  
+
 function M.two()
+  local punches = {}
+  local start_line = vim.fn.getcurpos()[2] - 1
+  vim.api.nvim_win_set_cursor(0, { start_line, 0 })
+  local end_line = start_line + 2
+  local text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
+  for index,line in ipairs(text) do
+    punches[index] = vim.split(line, ';', { plain = true })
+    punches[index][1] = vim.fn.substitute(punches[index][1], "^R\\s\\+\\(TOTAL \\)\\?", "", "")
+    punches[index][1] = vim.fn.substitute(punches[index][1], "&IN2\\|&UT-", "", "")
+  end
+  local new_line = "R &IN2**D//S (" .. punches[1][1] .. " - " .. punches[2][1] .. ");NONE;EX(RD1-RD2) NOSZR"
+  vim.fn.append(vim.fn.line('.'), new_line)
+  vim.api.nvim_win_set_cursor(0, { start_line + 2, 0 })
 end
 
 function M.three()
