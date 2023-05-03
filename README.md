@@ -35,3 +35,9 @@ Neovim plugin for adding the "NORANK" command to Uncle stub tables
 
 # series.lua
 Neovim plugin for formatting a series of questions
+
+# my_snippets.lua
+Some simple snippets for setting up Uncle tables
+
+# nets.lua
+A collection of scripts used for setting up net rows and difference scores
