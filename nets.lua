@@ -23,6 +23,35 @@ function M.two()
 end
 
 function M.three()
+  local totRows = 1
+  local r_row = {}
+  local punches = {}
+  local newText = { "" }
+  local prompt = vim.fn.input("How many rows?")
+  if prompt == "" then
+    return
+  else
+    totRows = vim.fn.str2nr(prompt)
+  end
+
+  local start_line = vim.fn.line('.')
+  local text = vim.api.nvim_buf_get_lines(0, start_line - 1, start_line + totRows - 1, false)
+  local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
+  for i, line in ipairs(text) do
+    newText[i] = vim.fn.substitute(line, "^R ", "R   ", "")
+    r_row[i] = vim.split(line, ';', { plain = true })
+    r_row[i][1] = vim.fn.substitute(r_row[i][1], "^R\\s\\+\\(\\S\\+\\s\\)\\?", "", "")
+    r_row[i][1] = vim.fn.substitute(r_row[i][1], "&IN2\\|&UT-", "", "")
+    punches[i] = vim.fn.substitute(r_row[i][2], pattern, "\\3", "")
+  end
+  local pValue1 = vim.fn.substitute(r_row[1][2], pattern, "\\1\\2\\3:" .. punches[#text] .. "\\4", "")
+  local pLabel1 = r_row[1][1]
+
+  table.insert(newText, 1, "R TOTAL " .. pLabel1 .. "&UT-;" .. pValue1)
+
+  local nline = vim.fn.line('.')
+  vim.api.nvim_buf_set_lines(0, nline - 1, nline + totRows - 1, false, newText)
+  vim.api.nvim_win_set_cursor(0, { nline + 1, 0 })
 end
 
 function M.four()
@@ -145,7 +174,7 @@ end
 function M.six_two()
   local r_row = {}
   local punches = {}
-  local newText = { "", "", "", ""}
+  local newText = { "", "", "", "" }
   local start_line = vim.fn.getcurpos()[2] - 1
   vim.api.nvim_win_set_cursor(0, { start_line + 1, 0 })
   local end_line = start_line + 7
@@ -175,7 +204,57 @@ function M.six_two()
 end
 
 function M.seven()
+  local r_row = {}
+  local punches = {}
+  local newText = { "", "", "", "" }
+  local start_line = vim.fn.getcurpos()[2] - 1
+  vim.api.nvim_win_set_cursor(0, { start_line + 1, 0 })
+  local end_line = start_line + 7
+  local text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
+  local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
+  local pValue1 = ""
+  local pValue2 = ""
+  local pValue3 = ""
+  local hs_end = ""
+  local sc_end = nil
+  for i, line in ipairs(text) do
+    newText[i] = vim.fn.substitute(line, "^R ", "R   \\&IN2", "")
+    r_row[i] = vim.split(line, ';', { plain = true })
+    --r_row[i][1] = vim.fn.substitute(r_row[i][1], "^R\\s\\+\\(\\S\\+\\s\\)\\?", "", "")
+    r_row[i][1] = vim.fn.substitute(r_row[i][1], "&IN2\\|&UT-", "", "")
+    punches[i] = vim.fn.substitute(r_row[i][2], pattern, "\\3", "")
+    if vim.fn.match(line, "\\(GRADUATED HIGH SCHOOL\\)\\|\\(HIGH SCHOOL GRADUATE\\)") >= 0 then
+      if i == 1 then
+        pValue1 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. punches[i] .. "\\4", "")
+      else
+        pValue1 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. punches[1] .. ":\\3\\4", "")
+        hs_end = vim.fn.substitute(r_row[i][2], pattern, "\\3", "")
+      end
+    elseif vim.fn.match(line, '\\(GRADUATED COLLEGE\\)\\|\\(BACHELOR\\)') >= 0 then
+      local sc_start = vim.fn.str2nr(hs_end) + 1
+      sc_end = vim.fn.str2nr(punches[i]) - 1
+      if sc_start == sc_end then
+        pValue2 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. punches[i] .. "\\4", "")
+      else
+        pValue2 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. sc_start .. ":" .. sc_end .. "\\4", "")
+      end
+    elseif vim.fn.match(line, "\\(POST\\(-\\| \\)GRADUATE\\)\\|\\(DOCTOR\\)\\|\\(PROFESSIONAL\\)") >= 0 then
+      pValue3 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. sc_end + 1 .. ":\\3\\4", "")
+    end
+  end
+
+  --local pValue2 = vim.fn.substitute(r_row[6][2], pattern, "\\1\\2\\3:" .. punches[7] .. "\\4", "")
+  --local pValue3 = vim.fn.substitute(r_row[3][2], pattern, "\\1\\2\\3:" .. punches[5] .. "\\4", "")
+
+  table.insert(newText, 1, "R HIGH SCHOOL OR LESS&UT-;" .. pValue1)
+  table.insert(newText, 2, "R SOME COLLEGE&UT-;" .. pValue2)
+  table.insert(newText, 3, "R COLLEGE+&UT-;" .. pValue3)
+
+  local nline = vim.fn.line('.')
+  vim.api.nvim_buf_set_lines(0, nline - 1, nline + 6, false, newText)
+  vim.api.nvim_win_set_cursor(0, { nline, 0 })
 end
+
 -- ...and so on for the rest of your functions
 function M.menu()
   local choices = {
