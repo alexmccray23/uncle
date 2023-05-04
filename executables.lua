@@ -184,6 +184,37 @@ function M.testExec()
 end
 
 function M.checkExec()
+  local text = {}
+
+  local test_end = vim.fn.getcurpos()[2] + 1
+  local stub_start = vim.fn.search('^TABLE 1000', 'b')
+  local stub_end = vim.fn.search('^TABLE 1001', 'W')
+  local stubText = vim.api.nvim_buf_get_lines(0, stub_start - 1, stub_end - 1, false)
+
+  local testText = vim.api.nvim_buf_get_lines(0, stub_end, test_end - 1, false)
+  local wt_start = vim.fn.search('^X WEIGHT \\d\\{3\\}', 'w')
+  local wt_line = vim.api.nvim_get_current_line()
+  vim.api.nvim_win_set_cursor(0, { test_end - 1, 0 })
+  local bans = ""
+  wt_line = wt_line:match("1!%d+:%d+")
+  print(wt_line)
+  for _, line in ipairs(stubText) do
+    if not line:match("X SET TITLE '&CP STUB TABLES'") then
+      line = line:gsub("TABLE 1000", "TABLE 1001")
+      line = line:gsub(".STB", ".CHK")
+      line = line:gsub("X WEIGHT UNWEIGHT", "X IF(ALL) CWEIGHT(F" .. wt_line .. ")")
+      if line:match("900 PAGE 1") then
+        for i,v in ipairs(testText) do
+          if v:match("X RUN") then
+            v = v:gsub(".*?(9%d{2}).*", "$1")
+            print(v)
+          end
+        end
+      end
+      line = line:gsub("900", "901")
+      --print(line)
+    end
+  end
 end
 
 function M.finalExec()
