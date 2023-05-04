@@ -192,29 +192,34 @@ function M.checkExec()
   local stubText = vim.api.nvim_buf_get_lines(0, stub_start - 1, stub_end - 1, false)
 
   local testText = vim.api.nvim_buf_get_lines(0, stub_end, test_end - 1, false)
-  local wt_start = vim.fn.search('^X WEIGHT \\d\\{3\\}', 'w')
+  vim.fn.search('^X WEIGHT \\d\\{3\\}', 'w')
   local wt_line = vim.api.nvim_get_current_line()
   vim.api.nvim_win_set_cursor(0, { test_end - 1, 0 })
-  local bans = ""
+  local bans = {}
   wt_line = wt_line:match("1!%d+:%d+")
-  print(wt_line)
   for _, line in ipairs(stubText) do
     if not line:match("X SET TITLE '&CP STUB TABLES'") then
-      line = line:gsub("TABLE 1000", "TABLE 1001")
+      line = line:gsub("TABLE 1000", "TABLE 1002")
       line = line:gsub(".STB", ".CHK")
       line = line:gsub("X WEIGHT UNWEIGHT", "X IF(ALL) CWEIGHT(F" .. wt_line .. ")")
       if line:match("900 PAGE 1") then
-        for i,v in ipairs(testText) do
+        for i, v in ipairs(testText) do
           if v:match("X RUN") then
-            v = v:gsub(".*?(9%d{2}).*", "$1")
-            print(v)
+            v = v:gsub(".-(9%d%d ).*", "%1")
+            table.insert(bans, v)
           end
         end
+        table.insert(text, "X RUN 1 B " .. bans[1] .. "TH " .. bans[#bans] .. "PAGE 1 OFF")
       end
+      line = line:gsub("X RUN 1", "X RUN 2")
       line = line:gsub("900", "901")
-      --print(line)
+      line = line:gsub("PAGE 1 ", "")
+      table.insert(text, line)
     end
   end
+  local nline = vim.fn.line('.')
+  vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
+  vim.api.nvim_win_set_cursor(0, { nline + 12, 0 })
 end
 
 function M.finalExec()
