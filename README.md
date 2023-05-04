@@ -17,6 +17,7 @@ Plugin that performs an initial cleanup of the specs used for summary tables.
 
 # number.lua
 Neovim plugin for numbering Uncle tables
+
 # base_row.lua
 Neovim plugin for adding the 'TOTAL BASE' row in Uncle tables
 
@@ -41,3 +42,12 @@ Some simple snippets for setting up Uncle tables
 
 # nets.lua
 A collection of scripts used for setting up net rows and difference scores
+
+# executable.lua
+Neovim plugin for adding excecutable tables (500-1000+) to the Uncle E file
+
+# weight_add.lua
+Neovim plugin for summing weighting table values
+
+# init_example.lua
+Some useful setup configurations for DP

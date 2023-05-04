@@ -1,4 +1,4 @@
--- Neovim plugin for adding excecutable tables (500-1000+) to Uncle E file
+-- Neovim plugin for adding excecutable tables (500-1000+) to the Uncle E file
 
 local M = {}
 
@@ -86,7 +86,7 @@ function M.banner(arg)
     "*" }
   local nline = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
-  vim.api.nvim_win_set_cursor(0, { nline + 5, 0 })
+  vim.api.nvim_win_set_cursor(0, { nline + 4, 0 })
 end
 
 function M.stubExec()
@@ -155,10 +155,32 @@ function M.stubExec()
     "*" }
   local nline = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
-  vim.api.nvim_win_set_cursor(0, { nline + 12, 0 })
+  vim.api.nvim_win_set_cursor(0, { nline + 2, 0 })
 end
 
 function M.testExec()
+  local text = {}
+  local count = vim.fn.input("\nHow many banner tables?\n")
+
+  local end_line = vim.fn.getcurpos()[2] + 1
+  local start_line = vim.fn.search('^TABLE 1000', 'b')
+  local wholeText = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
+  vim.api.nvim_win_set_cursor(0, { end_line - 1, 0 })
+  for _, line in ipairs(wholeText) do
+    line = line:gsub("TABLE 1000", "TABLE 1001")
+    line = line:gsub("STUB", "TEST")
+    line = line:gsub(".STB", ".TST")
+    line = line:gsub("X RUN 1.*", "X RUN  B 901 PAGE 1 OFF")
+    table.insert(text, line)
+    if line:match("X RUN") then
+      for i = 2, count do
+        table.insert(text, "X RUN  B " .. 900 + i .. " OFF")
+      end
+    end
+  end
+  local nline = vim.fn.line('.')
+  vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
+  vim.api.nvim_win_set_cursor(0, { nline + 9, 6 })
 end
 
 function M.checkExec()
@@ -208,7 +230,7 @@ function M.submenu(arg)
   for _, choice in ipairs(sub_choices) do
     print(choice.label)
   end
-  local input = tonumber(vim.fn.input("Select a submenu option: "))
+  local input = tonumber(vim.fn.input("Select a banner footer option: "))
   if input and input >= 1 and input <= #sub_choices then
     sub_choices[input].func(input)
   else
