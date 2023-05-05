@@ -155,7 +155,7 @@ function M.stubExec()
     "*" }
   local nline = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
-  vim.api.nvim_win_set_cursor(0, { nline + 2, 0 })
+  vim.api.nvim_win_set_cursor(0, { nline + 12, 0 })
 end
 
 function M.testExec()
@@ -203,7 +203,7 @@ function M.checkExec()
       line = line:gsub(".STB", ".CHK")
       line = line:gsub("X WEIGHT UNWEIGHT", "X IF(ALL) CWEIGHT(F" .. wt_line .. ")")
       if line:match("900 PAGE 1") then
-        for i, v in ipairs(testText) do
+        for _, v in ipairs(testText) do
           if v:match("X RUN") then
             v = v:gsub(".-(9%d%d ).*", "%1")
             table.insert(bans, v)
@@ -223,9 +223,54 @@ function M.checkExec()
 end
 
 function M.finalExec()
+  local text = {}
+  local end_line = vim.fn.getcurpos()[2] + 1
+  local start_line = vim.fn.search('^TABLE 1002', 'b')
+  local wholeText = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
+  local bans = ""
+  vim.api.nvim_win_set_cursor(0, { end_line - 1, 0 })
+  for _, line in ipairs(wholeText) do
+    line = line:gsub("TABLE 1002", "TABLE 1003")
+    line = line:gsub("CHK", "FIN")
+    line = line:gsub("X RUN 2", "X RUN 1")
+    if line:match(".*(B 901 TH.*)") then
+      bans = line:gsub(".*(B 901 TH.*)", "%1")
+    else
+      line = line:gsub("(X RUN 1 TH %d+ ).*", "%1" .. bans)
+      table.insert(text, line)
+    end
+  end
+  local nline = vim.fn.line('.')
+  vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
+  vim.api.nvim_win_set_cursor(0, { nline + 11, 0 })
 end
 
 function M.excelExec()
+  local text = {}
+  local tableNum = vim.fn.input({ prompt = "\nTable number: ", default = "1006" })
+  local cursor_start = vim.fn.getcurpos()[2] + 1
+  local start_line = vim.fn.search('^TABLE 1003', 'b')
+  vim.fn.search('.F[IN]\\(N\\|\\d\\)', 'W')
+  local end_line = vim.fn.search('.F[IN]\\(N\\|\\d\\)', 'W')
+  local wholeText = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
+  vim.api.nvim_win_set_cursor(0, { cursor_start - 1, 0 })
+  local label = ""
+  for i, line in ipairs(wholeText) do
+    line = line:gsub("TABLE 1003", "TABLE " .. tableNum)
+    if vim.fn.match(line, "\\.F[IN]\\(N\\|\\d\\)") >= 0 then
+      label = vim.fn.substitute(line, ".* '\\(\\d\\+\\)\\.F[IN]\\(N\\|\\d\\).*", "\\1", "")
+      goto continue
+    end
+    line = line:gsub("PAGE 1 OFF", "EXC(NAME '" .. label .. "_Banners' SHEET 'Data' TC COMB REP FIT 7) TCONE")
+    if i < 3 or i > 4 then
+      table.insert(text, line)
+    end
+    ::continue::
+  end
+  table.insert(text, "*")
+  local nline = vim.fn.line('.')
+  vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
+  vim.api.nvim_win_set_cursor(0, { nline + 7, 0 })
 end
 
 -- ...and so on for the rest of your functions
