@@ -51,3 +51,6 @@ Neovim plugin for summing weighting table values
 
 # init_example.lua
 Some useful setup configurations for DP
+
+# adjust.lua
+Neovim plugin for adding and removing banner columns
