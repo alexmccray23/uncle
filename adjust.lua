@@ -52,7 +52,7 @@ function M.insert_column()
   local col = 0
   local cursor_point = 0
   for index, row in ipairs(new_text) do
-    if row:match("^C &CE") then
+    if row:match("^C &CE") or row:match("^F &CP") then
       col = col + 1
       if col == tonumber(point) then
         cursor_point = index
@@ -105,13 +105,16 @@ function M.insert_group()
   local col = 0
   local cursor_point = 0
   for index, row in ipairs(new_text) do
-    if row:match("^C &CE") then
+    if row:match("^T $") then
+      table.remove(new_text, index)
+    end
+    if row:match("^C &CE") or row:match("^F &CP") then
       col = col + 1
       if col == nc_start then
         cursor_point = index
-        table.insert(new_text, index, "C &CE")
-      elseif col > nc_start and col <= nc_end then
-        table.insert(new_text, index, "C &CE")
+        for _ = 1, shift do
+          table.insert(new_text, index, "C &CE")
+        end
       end
     end
   end
@@ -197,7 +200,7 @@ function M.delete_group()
   local shift = -(oc_end - oc_start + 1)
   local new_text = M.removeGroups(shift, fc_chk)
   local col = 0
-  local cursor_point = nil
+  local cursor_point = 0
   for index, row in ipairs(new_text) do
     if row:match("^T $") then
       table.remove(new_text, index)
@@ -229,7 +232,7 @@ end
 
 function M.copyTable()
   local start_line = vim.fn.getcurpos()[2] + 1
-  local end_line = vim.fn.search('\\*\\n\\|F \\&CP', 'W')
+  local end_line = vim.fn.search('^\\*\\n\\|F \\&CP', 'W')
   local wholeText = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
   vim.fn.search("\\_^TABLE ", 'b')
   return { wholeText, start_line, end_line }

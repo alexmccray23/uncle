@@ -77,7 +77,6 @@ local function replaceColumns()
         if nfield == '1' then
           syntax = "R(1!" .. scol .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
-          print(fullSpec)
         elseif nfield == '2' then
           syntax = "R(1!" .. scol .. ":" .. (scol + wfield - 1) .. "/1!" .. (ecol - wfield + 1) ":" ..
               ecol .. "," .. code .. ")"

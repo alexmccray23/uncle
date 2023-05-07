@@ -79,7 +79,8 @@ function M.banner(arg)
 
   local input = vim.fn.input("Banner number?")
   local text = { "TABLE " .. vim.fn.str2nr(input) + 900 .. "",
-    "T /BANNER " .. input .. "",
+    --"T /BANNER " .. input .. "",
+    "T /",
     "O FORMAT 27 6 1 0 PDP 0 PCTS ZCELL '-' ZPACELL '-' SZR",
     "C &CETOTAL;ALL;COLW 5",
     footer,

@@ -78,8 +78,8 @@ function M.four()
   pLabel1 = vim.fn.substitute(pLabel1, '^GREAT DEAL', 'GREAT DEAL//SOME', "")
   pLabel1 = vim.fn.substitute(pLabel1, '^LOT', 'A LOT//SOME', "")
   pLabel2 = vim.fn.substitute(pLabel2, '^RARELY', 'RARELY//NEVER', "")
-  pLabel2 = vim.fn.substitute(pLabel2, '^TOO|^VERY', 'NOT', "")
-  pLabel2 = vim.fn.substitute(pLabel2, '^MUCH', 'NOT MUCH//NOTHING', "")
+  pLabel2 = vim.fn.substitute(pLabel2, '^TOO\\|^VERY', 'NOT', "")
+  pLabel2 = vim.fn.substitute(pLabel2, '^MUCH\\|NOT MUCH', 'NOT MUCH//NOTHING', "")
   pLabel2 = vim.fn.substitute(pLabel2, '^THAT', 'NOT', "")
   pLabel2 = vim.fn.substitute(pLabel2, '^LITTLE', 'LITTLE//NOT AT ALL', "")
   if pLabel2 == 'NOT DESCRIBE WELL' then
@@ -146,7 +146,7 @@ function M.six_one()
   local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
   for i, line in ipairs(text) do
     if i ~= 4 then
-      newText[i] = vim.fn.substitute(line, "^R ", "R   ", "")
+      newText[i] = vim.fn.substitute(line, "^R ", "R   \\&IN2", "")
     else
       newText[i] = line
     end
@@ -181,7 +181,7 @@ function M.six_two()
   local text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
   local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
   for i, line in ipairs(text) do
-    newText[i] = vim.fn.substitute(line, "^R ", "R   ", "")
+    newText[i] = vim.fn.substitute(line, "^R ", "R   \\&IN2", "")
     r_row[i] = vim.split(line, ';', { plain = true })
     r_row[i][1] = vim.fn.substitute(r_row[i][1], "^R\\s\\+\\(\\S\\+\\s\\)\\?", "", "")
     r_row[i][1] = vim.fn.substitute(r_row[i][1], "&IN2\\|&UT-", "", "")
@@ -242,9 +242,6 @@ function M.seven()
       pValue3 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. sc_end + 1 .. ":\\3\\4", "")
     end
   end
-
-  --local pValue2 = vim.fn.substitute(r_row[6][2], pattern, "\\1\\2\\3:" .. punches[7] .. "\\4", "")
-  --local pValue3 = vim.fn.substitute(r_row[3][2], pattern, "\\1\\2\\3:" .. punches[5] .. "\\4", "")
 
   table.insert(newText, 1, "R HIGH SCHOOL OR LESS&UT-;" .. pValue1)
   table.insert(newText, 2, "R SOME COLLEGE&UT-;" .. pValue2)
