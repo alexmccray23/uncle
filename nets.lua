@@ -215,7 +215,8 @@ function M.seven()
   local pValue1 = ""
   local pValue2 = ""
   local pValue3 = ""
-  local hs_end = ""
+  local hs_end = nil
+  local sc_start = nil
   local sc_end = nil
   for i, line in ipairs(text) do
     newText[i] = vim.fn.substitute(line, "^R ", "R   \\&IN2", "")
@@ -226,12 +227,13 @@ function M.seven()
     if vim.fn.match(line, "\\(GRADUATED HIGH SCHOOL\\)\\|\\(HIGH SCHOOL GRADUATE\\)") >= 0 then
       if i == 1 then
         pValue1 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. punches[i] .. "\\4", "")
+        hs_end = tonumber(vim.fn.substitute(r_row[i][2], pattern, "\\3", ""))
       else
         pValue1 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. punches[1] .. ":\\3\\4", "")
-        hs_end = vim.fn.substitute(r_row[i][2], pattern, "\\3", "")
+        hs_end = tonumber(vim.fn.substitute(r_row[i][2], pattern, "\\3", ""))
       end
-    elseif vim.fn.match(line, '\\(GRADUATED COLLEGE\\)\\|\\(BACHELOR\\)') >= 0 then
-      local sc_start = vim.fn.str2nr(hs_end) + 1
+    elseif vim.fn.match(line, '\\(COLLEGE GRADUATE\\)\\|\\(GRADUATED COLLEGE\\)\\|\\(BACHELOR\\)') >= 0 then
+      sc_start = tonumber(hs_end) + 1
       sc_end = vim.fn.str2nr(punches[i]) - 1
       if sc_start == sc_end then
         pValue2 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. punches[i] .. "\\4", "")

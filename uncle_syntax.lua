@@ -15,10 +15,10 @@ local function parseLayout()
   for _, value in ipairs(layout) do
     local column = vim.split(value, ' +', { plain = false, trimempty = true })
     Data[column[1]] = {
-      startCol = column[2],
-      endCol = column[3],
-      nfield = column[5],
-      wfield = column[6]
+      startCol = tonumber(column[2]),
+      endCol = tonumber(column[3]),
+      nfield = tonumber(column[5]),
+      wfield = tonumber(column[6])
     }
   end
   SpecTable = {}
@@ -65,7 +65,7 @@ local function replaceColumns()
       local wfield = Data[SpecTable[i]['question']]['wfield']
       local nfield = Data[SpecTable[i]['question']]['nfield']
 
-      if wfield == '1' then
+      if wfield == 1 then
         if scol == ecol then
           syntax = "1!" .. scol .. "-" .. code
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
@@ -74,14 +74,21 @@ local function replaceColumns()
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         end
       else
-        if nfield == '1' then
+        if nfield == 1 then
           syntax = "R(1!" .. scol .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         elseif nfield == '2' then
           syntax = "R(1!" .. scol .. ":" .. (scol + wfield - 1) .. "/1!" .. (ecol - wfield + 1) ":" ..
               ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
-        elseif nfield == '3' then
+        elseif nfield == 2 then
+          syntax = "R(1!" ..
+              scol ..
+              ":" ..
+              (scol + wfield - 1) ..
+              "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
+          fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
+        elseif nfield == 3 then
           syntax = "R(1!" ..
               scol ..
               ":" ..
