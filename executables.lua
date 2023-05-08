@@ -20,7 +20,7 @@ function M.loadExec()
     "X ENTER 500 NOADD",
     "X SH 'MD C:\\TEMP'",
     "X SH 'COPY ..\\DATA\\" .. file .. " C:\\TEMP'",
-    "X LOAD CHAR REP FROM 'C:\\TEMP\\" .. file .. ".FIN'",
+    "X LOAD CHAR REP FROM 'C:\\TEMP\\" .. file .. "'",
     "X SH 'DEL C:\\TEMP\\" .. file .. "'",
     "*",
     "********************************************************************************",

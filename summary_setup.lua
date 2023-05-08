@@ -12,6 +12,7 @@ function M.summaryTable()
   for index = 1, totTables do
     M.parseTable(specLang, index)
   end
+  M.summaryTableConstructor()
 end
 
 function M.copyTable()
@@ -42,17 +43,28 @@ function M.parseTable(specLang, count)
     if line:match("^R &IN2BASE==") then
       baseLang = line:gsub("^R &IN2BASE==(.-);.*", "%1")
     end
-    if line:match(specLang) then
+    if line:match("^R .*" .. specLang) and spec == "" then
       spec = vim.split(line, ';', { plain = true })[2]
     end
   end
   Data[count] = {
-    questionText = "R &IN2" .. qLang:upper() .. ";" .. spec,
-    qualifierText = baseLang .. ";" .. qualifier .. ";NOPRINT",
+    questionText = { "R &IN2" .. qLang:upper() .. ";" .. spec, "" },
+    qualifierText = { baseLang .. ";" .. qualifier .. ";NOPRINT", "" },
   }
-  --print(Data[question]['qualifierText'])
-  for _,q in ipairs(Data) do
-    print(q['questionText'])
+end
+
+--print(Data[question]['qualifierText'])
+function M.summaryTableConstructor()
+  local count = 1
+  local base = {}
+  for _, data in ipairs(Data) do
+    if not base[count] then
+      base[count] = data['qualifierText'][1]
+      count = count + 1
+    end
+  end
+  for _,v in ipairs(base) do
+    print(v)
   end
 end
 
