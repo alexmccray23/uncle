@@ -77,34 +77,27 @@ local function replaceColumns()
         if nfield == 1 then
           syntax = "R(1!" .. scol .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
-        elseif nfield == '2' then
-          syntax = "R(1!" .. scol .. ":" .. (scol + wfield - 1) .. "/1!" .. (ecol - wfield + 1) ":" ..
-              ecol .. "," .. code .. ")"
-          fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         elseif nfield == 2 then
           syntax = "R(1!" ..
-              scol ..
-              ":" ..
-              (scol + wfield - 1) ..
-              "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
+          scol .. ":" .. (scol + wfield - 1) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         elseif nfield == 3 then
           syntax = "R(1!" ..
-              scol ..
-              ":" ..
-              (scol + wfield - 1) ..
-              "/1!" ..
-              (scol + (2 * (wfield - 1))) ..
-              ":" .. (scol + (3 * (wfield - 1))) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
+          scol ..
+          ":" ..
+          (scol + wfield - 1) ..
+          "/1!" ..
+          (scol + (2 * (wfield - 1))) ..
+          ":" .. (scol + (3 * (wfield - 1))) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         else
           syntax = "R(1!" ..
-              scol ..
-              ":" ..
-              (scol + wfield - 1) ..
-              "/1!" ..
-              (scol + (2 * (wfield - 1))) ..
-              ":" .. (scol + (3 * (wfield - 1))) .. "...1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
+          scol ..
+          ":" ..
+          (scol + wfield - 1) ..
+          "/1!" ..
+          (scol + (2 * (wfield - 1))) ..
+          ":" .. (scol + (3 * (wfield - 1))) .. "...1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         end
       end

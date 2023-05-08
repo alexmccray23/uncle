@@ -28,7 +28,6 @@ Neovim plugin that performs an initial cleaning of the Uncle .E file
 Neovim plugin for adding "C &CE" to the banners
 
 # rank_table.lua
-
 Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables
 
 # norank.lua
@@ -54,3 +53,6 @@ Some useful setup configurations for DP
 
 # adjust.lua
 Neovim plugin for adding and removing banner columns
+
+# summary_setup.lua
+Neovim plugin for setting up summary tables for a question series
