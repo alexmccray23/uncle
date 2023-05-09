@@ -9,10 +9,13 @@ function M.summaryTable()
   if specLang == "" then return else specLang = specLang:upper() end
   local totTables = vim.fn.input("\n\nHow many tables?")
   if totTables == "" then return end
+  local nline = vim.fn.line('.')
   for index = 1, totTables do
     M.parseTable(specLang, index)
   end
-  M.summaryTableConstructor()
+  local text = M.summaryTableConstructor(specLang)
+  vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
+  vim.api.nvim_win_set_cursor(0, { nline + #text, 0 })
 end
 
 function M.copyTable()
@@ -53,19 +56,44 @@ function M.parseTable(specLang, count)
   }
 end
 
---print(Data[question]['qualifierText'])
-function M.summaryTableConstructor()
-  local count = 1
-  local base = {}
-  for _, data in ipairs(Data) do
-    if not base[count] then
-      base[count] = data['qualifierText'][1]
-      count = count + 1
+function M.contains(table, value)
+  for _, v in pairs(table) do
+    if v == value then
+      return true
     end
   end
-  for _,v in ipairs(base) do
-    print(v)
+  return false
+end
+
+function M.summaryTableConstructor(specLang)
+  local baseCount = 2
+  local text = { "T Summary of " .. specLang,
+    "O RANK RANKPCT",
+    "R &IN2BASE==TOTAL SAMPLE;ALL;HP;NOVP",
+  }
+  local base = { "TOTAL SAMPLE;ALL;NOPRINT", }
+  for _, data in ipairs(Data) do
+    if not M.contains(base, data['qualifierText'][1]) then
+      table.insert(base, data['qualifierText'][1])
+      data['questionText'][2] = baseCount
+      baseCount = baseCount + 1
+    else
+      for i, v in ipairs(base) do
+        if v == data['qualifierText'][1] then
+          data['questionText'][2] = i
+        end
+      end
+    end
   end
+  for index, value in ipairs(base) do
+    if index > 1 then
+      table.insert(text, string.format("R   %2d %s", index, value))
+    end
+  end
+  for _, data in ipairs(Data) do
+    table.insert(text, data['questionText'][1] .. ";VBASE " .. data['questionText'][2])
+  end
+  return text
 end
 
 vim.api.nvim_create_user_command("Summary", M.summaryTable, {})
