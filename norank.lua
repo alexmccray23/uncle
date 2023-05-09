@@ -10,6 +10,6 @@ local function noRank()
   end
   vim.api.nvim_set_current_line(new_line)
   local linenum = vim.fn.getcurpos()[2] + 1
-  vim.api.nvim_win_set_cursor(0, { linenum, 0 })
+  vim.api.nvim_win_set_cursor(0, { linenum + 1, 0 })
 end
 vim.api.nvim_create_user_command("NoRank", noRank, {})

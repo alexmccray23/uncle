@@ -56,3 +56,6 @@ Neovim plugin for adding and removing banner columns
 
 # summary_setup.lua
 Neovim plugin for setting up summary tables for a question series
+
+# in2.lua
+Neovim plugin for adding the indent "&IN2" command on long labels in Uncle
