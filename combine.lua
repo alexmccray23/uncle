@@ -1,10 +1,10 @@
 -- Neovim plugin for combining tables
+
 local function combine()
   vim.fn.search('^TABLE', 'b')
   local start_line = vim.fn.getcurpos()[2] + 1
   vim.api.nvim_win_set_cursor(0, { start_line, 0 })
   vim.fn.search('\\*\\n', 'W')
-  local cursor = vim.fn.line('.')
   local end_line = vim.fn.search('\\*\\n', 'W')
   local text = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
   for index, line in ipairs(text) do

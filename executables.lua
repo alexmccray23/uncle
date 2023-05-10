@@ -128,7 +128,7 @@ function M.stubExec()
     end
     if value == 500 then
       for j = i - 1, 1, -1 do
-        if tableNum[j] < 200 then
+        if tableNum[j] < 500 and tableNum[j] ~= 300 or tableNum[j] ~= 301 then
           end2 = tableNum[j]
           break
         end

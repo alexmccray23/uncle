@@ -14,7 +14,7 @@ local function indent()
         copy = copy:gsub(" D//S", "/D//S")
       end
     elseif #string > 27 then
-      local array = vim.split(string, " +", { plain = false, trimempty = true })
+      local array = vim.split(string, " +", { plain = true, trimempty = true })
       local new_string = "&IN2" .. array[1]
         copy = copy:gsub(array[1], new_string)
     end
