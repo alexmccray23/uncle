@@ -59,3 +59,9 @@ Neovim plugin for setting up summary tables for a question series
 
 # in2.lua
 Neovim plugin for adding the indent "&IN2" command on long labels in Uncle
+
+# skip.lua
+Neovim plugin for adding a total base table below the skip base stub
+
+# combine.lua
+Neovim plugin for combining tables
