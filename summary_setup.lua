@@ -69,7 +69,7 @@ function M.summaryTableConstructor(specLang)
   local baseCount = 2
   local text = { "T Summary of " .. specLang,
     "O RANK RANKPCT",
-    "R &IN2BASE==TOTAL SAMPLE;ALL;HP;NOVP",
+    "R &IN2BASE==TOTAL SAMPLE;ALL;HP NOVP",
   }
   local base = { "TOTAL SAMPLE;ALL;NOPRINT", }
   for _, data in ipairs(Data) do
