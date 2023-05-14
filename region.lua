@@ -1,4 +1,7 @@
 -- Neovim plugin for generating region tables
+-- NOTES:
+-- !G sort -b -t $'\t' -k 5 -k 3
+-- K:/2023/0291/docs/frame
 
 local M = {}
 
@@ -21,13 +24,31 @@ function M.menu()
 end
 
 function M.nets()
-  local region_col = vim.input("Region/DMA name column #")
+  local region_col = tonumber(vim.fn.input("Region/DMA name column #"))
   if region_col == "" then return end
-  local county_col = vim.input("State/County name column #")
+  local county_col = tonumber(vim.fn.input("State/County name column #"))
   if county_col == "" then return end
-  local fips_col = vim.input("FIPS code column #")
+  local fips_col = tonumber(vim.fn.input("FIPS code column #"))
   if fips_col == "" then return end
-  --!G sort -b -t $'\t' -k 5 -k 3
+
+  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
+  if layout_col == "" then layout_col = "X:Y" end
+
+  local sort_cmd = "2,$!sort -b -t$'\\t' -k " .. region_col .. " -k " .. fips_col .. "n"
+  vim.api.nvim_exec2(sort_cmd, {})
+
+  local text = vim.api.nvim_buf_get_lines(0, 2, -1, false)
+
+  local region_data = {}
+  local county_data = {}
+  local fips_data = {}
+  for _, line in ipairs(text) do
+    local array = vim.split(line, "\t", { plain = false })
+    table.insert(region_data, array[region_col])
+    table.insert(county_data, array[county_col])
+    table.insert(fips_data, array[fips_col])
+  end
+  vim.api.nvim_exec2("new", {})
 end
 
 function M.noNets()
