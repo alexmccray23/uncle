@@ -69,8 +69,10 @@ function M.titleCheck()
           local replace = ""
           reduce = temp:gsub("/", "/ ")
           replace = value:gsub("//", "// ")
-          reduce = vim.fn.substitute(value, "S/ R/ H/", "S/R/H", "g")
-          replace = vim.fn.substitute(value, "S// R// H//", "S//R//H", "g")
+          if value:match("S//R//H") then
+            reduce = vim.fn.substitute(value, "S/ R/ H", "S/R/H", "g")
+            replace = vim.fn.substitute(value, "S// R// H", "S//R//H", "g")
+          end
           local replace_array = vim.split(replace, " +", { plain = false, trimempty = true })
           local reduce_array = vim.split(reduce, " +", { plain = false, trimempty = true })
           local subtract_temp = text_width

@@ -59,12 +59,12 @@ Plugin that performs an initial cleanup of the specs used for summary tables.
 # summary_setup.lua
 Neovim plugin for setting up summary tables for a question series
 
-# titles.lua
-Neovim plugin for shifting banner titles to fit above their columns
-
 # uncle_syntax.lua
 Neovim plugin that parses the formatted layout file to convert
 data processing specs into the appropriate Uncle programming syntax.
 
-# weight_add.lua
+# weight_sum.lua
 Neovim plugin for summing weighting table values
+
+# weight_tables.lua
+Neovim plugin for adding weighting tables

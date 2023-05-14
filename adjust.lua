@@ -40,8 +40,15 @@ function M.insert_column()
       local group_pat = "(.-)(%d+):(%d+)"
       first_col = group_array[group]:gsub(group_pat, '%2')
       local new_end = group_array[group]:gsub(group_pat, '%3') + 1
+      ::resubmit::
       point = vim.fn.input(string.format("\nGroup %d will go from %d to %d. Where to?\n", group, first_col, new_end))
-      if point == "" then return end
+      if point == "" then
+        return
+      elseif tonumber(point) < tonumber(first_col) or tonumber(point) > tonumber(new_end) then
+        print(" ")
+        print("Invalid column.")
+        goto resubmit
+      end
       break
     end
   end
@@ -94,12 +101,13 @@ function M.insert_group()
       break
     end
   end
-  local shift = tonumber(vim.fn.input("How many points?"))
+  local shift = tonumber(vim.fn.input("How many points?\n"))
   if shift == nil then return end
   local fc_chk = tonumber(first_col)
   local nc_start = end_col + 1
   local nc_end = end_col + shift
-  local title = vim.fn.input("What is the title?")
+  local title = vim.fn.input("\nWhat is the title?\n")
+  title = title:upper()
   local new_text = M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
 
   local col = 0
@@ -142,8 +150,15 @@ function M.delete_column()
       local group_pat = "(.-)(%d+):(%d+)"
       first_col = group_array[group]:gsub(group_pat, '%2')
       local end_col = group_array[group]:gsub(group_pat, '%3')
+      ::resubmit::
       point = vim.fn.input(string.format("\nGroup %d goes from %d to %d.\n", group, first_col, end_col))
-      if point == "" then return end
+      if point == "" then
+        return
+      elseif tonumber(point) < tonumber(first_col) or tonumber(point) > tonumber(end_col) then
+        print(" ")
+        print("Invalid column.")
+        goto resubmit
+      end
       break
     end
   end
@@ -220,13 +235,20 @@ function M.delete_group()
 end
 
 function M.checkBanner()
+  local input = 0
   vim.fn.search("\\_^TABLE ", 'b')
   local banner = vim.api.nvim_get_current_line()
-  local input = vim.fn.input("\nCorrect banner: " .. banner .. "? [Y]es or [N]o ")
-  if input:match("[Nn]") then
+  --local input = vim.fn.input("\nCorrect banner: " .. banner .. "? [Y]es or [N]o ")
+  input = vim.fn.confirm("Correct banner: " .. banner .. "?", "&Yes\n&No\n&Cancel")
+  if input == 2 then
     local correct = vim.fn.input("\nWhich banner do you want corrected?\n")
     if correct == "" then return end
-    vim.fn.search("\\_^TABLE " .. correct, 'w')
+    local start_line = vim.fn.search("\\_^TABLE " .. correct, 'w')
+    vim.api.nvim_win_set_cursor(0, { start_line + 15, 0 })
+    vim.fn.execute("mode")
+    vim.api.nvim_win_set_cursor(0, { start_line, 0 })
+  elseif input == 3 then
+    return
   end
 end
 
