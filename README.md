@@ -46,6 +46,9 @@ Plugin that converts POS specs to the convential format for data processing.
 # rank_table.lua
 Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables.
 
+# region.lua
+Neovim plugin for generating region tables.
+
 # series.lua
 Neovim plugin for formatting a series of questions.
 
