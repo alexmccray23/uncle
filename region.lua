@@ -30,7 +30,7 @@ function M.nets()
   if fips_col == nil then return end
   local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
   if layout_col == "" then layout_col = "X:Y" end
-  local sort_cmd = "2,$!sort -b -t$'\\t' -k " .. region_col .. " -k " .. fips_col .. "n"
+  local sort_cmd = string.format("2,$!sort -b -t$'\\t' -k%s,%s -k%s,%sn", region_col, region_col, fips_col, fips_col)
   vim.api.nvim_exec2(sort_cmd, {})
   local text = vim.api.nvim_buf_get_lines(0, 2, -1, false)
   local region_data = {}
@@ -59,13 +59,13 @@ function M.nets()
     local county = county_data[i]
     local fips = fips_data[i]
     if i == 1 then
-      region_string = string.format("R %s&UT-;R(1!%s,%d", region, layout_col, fips)
+      region_string = string.format("R %s&UT-;R(1!%s,%s", region, layout_col, fips)
     elseif region ~= region_data[i - 1] then
       main_string = main_string .. region_string .. ")\n" .. substring
       substring = ""
-      region_string = string.format("R %s&UT-;R(1!%s,%d", region, layout_col, fips)
+      region_string = string.format("R %s&UT-;R(1!%s,%s", region, layout_col, fips)
     elseif i == nTotal and region == region_data[i - 1] then
-      county_string = string.format("R   %s;R(1!%s,%d)\n", county, layout_col, fips)
+      county_string = string.format("R   %s;R(1!%s,%s)\n", county, layout_col, fips)
       substring = substring .. county_string
       region_string = region_string .. "," .. fips
       main_string = main_string .. region_string .. ")\n" .. substring
@@ -73,15 +73,15 @@ function M.nets()
       region_string = region_string .. "," .. fips
     end
     if i == nTotal and region ~= region_data[i - 1] then
-      region_string = string.format("R %s&UT-;R(1!%s,%d", region, layout_col, fips)
-      county_string = string.format("R   %s;R(1!%s,%d)\n", county, layout_col, fips)
+      region_string = string.format("R %s&UT-;R(1!%s,%s", region, layout_col, fips)
+      county_string = string.format("R   %s;R(1!%s,%s)\n", county, layout_col, fips)
       substring = substring .. county_string
       main_string = main_string .. region_string .. ")\n" .. substring
     end
-    county_string = string.format("R   %s;R(1!%s,%d)\n", county, layout_col, fips)
+    county_string = string.format("R   %s;R(1!%s,%s)\n", county, layout_col, fips)
     substring = substring .. county_string
   end
-  local region_array = vim.split(main_string:upper(), "\n", { plain = false, trimempty = true })
+  local region_array = vim.split(main_string:upper():gsub("/", "//"), "\n", { plain = false, trimempty = true })
   for _, v in ipairs(region_array) do
     table.insert(regionTable, v)
   end
@@ -97,7 +97,7 @@ function M.noNets()
   if fips_col == nil then return end
   local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
   if layout_col == "" then layout_col = "X:Y" end
-  local sort_cmd = "2,$!sort -b -t$'\\t' -k " .. region_col .. " -k " .. fips_col .. "n"
+  local sort_cmd = string.format("2,$!sort -b -t$'\\t' -k%s,%s -k%s,%sn", region_col, region_col, fips_col, fips_col)
   vim.api.nvim_exec2(sort_cmd, {})
   local text = vim.api.nvim_buf_get_lines(0, 2, -1, false)
   local region_data = {}
@@ -122,10 +122,10 @@ function M.noNets()
     local region = region_data[i]
     local fips = fips_data[i]
     if i == 1 then
-      region_string = string.format("R   %s;R(1!%s,%d", region, layout_col, fips)
+      region_string = string.format("R   %s;R(1!%s,%s", region, layout_col, fips)
     elseif region ~= region_data[i - 1] then
       main_string = main_string .. region_string .. ")\n"
-      region_string = string.format("R   %s;R(1!%s,%d", region, layout_col, fips)
+      region_string = string.format("R   %s;R(1!%s,%s", region, layout_col, fips)
     elseif i == nTotal and region == region_data[i - 1] then
       region_string = region_string .. "," .. fips
       main_string = main_string .. region_string .. ")\n"
@@ -133,11 +133,11 @@ function M.noNets()
       region_string = region_string .. "," .. fips
     end
     if i == nTotal - 1 and region ~= region_data[i - 1] then
-      region_string = string.format("R   %s;R(1!%s,%d", region, layout_col, fips)
+      region_string = string.format("R   %s;R(1!%s,%s", region, layout_col, fips)
       main_string = main_string .. region_string .. ")\n"
     end
   end
-  local region_array = vim.split(main_string:upper(), "\n", { plain = false, trimempty = true })
+  local region_array = vim.split(main_string:upper():gsub("/", "//"), "\n", { plain = false, trimempty = true })
   for _, v in ipairs(region_array) do
     table.insert(regionTable, v)
   end
