@@ -8,9 +8,9 @@ local function indent()
   string = vim.fn.substitute(string, "\\/\\/", "/", "g")
   if #string > 26 then
     if copy:match("%&UT-") then
-      if string:gmatch("%(D/S") and #string % 26 > 0 and #string % 26 < 4 then
+      if string:match("%(D/S") and #string % 26 > 0 and #string % 26 < 4 then
         copy = copy:gsub(" %(D//S", "/(D//S")
-      elseif string:gmatch("D/S") and #string % 26 > 0 and #string % 26 < 3 then
+      elseif string:match("D/S") and #string % 26 > 0 and #string % 26 < 3 then
         copy = copy:gsub(" D//S", "/D//S")
       end
     elseif #string > 27 and string:sub(1,4) ~= "&IN2" then
