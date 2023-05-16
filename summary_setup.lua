@@ -46,7 +46,7 @@ function M.parseTable(specLang, count)
     if line:match("^R &IN2BASE==") then
       baseLang = line:gsub("^R &IN2BASE==(.-);.*", "%1")
     end
-    if line:match("^R .*" .. specLang) and spec == "" then
+    if line:match("^R .-" .. specLang) and spec == "" and not line:match("D//S") then
       spec = vim.split(line, ';', { plain = true })[2]
     end
   end
