@@ -24,7 +24,7 @@ local function parseLayout()
   SpecTable = {}
   local specs = vim.split(string.upper(selectQuestions()), ' +', { plain = false, trimemtpy = true })
   for index, value in ipairs(specs) do
-    if value:match("[oO][rR]") then
+    if value:match("^[oO][rR]$") then
       SpecTable[index] = {
         question = "OR",
         code = "OR",
@@ -56,7 +56,7 @@ end
 local function replaceColumns()
   local fullSpec = selectQuestions()
   for i, k in ipairs(SpecTable) do
-    if not k['question']:match("[oO][rR]") then
+    if not k['question']:match("^[oO][rR]$") then
       local syntax = ""
       local code = SpecTable[i]['code']
       local spec = SpecTable[i]['spec']

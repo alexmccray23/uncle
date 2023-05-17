@@ -32,7 +32,7 @@ function M.nets()
   if layout_col == "" then layout_col = "X:Y" end
   local sort_cmd = string.format("2,$!sort -b -t$'\\t' -k%s,%s -k%s,%sn", region_col, region_col, fips_col, fips_col)
   vim.api.nvim_exec2(sort_cmd, {})
-  local text = vim.api.nvim_buf_get_lines(0, 2, -1, false)
+  local text = vim.api.nvim_buf_get_lines(0, 1, -1, false)
   local region_data = {}
   local county_data = {}
   local fips_data = {}
@@ -54,7 +54,7 @@ function M.nets()
   local nTotal = #fips_data
   local region_string = ""
   local county_string = ""
-  for i = 1, nTotal, 1 do
+  for i = 1, nTotal do
     local region = region_data[i]
     local county = county_data[i]
     local fips = fips_data[i]
