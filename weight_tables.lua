@@ -3,13 +3,12 @@ local M = {}
 
 function M.weightingTables()
   local tableArray = {}
-  local input = vim.fn.input("Which questions do you want to add?\n")
+  local input = vim.fn.input("Which questions do you want to add?\n"):upper()
   if input == "" then return end
+  local input_line = vim.fn.line('.')
   vim.fn.search('^TABLE', 'b')
   local line = vim.api.nvim_get_current_line()
   local tableNum = tonumber(line:sub(7))
-  input = input:upper()
-  local input_line = vim.fn.search('^\\*\\n', 'W')
   local questions = vim.split(input, " +", { plain = false, trimempty = true })
   for _, value in ipairs(questions) do
     local flag = vim.fn.search("QUESTION " .. value)
@@ -22,8 +21,8 @@ function M.weightingTables()
       local text = vim.api.nvim_buf_get_lines(0, start_line, end_line - 1, false)
       table.insert(tableArray, "*")
       table.insert(tableArray, "TABLE " .. tableNum)
-      for _, v in ipairs(text) do
-        table.insert(tableArray, v .. ";VALUE .")
+      for _, row in ipairs(text) do
+        table.insert(tableArray, row .. ";VALUE .")
       end
     else
       table.insert(tableArray, "*")

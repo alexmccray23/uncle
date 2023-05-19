@@ -12,7 +12,7 @@ ls.add_snippets("all", {
     insert(3, "1"),
     text "-RD",
     insert(0, "2"),
-    text {") NOSZR", "R"},
+    text {") NOSZR", "R"}
   }),
 })
 

@@ -2,8 +2,55 @@
 
 local M = {}
 
+function M.menu()
+  local choices = {
+    { label = "1. Generic 2-Way D/S", func = M.one },
+    { label = "2. 2-Way D/S",         func = M.two },
+    { label = "3. Generic Net",       func = M.three },
+    { label = "4. 4-Way D/S",         func = M.four },
+    { label = "5. 1-2 MINUS 4-5",     func = M.five },
+    { label = "6. Party D/S",         func = M.submenu },
+    { label = "7. Education",         func = M.seven },
+  }
+  for _, choice in ipairs(choices) do
+    print(choice.label)
+  end
+  local input = tonumber(vim.fn.input("Select an option: "))
+  if input and input >= 1 and input <= #choices then
+    choices[input].func()
+  else
+    print(" Invalid selection")
+  end
+end
+
+function M.submenu()
+  local sub_choices = {
+    { label = "6.1. Leaners w/ Total",          func = M.six_one },
+    { label = "6.2. Leaner w/ Indep/Undecided", func = M.six_two },
+  }
+
+  print(" ")
+  print(" ")
+  for _, choice in ipairs(sub_choices) do
+    print(choice.label)
+  end
+  local input = tonumber(vim.fn.input("Select a submenu option: "))
+  if input and input >= 1 and input <= #sub_choices then
+    sub_choices[input].func()
+  else
+    print("Invalid selection")
+  end
+end
+
 function M.one()
-  vim.cmd("insert ds")
+  local ls = require("luasnip")
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  vim.api.nvim_win_set_cursor(0, { cursor[1], 0 })
+  local line = vim.api.nvim_get_current_line()
+  line = "ds" .. line:sub(2)
+  vim.api.nvim_set_current_line(line)
+  vim.api.nvim_win_set_cursor(0, { cursor[1], 2 })
+  ls.expand("ds")
 end
 
 function M.two()
@@ -252,48 +299,6 @@ function M.seven()
   local nline = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, nline - 1, nline + 6, false, newText)
   vim.api.nvim_win_set_cursor(0, { nline, 0 })
-end
-
--- ...and so on for the rest of your functions
-function M.menu()
-  local choices = {
-    { label = "1. Generic 2-Way D/S", func = M.one },
-    { label = "2. 2-Way D/S",         func = M.two },
-    { label = "3. Generic Net",       func = M.three },
-    { label = "4. 4-Way D/S",         func = M.four },
-    { label = "5. 1-2 MINUS 4-5",     func = M.five },
-    { label = "6. 6-Way D/S",         func = M.submenu },
-    { label = "7. Education",         func = M.seven },
-    -- ...and so on for the rest of your functions
-  }
-  for _, choice in ipairs(choices) do
-    print(choice.label)
-  end
-  local input = tonumber(vim.fn.input("Select an option: "))
-  if input and input >= 1 and input <= #choices then
-    choices[input].func()
-  else
-    print(" Invalid selection")
-  end
-end
-
-function M.submenu()
-  local sub_choices = {
-    { label = "6.1. Leaners w/ Total",          func = M.six_one },
-    { label = "6.2. Leaner w/ Indep/Undecided", func = M.six_two },
-  }
-
-  print(" ")
-  print(" ")
-  for _, choice in ipairs(sub_choices) do
-    print(choice.label)
-  end
-  local input = tonumber(vim.fn.input("Select a submenu option: "))
-  if input and input >= 1 and input <= #sub_choices then
-    sub_choices[input].func()
-  else
-    print("Invalid selection")
-  end
 end
 
 vim.api.nvim_create_user_command("Nets", M.menu, {})
