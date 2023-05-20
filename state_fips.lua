@@ -1,4 +1,4 @@
--- Neovim plugin for adding split sample qualifiers and base labels
+-- Neovim plugin for converting state names and abbreviations to their FIPS codes
 
 local M = {}
 

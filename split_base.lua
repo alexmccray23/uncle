@@ -1,4 +1,4 @@
--- Neovim plugin for adding split sample qualfiers and base labels
+-- Neovim plugin for adding split sample qualifiers and base labels
 
 local M = {}
 

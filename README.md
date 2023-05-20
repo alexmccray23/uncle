@@ -14,7 +14,10 @@ Neovim plugin for combining tables.
 Plugin that adds difference scores to summary tables.
 
 # executable.lua
-Neovim plugin for adding excecutable tables (500-1000+) to the Uncle E file.
+Neovim plugin for adding executable tables (500-1000+) to the Uncle E file.
+
+# generation.lua
+Neovim plugin for adding generation points
 
 # in2.lua
 Neovim plugin for adding the indent "&IN2" command on long labels in Uncle.
@@ -41,7 +44,7 @@ Neovim plugin for adding the "NORANK" command to Uncle stub tables.
 Neovim plugin for numbering Uncle tables.
 
 # pos_spec_conversion.lua
-Plugin that converts POS specs to the convential format for data processing.
+Plugin that converts POS specs to the conventional format for data processing.
 
 # rank_table.lua
 Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables.
@@ -55,6 +58,12 @@ Neovim plugin for formatting a series of questions.
 # skip.lua
 Neovim plugin for adding a total base table below the skip base stub.
 
+# split_base.lua
+Neovim plugin for adding split sample qualifiers and base labels
+
+# state_fips.lua
+Neovim plugin for converting state names and abbreviations to their FIPS codes
+
 # sum_init.lua
 Plugin that performs an initial cleanup of the specs used for summary tables.
 
@@ -63,6 +72,9 @@ Neovim plugin for setting up summary tables for a question series.
 
 # t1001.lua
 Neovim plugin that converts question labels to table numbers in the banner test tables.
+
+# titles.lua
+Neovim plugin for shifting banner titles to fit above their columns
 
 # uncle_syntax.lua
 Neovim plugin that parses the formatted layout file to convert data processing specs into the appropriate Uncle programming syntax.
