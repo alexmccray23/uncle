@@ -33,20 +33,24 @@ end
 function M.weightExec()
   local fullPath = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
   local projName = vim.split(fullPath[#fullPath], ".", { plain = true })
-  Data = {}
+
   table.remove(fullPath, #fullPath)
-  local layFile = vim.fn.glob(table.concat(fullPath, "/") .. "/*.[Ll][Aa][Yy]")
-  local layout = vim.fn.readfile(layFile)
+  local layList = table.concat(fullPath, "/") .. "/*.[Ll][Aa][Yy]"
+  local layFile = vim.fn.glob(layList, false, true)
+  local layout = vim.fn.readfile(layFile[#layFile])
+
+
   local lastCol = vim.split(layout[#layout], " +", { plain = false, trimempty = true })[3]
-  local layName = vim.split(layFile, "/", { plain = true })
+  local layName = vim.split(layFile[#layFile], "/", { plain = true })
   local input = vim.fn.input("Starting column? (Last column in " .. layName[#layName] .. " is " .. lastCol .. ")")
+  if input == "" then return end
   local proj = projName[1]
   local text = {
     "*************************           WEIGHTING           ************************",
     "*",
     "TABLE 600",
     "X ENTER NOADD",
-    "X SH 'DEL " .. proj .. ".C'",
+    "X SH 'DEL " .. proj .. ".c'",
     "X WEIGHT UNWEIGHT",
     "X SET OUT FILE '" .. proj .. ".WT' OFF",
     "X WEIGHT 601 TO 1!" .. input .. ":" .. input + 6 .. " 4 OFF",
@@ -92,17 +96,17 @@ end
 
 function M.stubExec()
   local tableNum = {}
-  local title = vim.fn.input("\nHeader title\n")
-  local date = vim.fn.input("\nField dates (year will be included)\n")
-  --TODO: source year from filepath
-  local year = "2023"
-  local project = vim.fn.input("\nProject number\n")
+  local title = vim.fn.input("\nHeader title\n"):upper()
+  local date = vim.fn.input("\nField dates (year will be included)\n"):upper()
+  local year = vim.fn.expand("%:p"):gsub(".*kdata/(%d+).*", "%1")
+
+  local project = vim.fn.input("\nProject number\n"):upper()
   if title == "" or date == "" or year == "" or project == "" then
     return
   end
-  local eFile = vim.fn.readfile(vim.fn.expand("%:p"))
 
   local index = 1
+  local eFile = vim.fn.readfile(vim.fn.expand("%:p"))
   for _, value in ipairs(eFile) do
     if value:match("^TABLE %d+") then
       tableNum[index] = value:gsub("^TABLE (%d+)", "%1")

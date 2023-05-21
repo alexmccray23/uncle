@@ -34,7 +34,8 @@ function M.getColumns(question)
   local layDir = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
   table.remove(layDir, #layDir)
   local fullPath = table.concat(layDir, "/") .. "/*.[Ll][Aa][Yy]"
-  local layout = vim.fn.readfile(vim.fn.glob(fullPath))
+  local temp = vim.fn.glob(fullPath, false, true)
+  local layout = vim.fn.readfile(temp[#temp])
   for _, value in ipairs(layout) do
     if value:match(question) then
       column = vim.split(value, ' +', { plain = false, trimempty = true })[2]
