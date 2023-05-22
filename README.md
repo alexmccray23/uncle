@@ -4,6 +4,9 @@ Neovim plugin for adding and removing banner columns.
 # banner_column.lua
 Neovim plugin for adding "C &CE" to the banners.
 
+# base_check.lua
+Neovim plugin for checking if any base rows exceed 100%.
+
 # base_row.lua
 Neovim plugin for adding the 'TOTAL BASE' row in Uncle tables.
 
