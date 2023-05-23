@@ -1,10 +1,11 @@
 -- Neovim plugin for setting up summary tables for a question series
 
-M = {}
+local M = {}
 
-Data = {}
+local Data = {}
 
 function M.summaryTable()
+  for i, _ in ipairs(Data) do Data[i] = nil end
   local specLang = vim.fn.input("Summary of... ")
   if specLang == "" then return else specLang = specLang:upper() end
   local totTables = vim.fn.input("\n\nHow many tables?")
@@ -28,15 +29,11 @@ end
 
 function M.parseTable(specLang, count)
   local wholeText = M.copyTable()
-  local question = ""
   local baseLang = "TOTAL BASE"
   local qualifier = "ALL"
   local qLang = ""
   local spec = ""
   for _, line in ipairs(wholeText) do
-    if line:match("^T QUESTION %w+") then
-      question = line:gsub("^T QUESTION (%w+):", "Q%1")
-    end
     if line:match("^T /(.*)") then
       qLang = line:gsub("^T /(.*)", "%1")
     end
