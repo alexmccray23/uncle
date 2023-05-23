@@ -35,3 +35,11 @@ require('telescope').setup {
     },
   },
 }
+
+
+--[[
+  .bashrc stuff (bat command and man page update)
+  1. Install bat: `sudo apt install bat`
+  2. Symlink batcat to bat `sudo ln -s /usr/bin/batcat /usr/bin/bat`
+  3. Add to .bashrc export `MANPAGER="sh -c 'col -bx | bat -l man -p'"`
+--]]
