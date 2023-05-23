@@ -37,6 +37,16 @@ require('telescope').setup {
 }
 
 
+luasnip.config.setup {
+  history = true,
+  updateevents = "TextChanged, TextChangedI"
+}
+require("user.plugins.custom.my_snippets")
+vim.keymap.set("i", "<c-l>", function()
+  if luasnip.choice_active() then
+    luasnip.change_choice(1)
+  end
+end)
 --[[
   .bashrc stuff (bat command and man page update)
   1. Install bat: `sudo apt install bat`
