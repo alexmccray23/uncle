@@ -80,25 +80,25 @@ local function replaceColumns()
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         elseif nfield == 2 then
           syntax = "R(1!" ..
-          scol .. ":" .. (scol + wfield - 1) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
+              scol .. ":" .. (scol + wfield - 1) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         elseif nfield == 3 then
           syntax = "R(1!" ..
-          scol ..
-          ":" ..
-          (scol + wfield - 1) ..
-          "/1!" ..
-          (scol + (2 * (wfield - 1))) ..
-          ":" .. (scol + (3 * (wfield - 1))) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
+              scol ..
+              ":" ..
+              (scol + wfield - 1) ..
+              "/1!" ..
+              (scol + (2 * (wfield - 1))) ..
+              ":" .. (scol + (3 * (wfield - 1))) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         else
           syntax = "R(1!" ..
-          scol ..
-          ":" ..
-          (scol + wfield - 1) ..
-          "/1!" ..
-          (scol + (2 * (wfield - 1))) ..
-          ":" .. (scol + (3 * (wfield - 1))) .. "...1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
+              scol ..
+              ":" ..
+              (scol + wfield - 1) ..
+              "/1!" ..
+              (scol + (2 * (wfield - 1))) ..
+              ":" .. (scol + (3 * (wfield - 1))) .. "...1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
           fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         end
       end
@@ -118,4 +118,13 @@ local function uncleSyntax()
   replaceColumns()
 end
 
+local function combFix()
+  vim.cmd([[SpecFix]])
+   local line = vim.fn.line('.')
+  vim.api.nvim_win_set_cursor(0, { line - 1, 0 })
+  uncleSyntax()
+end
+
 vim.api.nvim_create_user_command("USyntax", uncleSyntax, {})
+vim.keymap.set('n', '<M-f>', uncleSyntax, { desc = "USyntax" })
+vim.keymap.set('n', '<M-g>', combFix, { desc = "USyntax" })
