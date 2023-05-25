@@ -1,12 +1,14 @@
 -- Uncle syntax plugin
 
-local function selectQuestions()
+M = {}
+
+function M.selectQuestions()
   local line = vim.api.nvim_get_current_line()
   local array = vim.split(line, ";", { plain = true })
   return array[2]
 end
 
-local function parseLayout()
+function M.parseLayout()
   Data = {}
   local layDir = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
   table.remove(layDir, #layDir)
@@ -23,7 +25,7 @@ local function parseLayout()
     }
   end
   SpecTable = {}
-  local specs = vim.split(string.upper(selectQuestions()), ' +', { plain = false, trimemtpy = true })
+  local specs = vim.split(M.selectQuestions():upper(), ' +', { plain = false, trimemtpy = true })
   for index, value in ipairs(specs) do
     if value:match("^[oO][rR]$") then
       SpecTable[index] = {
@@ -54,8 +56,8 @@ local function parseLayout()
   end
 end
 
-local function replaceColumns()
-  local fullSpec = selectQuestions()
+function M.replaceColumns()
+  local fullSpec = M.selectQuestions()
   for i, k in ipairs(SpecTable) do
     if not k['question']:match("^[oO][rR]$") then
       local syntax = ""
@@ -104,27 +106,34 @@ local function replaceColumns()
       end
     end
   end
-  local origSpec = selectQuestions()
+  local origSpec = M.selectQuestions()
   local line = vim.api.nvim_get_current_line()
   line = vim.fn.substitute(line, origSpec, fullSpec, '')
   vim.api.nvim_set_current_line(line)
-  local linenum = vim.fn.getcurpos()[2] + 1
-  vim.api.nvim_win_set_cursor(0, { linenum, 0 })
 end
 
-local function uncleSyntax()
-  selectQuestions()
-  parseLayout()
-  replaceColumns()
+function M.uncleSyntax()
+  -- Set the count to 1 if there is no count given.
+  local count = vim.v.count ~= 0 and vim.v.count or 1
+  local current_line = vim.api.nvim_win_get_cursor(0)[1]
+
+  for _ = 1, count do
+    M.selectQuestions()
+    M.parseLayout()
+    M.replaceColumns()
+    local next_line = current_line + 1
+    vim.api.nvim_win_set_cursor(0, { next_line, 0 })
+    current_line = next_line
+  end
 end
 
-local function combFix()
+function M.combFix()
+  local line = vim.fn.line('.')
   vim.cmd([[SpecFix]])
-   local line = vim.fn.line('.')
-  vim.api.nvim_win_set_cursor(0, { line - 1, 0 })
-  uncleSyntax()
+  vim.api.nvim_win_set_cursor(0, { line, 0 })
+  vim.cmd([[USyntax]])
 end
 
-vim.api.nvim_create_user_command("USyntax", uncleSyntax, {})
-vim.keymap.set('n', '<M-f>', uncleSyntax, { desc = "USyntax" })
-vim.keymap.set('n', '<M-g>', combFix, { desc = "USyntax" })
+vim.api.nvim_create_user_command("USyntax", M.uncleSyntax, {})
+
+return M

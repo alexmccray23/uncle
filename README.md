@@ -25,6 +25,9 @@ Neovim plugin for adding generation points
 # in2.lua
 Neovim plugin for adding the indent "&IN2" command on long labels in Uncle.
 
+# indent.lua
+Neovim plugin for indenting an R row in Uncle
+
 # init_clean.lua
 Neovim plugin that performs an initial cleaning of the Uncle .E file.
 
@@ -81,6 +84,9 @@ Neovim plugin for shifting banner titles to fit above their columns
 
 # uncle_syntax.lua
 Neovim plugin that parses the formatted layout file to convert data processing specs into the appropriate Uncle programming syntax.
+
+# underline.lua
+Neovim plugin for adding the underline formatting option
 
 # weight_sum.lua
 Neovim plugin for summing weighting table values.
