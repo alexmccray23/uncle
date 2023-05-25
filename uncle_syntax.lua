@@ -1,6 +1,6 @@
 -- Uncle syntax plugin
 
-M = {}
+local M = {}
 
 function M.selectQuestions()
   local line = vim.api.nvim_get_current_line()

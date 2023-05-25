@@ -1,0 +1,95 @@
+====== DP Macros ======
+
+There are DOS macros Kayna wrote to make the set up of DP a lot easier.  The macros are saved in K:\practice\dosmacro
+
+Below is the list of the Macros used to set up the E-file and a description of what they do:
+
+----
+
+===== To run these macros, type ALT+letter: =====
+  * **ALT+A** - Adds what's in the block to the end of the line
+  * **ALT+B** - Puts in the base row: BASE==TOTAL SAMPLE;ALL;HP NOVP
+  * **ALT+C** - Numbers tables
+  * **ALT+D** - Loads a macro into ALT+Z
+  * **ALT+E** - Puts in banners and stub/test/check and final executable tables
+  * **ALT+F** - Puts in difference scores
+  * **ALT+G** - Most important problem (the really big, suppress below 3% one)
+  * **ALT+H** - Puts in a net row
+  * **ALT+I** - Adds &IN2 to a row
+  * **ALT+J** - Changes BASE==TOTAL SAMPLE to SAMPLE A/SAMPLE B
+  * **ALT+K** - For banners, changes X-Y into qualifier where X=question number and Y=punch
+  * **ALT+L** - Opposite of ALT+N, it takes out the & and moves up the lines to form one line
+  * **ALT+M** - Indents the row 2 spaces
+  * **ALT+N** - Puts the & at the end of the screen and wraps the line down
+  * **ALT+O** - Removes numbers from the end of a line
+  * **ALT+P** - Adds ;NORANK to the end of a row
+  * **ALT+Q** - Puts qualifiers in
+  * **ALT+R** - Puts R at the beginning of a line and ; at the end
+  * **ALT+S** - Summary tables - Series setup - Add qualifiers to series
+  * **ALT+T** - Starts a table
+  * **ALT+U** - Underlines
+  * **ALT+V** - Prepares table rows; runs until it hits <Enter>, ∗, or -
+  * **ALT+W** - Puts in C &CE in banners
+  * **ALT+X** - Expendable
+  * **ALT+Y** - Helps put in banner titles
+  * **ALT+Z** - Expendable
+  * **ADD** - Puts in rows More/Less Likely, More/Less Favorable, Short and Long Name IDs
+  * **ADJUST** - For banners - Adds/Deletes a point or a group and adjusts titles
+  * **AGE** - Puts age and qualifiers in standard POS groups
+  * **BAN** - For banners, puts in AGE, GENDER/AGE, PARTY/AGE, PARTY/GENDER points
+  * **BAN1** - Takes a tab-delimited banner file and sets up the titles and c-rows for the banner, but it deletes the qualifiers
+  * **CALCAGE** - Creates a calculate table to convert birth year to normal punches
+  * **COLW** - Counts the number of COLW 5 in a banner, does not include the one on TOTAL
+  * **COMBDATA** - Changes an UNCLE layout to a COMBINE.BAS file.  Mark the end of the layout with $
+  * **COMBINE** - Combines two tables into one
+  * **COUNTY** - Uses the COUNTY.TXT file to create qualifiers for county.  Mark the end of the file with $
+  * **DMA** - Uses the DMA.TXT file to create qualifiers for DMA.  Mark the end of the file with $
+  * **DS** - Changes a summary table to a Summary of Difference Scores
+  * **F** - Works like ALT+F, option 4 or 8, except the net row titles are not done automatically
+  * **FIND** - Takes DMA.TXT or COUNTY.TXT and selects for a certain state. Use with DMA and COUNTY
+  * **FOOT** - Creates a footer
+  * **GENX** - Creates WDM Generation banner points (GEN X, BABY BOOMERS, etc.)
+  * **HBASE** - For putting oversample into one banner point--will HBASE all other columns
+  * **IN2** - Counts the characters to see if a row needs &IN2 and if so, it will be put in
+  * **LAYOUT** - Changes the layout so that ALT-Q can read it; mark end of the layout with $
+  * **LAYOUT2** - Changes layout 1 row at a time
+  * **LETTERS** - Run before SGTEST, this will put in the letters on each columm
+  * **LINE** - Puts a line in
+  * **MAKELOUT** - Makes an UNCLE layout, you supply the columns and question numbers
+  * **MATRIX** - Creates a table to run a matrix
+  * **MEAN** - Puts in a mean row
+  * **MEDIAN** - Puts in a median row
+  * **MIP** - Completely sets up the most important problem, mark OTHER punch with #, end with $
+  * **NUMBER** - Renumbers tables from a specific number to a specific number
+  * **OLDL** - This is the old ALT+L, it helps put in single punch qualifiers
+  * **PERCENT** - Ranks a summary table by percent
+  * **PROMARK** - Changes a .TEM file to an UNCLE layout
+  * **PROMARK2** - Just like the first macro, but works with their second .TEM file
+  * **QUAL** - Puts a qualifier on all tables.  Use when qualifying tables for new data
+  * **RANK** - Counts how many tables are ranked and provides a list of which tables/questions they are
+  * **REG** - For regions, takes a list of counties and puts it under its region
+  * **REG2** - For regions, takes a list of counties and creates a region above it
+  * **REVERSE** - Reverses a list (like 1-10).  Will reverse everything from cursor to REFUSED or DON'T KNOW
+  * **SEP** - Separates two tables which have been combined as one
+  * **SERIES** - Sets up a series when the qualifiers are already put in
+  * **SETUP** - To be used with TREND; prompts for dates and qualifiers of trend data
+  * **SGTEST** - Puts in the options for significance testing.  LETTERS has to be run first
+  * **SKIP** - Bases a question on skip base with total sample at the bottom
+  * **SPS** - Changes an UNCLE layout to an SPSS syntax file
+  * **START** - Replaces / with // and & with &&, takes out (DO NOT READ)
+  * **START2** - Formats the .e file after DP Magic has been run; removes extra spaces on the T rows, removes bold tags
+  * **STATS** - Puts MEAN, MEDIAN, STANDARD DEVIATION and STANDARD ERROR
+  * **STEP1** - Prepares a matrix file to STEP2.  The .e file must be on the other screen
+  * **STEP2** - Compares a prepared matrix file against the topline
+  * **SUM** - Helps put in Summary of Key Data
+  * **SUMMARY** - Counts summary tables and provides a list of which tables they are
+  * **TEST** - Changes question numbers to table numbers in the test table executable
+  * **TOTAL** - Changes a question based on skip to total sample, commenting out the original table qualifier
+  * **TOX** - Loads a macro into ALTX
+  * **TREND** - Puts trend data in individual tables.  SETUP must be run first
+  * **TRENT2** - Another trend macro, puts trend at bottom of stub.  SETUP must be run first
+  * **UT** - Puts in &UT- and then the qualifier for a difference score (Use in summary tables)
+  * **VBASE** - Puts in VBASE option and automatically figures the row number
+  * **VRN** - Puts in VRN and NOVRN options.  Position cursor on O-Row
+  * **WEIGHT** - Helps put in weighting tables
+  * **WEIGHT1** - Also to help put in weighting tables

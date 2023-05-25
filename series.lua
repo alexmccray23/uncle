@@ -5,11 +5,11 @@ local orig_cols = nil
 local new_cols = nil
 
 local function tableSeries()
-  local totTables = vim.fn.input("How many tables in series?\n")
-  if totTables == "" then
+  local totTables = tonumber(vim.fn.input("How many tables in series?\n"))
+  if totTables == nil then
     return
   else
-    count = vim.fn.str2nr(totTables) - 1
+    count = totTables - 1
   end
 
   local function getFormat()

@@ -3,7 +3,6 @@
 M = {}
 
 function M.posSpecConversion()
-  -- Set the count to 1 if there is no count given.
   local count = vim.v.count ~= 0 and vim.v.count or 1
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
 
@@ -23,10 +22,10 @@ function M.posSpecConversion()
     local next_line = current_line + 1
     vim.api.nvim_win_set_cursor(0, { next_line, 0 })
 
-    -- Go to the next line
     current_line = next_line
   end
 end
+
 vim.api.nvim_create_user_command("SpecFix", M.posSpecConversion, {})
 
 return M
