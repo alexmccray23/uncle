@@ -1,8 +1,8 @@
--- Neovim plugin for adding "C &CE" in the banners
+-- Neovim plugin for adding 'R' rows to stubs, similar to banner_columns.lua
 
 local M = {}
 
-function M.bannerColumn()
+function M.rRow()
   local count = vim.v.count ~= 0 and vim.v.count or 1
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
 
@@ -12,7 +12,7 @@ function M.bannerColumn()
     line = vim.fn.substitute(line, [[\s\{2,}\|\t\+]], ";", ""):upper()
     line = line:gsub("/", "//")
     local new_line = line
-    if not line:match("C &CE") then new_line = "C &CE" .. line end
+    if not line:match("^R ") then new_line = "R " .. line end
     vim.api.nvim_set_current_line(new_line)
     local next_line = current_line + 1
     vim.api.nvim_win_set_cursor(0, { next_line, 0 })
@@ -21,6 +21,6 @@ function M.bannerColumn()
   end
 end
 
-vim.api.nvim_create_user_command("BannerCol", M.bannerColumn, {})
+vim.api.nvim_create_user_command("RRow", M.rRow, {})
 
 return M

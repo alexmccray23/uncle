@@ -4,8 +4,26 @@ local i = ls.insert_node
 local t = ls.text_node
 local c = ls.choice_node
 local f = ls.function_node
+local d = ls.dynamic_node
+local sn = ls.snippet_node
 local fmt = require("luasnip.extras.fmt").fmt
 
+local function node_maker(num)
+  num = tonumber(num)
+  if num == nil then
+    return {}      -- return an empty table if the input is not a number
+  end
+  local nodes = {} -- this table will store all the dynamic nodes
+  for x = 1, num do
+    -- create a snippet node for each line and append it to the nodes table
+    nodes[x] = i(x, 'X RUN {} B ' .. (900 + x) .. ' OFF')
+  end
+  return nodes
+end
+
+ls.add_snippets("all", {
+  ls.parser.parse_snippet({ trig = "dynamicLines" }, "{${1:8}}", node_maker(4))
+})
 
 ls.add_snippets("eiffel", {
   s("ds", {

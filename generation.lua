@@ -47,6 +47,8 @@ function M.standard()
   local mill_end = year - 1981
   local mill_range = string.format("R(1!%s:%s,%s:%s)", qage['startCol'], qage['endCol'], mill_start, mill_end)
   local mill_agegroup = ""
+  if mill_start <= 18 and mill_end >= 24 then mill_agegroup = " OR 1!" .. agrp['startCol'] .. "-1" end
+  if mill_start <= 25 and mill_end >= 34 then mill_agegroup = " OR 1!" .. agrp['startCol'] .. "-2" end
   if mill_start <= 35 and mill_end >= 44 then mill_agegroup = " OR 1!" .. agrp['startCol'] .. "-3" end
   if mill_start <= 45 and mill_end >= 54 then mill_agegroup = " OR 1!" .. agrp['startCol'] .. "-4" end
   if mill_start <= 55 and mill_end >= 64 then mill_agegroup = " OR 1!" .. agrp['startCol'] .. "-5" end
@@ -56,6 +58,9 @@ function M.standard()
   local genx_end = year - 1965
   local genx_range = string.format("R(1!%s:%s,%s:%s)", qage['startCol'], qage['endCol'], genx_start, genx_end)
   local genx_agegroup = ""
+  if genx_start <= 18 and genx_end >= 24 then genx_agegroup = " OR 1!" .. agrp['startCol'] .. "-1" end
+  if genx_start <= 25 and genx_end >= 34 then genx_agegroup = " OR 1!" .. agrp['startCol'] .. "-2" end
+  if genx_start <= 35 and genx_end >= 44 then genx_agegroup = " OR 1!" .. agrp['startCol'] .. "-3" end
   if genx_start <= 45 and genx_end >= 54 then genx_agegroup = " OR 1!" .. agrp['startCol'] .. "-4" end
   if genx_start <= 55 and genx_end >= 64 then genx_agegroup = " OR 1!" .. agrp['startCol'] .. "-5" end
   table.insert(text, "C &CEGEN X;" .. genx_range .. genx_agegroup)
@@ -63,12 +68,24 @@ function M.standard()
   local boom_start = year - 1964
   local boom_end = year - 1946
   local boom_range = string.format("R(1!%s:%s,%s:%s)", qage['startCol'], qage['endCol'], boom_start, boom_end)
-  table.insert(text, "C &CEBABY BOOM- ERS;" .. boom_range)
+  local boom_agegroup = ""
+  if boom_start <= 18 and boom_end >= 24 then boom_agegroup = " OR 1!" .. agrp['startCol'] .. "-1" end
+  if boom_start <= 25 and boom_end >= 34 then boom_agegroup = " OR 1!" .. agrp['startCol'] .. "-2" end
+  if boom_start <= 35 and boom_end >= 44 then boom_agegroup = " OR 1!" .. agrp['startCol'] .. "-3" end
+  if boom_start <= 45 and boom_end >= 54 then boom_agegroup = " OR 1!" .. agrp['startCol'] .. "-4" end
+  if boom_start <= 55 and boom_end >= 64 then boom_agegroup = " OR 1!" .. agrp['startCol'] .. "-5" end
+  table.insert(text, "C &CEBABY BOOM- ERS;" .. boom_range .. boom_agegroup)
 
   local silent_start = year - 1945
   local silent_end = year - 1928
   local silent_range = string.format("R(1!%s:%s,%s:%s)", qage['startCol'], qage['endCol'], silent_start, silent_end)
-  table.insert(text, "C &CESILENT GEN;" .. silent_range)
+  local silent_agegroup = ""
+  if silent_start <= 18 and silent_end >= 24 then silent_agegroup = " OR 1!" .. agrp['startCol'] .. "-1" end
+  if silent_start <= 25 and silent_end >= 34 then silent_agegroup = " OR 1!" .. agrp['startCol'] .. "-2" end
+  if silent_start <= 35 and silent_end >= 44 then silent_agegroup = " OR 1!" .. agrp['startCol'] .. "-3" end
+  if silent_start <= 45 and silent_end >= 54 then silent_agegroup = " OR 1!" .. agrp['startCol'] .. "-4" end
+  if silent_start <= 55 and silent_end >= 64 then silent_agegroup = " OR 1!" .. agrp['startCol'] .. "-5" end
+  table.insert(text, "C &CESILENT GEN;" .. silent_range .. silent_agegroup)
 
   local gi_start = year - 1927
   local gi_end = year - 1901

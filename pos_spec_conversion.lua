@@ -1,6 +1,6 @@
 -- Neovim plugin for converting POS specs to the format used by other Uncle plugins
 
-M = {}
+local M = {}
 
 function M.posSpecConversion()
   local count = vim.v.count ~= 0 and vim.v.count or 1

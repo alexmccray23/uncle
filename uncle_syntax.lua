@@ -34,8 +34,7 @@ function M.parseLayout()
         spec = "OR"
       }
     else
-      local spec = vim.fn.substitute(value, "(\\+", '', '')
-      spec = vim.fn.substitute(spec, ")\\+", '', '')
+      local spec = vim.fn.substitute(value, [[\([nN][oO][tT]\)\?(\+\|)\+]], '', '')
       local qnum = vim.split(spec, '-', {})
       if Data[qnum[1]] ~= nil then
         SpecTable[index] = {
@@ -109,7 +108,7 @@ function M.replaceColumns()
   local origSpec = M.selectQuestions()
   local line = vim.api.nvim_get_current_line()
   line = vim.fn.substitute(line, origSpec, fullSpec, '')
-  vim.api.nvim_set_current_line(line)
+  vim.api.nvim_set_current_line(line:upper())
 end
 
 function M.uncleSyntax()
