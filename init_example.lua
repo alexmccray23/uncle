@@ -59,6 +59,8 @@ gou() {
   cd '/home/alex/kdata/'$year'/'$1'/uncle'
 }
 
+ghp_3r5OMvjFFa8U0***AxAdw2zgiuOMUGxGF40kwxD
+
 local keymap = vim.api.nvim_set_keymap
 keymap('n', '<leader>n', ':lua require("user.plugins.custom.indent").indent()<CR>', { noremap = true, silent = true, desc = "Uncle: Indent" })
 keymap('n', '<M-d>', ':lua require("user.plugins.custom.pos_spec_conversion").posSpecConversion()<CR>', { noremap = true, silent = true })
