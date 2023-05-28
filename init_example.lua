@@ -53,14 +53,6 @@ end)
   2. Symlink batcat to bat `sudo ln -s /usr/bin/batcat /usr/bin/bat`
   3. Add to .bashrc export `MANPAGER="sh -c 'col -bx | bat -l man -p'"`
 
-  4.
-gou() {
-  local year=${2:-2023}
-  cd '/home/alex/kdata/'$year'/'$1'/uncle'
-}
-
-ghp_3r5OMvjFFa8U0***AxAdw2zgiuOMUGxGF40kwxD
-
 local keymap = vim.api.nvim_set_keymap
 keymap('n', '<leader>n', ':lua require("user.plugins.custom.indent").indent()<CR>', { noremap = true, silent = true, desc = "Uncle: Indent" })
 keymap('n', '<M-d>', ':lua require("user.plugins.custom.pos_spec_conversion").posSpecConversion()<CR>', { noremap = true, silent = true })
