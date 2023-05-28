@@ -7,23 +7,60 @@ local f = ls.function_node
 local d = ls.dynamic_node
 local sn = ls.snippet_node
 local fmt = require("luasnip.extras.fmt").fmt
+local parse = require("luasnip.util.parser").parse_snippet
+local extras = require("luasnip.extras")
+local l = extras.lambda
 
 local function node_maker(num)
   num = tonumber(num)
+  num = 5
   if num == nil then
     return {}      -- return an empty table if the input is not a number
   end
   local nodes = {} -- this table will store all the dynamic nodes
   for x = 1, num do
     -- create a snippet node for each line and append it to the nodes table
-    nodes[x] = i(x, 'X RUN {} B ' .. (900 + x) .. ' OFF')
+    --nodes[x] = 'i(' .. x .. ', X RUN {} B ' .. (900 + x) .. ' OFF),'
+    --nodes[x] = t('X RUN {} B ' .. (900 + x) .. ' OFF')
+    nodes[x] = t "testing"
   end
-  return nodes
+  return sn(nil, nodes)
 end
 
 ls.add_snippets("all", {
-  ls.parser.parse_snippet({ trig = "dynamicLines" }, "{${1:8}}", node_maker(4))
+  s("nodes", {
+    d(1, node_maker(5)[1])
+  })
 })
+
+
+local rec_ls
+rec_ls = function()
+  return sn(
+    nil,
+    c(1, {
+      -- Order is important, sn(...) first would cause infinite loop of expansion.
+      t(""),
+      sn(nil, { t({ "", "\t\\item " }), i(1), d(2, rec_ls, {}) }),
+    })
+  )
+end
+
+
+ls.add_snippets("all", {
+  -- rec_ls is self-referencing. That makes this snippet 'infinite' eg. have as many
+  -- \item as necessary by utilizing a choiceNode.
+  s("ls", {
+    t({ "\\begin{itemize}", "\t\\item " }),
+    i(1),
+    d(2, rec_ls, {}),
+    t({ "", "\\end{itemize}" }),
+  }),
+}, {
+  key = "tex",
+})
+
+
 
 ls.add_snippets("eiffel", {
   s("ds", {
