@@ -52,6 +52,9 @@ Neovim plugin for numbering Uncle tables.
 # pos_spec_conversion.lua
 Plugin that converts POS specs to the conventional format for data processing.
 
+# r_row.lua
+Neovim plugin for adding 'R' rows to stubs, similar to banner_columns.lua
+
 # rank_table.lua
 Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables.
 
@@ -87,6 +90,9 @@ Neovim plugin that parses the formatted layout file to convert data processing s
 
 # underline.lua
 Neovim plugin for adding the underline formatting option
+
+# weight_product.lua
+Neovim plugin for recalculating split weighting table values
 
 # weight_sum.lua
 Neovim plugin for summing weighting table values.
