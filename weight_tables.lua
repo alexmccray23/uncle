@@ -11,7 +11,7 @@ function M.weightingTables()
   local tableNum = tonumber(line:sub(7))
   local questions = vim.split(input, " +", { plain = false, trimempty = true })
   for _, value in ipairs(questions) do
-    local flag = vim.fn.search("QUESTION " .. value)
+    local flag = vim.fn.search("QUESTION " .. value .. ":")
     tableNum = tableNum + 1
     if flag > 0 then
       local start_line = vim.fn.search('R &IN2BASE==', 'W')
