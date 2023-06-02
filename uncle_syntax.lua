@@ -3,32 +3,54 @@
 local M = {}
 
 function M.selectQuestions()
+  local buffer = vim.api.nvim_get_current_buf()
   local line = vim.api.nvim_get_current_line()
   local array = vim.split(line, ";", { plain = true })
-  return array[2]
+  return { array[2], buffer }
 end
 
+M.data_table = {}
+local chk = 0
+local buf_chk = 0
 function M.parseLayout()
-  Data = {}
+  local current_buffer = M.selectQuestions()[2]
+  if chk > 1 and buf_chk == current_buffer then
+    return M.data_table
+  end
+  if buf_chk ~= current_buffer then
+    M.data_table = {}
+  end
+
   local layDir = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
   table.remove(layDir, #layDir)
   local fullPath = table.concat(layDir, "/") .. "/*.[Ll][Aa][Yy]"
   local temp = vim.fn.glob(fullPath, false, true)
+  if #temp == 0 then
+    print("Can't find layout file in current directory")
+    return M
+  end
   local layout = vim.fn.readfile(temp[#temp])
   for _, value in ipairs(layout) do
     local column = vim.split(value, ' +', { plain = false, trimempty = true })
-    Data[column[1]] = {
+    chk = #column[1]
+    buf_chk = current_buffer
+    M.data_table[column[1]] = {
       startCol = tonumber(column[2]),
       endCol = tonumber(column[3]),
       nfield = tonumber(column[5]),
       wfield = tonumber(column[6])
     }
   end
-  SpecTable = {}
-  local specs = vim.split(M.selectQuestions():upper(), ' +', { plain = false, trimemtpy = true })
+  return M.data_table
+end
+
+function M.parseSpec()
+  local spec_table = {}
+  local data_table = M.data_table
+  local specs = vim.split(M.selectQuestions()[1]:upper(), ' +', { plain = false, trimemtpy = true })
   for index, value in ipairs(specs) do
     if value:match("^[oO][rR]$") then
-      SpecTable[index] = {
+      spec_table[index] = {
         question = "OR",
         code = "OR",
         spec = "OR"
@@ -36,14 +58,14 @@ function M.parseLayout()
     else
       local spec = vim.fn.substitute(value, [[\([nN][oO][tT]\)\?(\+\|)\+]], '', '')
       local qnum = vim.split(spec, '-', {})
-      if Data[qnum[1]] ~= nil then
-        SpecTable[index] = {
+      if data_table[qnum[1]] ~= nil then
+        spec_table[index] = {
           question = qnum[1],
           code = qnum[2],
           spec = spec
         }
-      elseif Data["Q" .. qnum[1]] ~= nil then
-        SpecTable[index] = {
+      elseif data_table["Q" .. qnum[1]] ~= nil then
+        spec_table[index] = {
           question = "Q" .. qnum[1],
           code = qnum[2],
           spec = spec
@@ -53,19 +75,22 @@ function M.parseLayout()
       end
     end
   end
+  return spec_table
 end
 
 function M.replaceColumns()
-  local fullSpec = M.selectQuestions()
-  for i, k in ipairs(SpecTable) do
+  local fullSpec = M.selectQuestions()[1]
+  local origSpec = fullSpec
+  local spec_table = M.parseSpec()
+  for i, k in ipairs(spec_table) do
     if not k['question']:match("^[oO][rR]$") then
       local syntax = ""
-      local code = SpecTable[i]['code']
-      local spec = SpecTable[i]['spec']
-      local scol = Data[SpecTable[i]['question']]['startCol']
-      local ecol = Data[SpecTable[i]['question']]['endCol']
-      local wfield = Data[SpecTable[i]['question']]['wfield']
-      local nfield = Data[SpecTable[i]['question']]['nfield']
+      local code = spec_table[i]['code']
+      local spec = spec_table[i]['spec']
+      local scol = M.data_table[spec_table[i]['question']]['startCol']
+      local ecol = M.data_table[spec_table[i]['question']]['endCol']
+      local wfield = M.data_table[spec_table[i]['question']]['wfield']
+      local nfield = M.data_table[spec_table[i]['question']]['nfield']
 
       if wfield == 1 then
         if scol == ecol then
@@ -105,19 +130,16 @@ function M.replaceColumns()
       end
     end
   end
-  local origSpec = M.selectQuestions()
   local line = vim.api.nvim_get_current_line()
   line = vim.fn.substitute(line, origSpec, fullSpec, '')
   vim.api.nvim_set_current_line(line:upper())
 end
 
 function M.uncleSyntax()
-  -- Set the count to 1 if there is no count given.
   local count = vim.v.count ~= 0 and vim.v.count or 1
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
 
   for _ = 1, count do
-    M.selectQuestions()
     M.parseLayout()
     M.replaceColumns()
     local next_line = current_line + 1
