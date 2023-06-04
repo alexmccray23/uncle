@@ -117,7 +117,7 @@ function M.stubExec()
   local end1 = nil
   local start2 = nil
   local end2 = nil
-  local range
+  local range = nil
   for i, value in ipairs(tableNum) do
     if value == 100 or value == 101 then
       if tableNum[i - 1] < value - 1 then

@@ -266,7 +266,11 @@ function M.seven()
   local sc_start = nil
   local sc_end = nil
   for i, line in ipairs(text) do
-    newText[i] = vim.fn.substitute(line, "^R ", "R   \\&IN2", "")
+    if not (line:match("DON'T KNOW") or line:match("REFUSED")) then
+      newText[i] = vim.fn.substitute(line, "^R ", "R   \\&IN2", "")
+    else
+      newText[i] = line
+    end
     r_row[i] = vim.split(line, ';', { plain = true })
     --r_row[i][1] = vim.fn.substitute(r_row[i][1], "^R\\s\\+\\(\\S\\+\\s\\)\\?", "", "")
     r_row[i][1] = vim.fn.substitute(r_row[i][1], "&IN2\\|&UT-", "", "")
