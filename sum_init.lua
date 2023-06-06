@@ -35,6 +35,7 @@ local function sumInit()
     end
   end
   vim.api.nvim_buf_set_lines(0, line_num - 1, end_line, false, new_lines)
+  vim.api.nvim_win_set_cursor(0, { line_num, 0 })
 end
 
 vim.api.nvim_create_user_command("SumInit", sumInit, {})

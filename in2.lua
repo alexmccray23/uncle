@@ -10,7 +10,7 @@ function M.indent()
   for _ = 1, count do
     local copy = vim.api.nvim_get_current_line()
     local string = vim.split(copy, ";", { plain = true })[1]
-    string = vim.fn.substitute(string, "^R\\s\\+\\|\\&&UT-", "", "g")
+    string = vim.fn.substitute(string, "^R \\|\\&&UT-", "", "g")
     string = vim.fn.substitute(string, "\\/\\/", "/", "g")
     if #string > 26 then
       if copy:match("%&UT-") then

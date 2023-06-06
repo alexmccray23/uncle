@@ -30,6 +30,7 @@ function M.nets()
   if fips_col == nil then return end
   local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
   if layout_col == "" then layout_col = "X:Y" end
+  vim.api.nvim_exec2([[g/\(^\t\|^$\)/d]], {})
   local sort_cmd = string.format("2,$!sort -b -t$'\\t' -k%s,%s -k%s,%sn", region_col, region_col, fips_col, fips_col)
   vim.api.nvim_exec2(sort_cmd, {})
   local text = vim.api.nvim_buf_get_lines(0, 1, -1, false)
@@ -37,12 +38,10 @@ function M.nets()
   local county_data = {}
   local fips_data = {}
   for _, line in ipairs(text) do
-    if vim.trim(line):len() == 0 then goto continue end
     local array = vim.split(line, "\t", { plain = false })
     table.insert(region_data, vim.trim(array[region_col]))
     table.insert(county_data, vim.trim(array[county_col]))
     table.insert(fips_data, vim.trim(array[fips_col]))
-    ::continue::
   end
   vim.api.nvim_exec2("new", {})
   local regionTable = {
@@ -99,17 +98,16 @@ function M.noNets()
   if fips_col == nil then return end
   local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
   if layout_col == "" then layout_col = "X:Y" end
+  vim.api.nvim_exec2([[g/\(^\t\|^$\)/d]], {})
   local sort_cmd = string.format("2,$!sort -b -t$'\\t' -k%s,%s -k%s,%sn", region_col, region_col, fips_col, fips_col)
   vim.api.nvim_exec2(sort_cmd, {})
   local text = vim.api.nvim_buf_get_lines(0, 1, -1, false)
   local region_data = {}
   local fips_data = {}
   for _, line in ipairs(text) do
-    if vim.trim(line):len() == 0 then goto continue end
     local array = vim.split(line, "\t", { plain = false })
     table.insert(region_data, vim.trim(array[region_col]))
     table.insert(fips_data, vim.trim(array[fips_col]))
-    ::continue::
   end
   vim.api.nvim_exec2("new", {})
   local regionTable = {
@@ -242,8 +240,7 @@ end
 
 function M.viewColumns()
   vim.api.nvim_win_set_cursor(0, { 1, 0 })
-  print(" ")
-  print(" ")
+  print({ " ", " " })
   local header = vim.split(vim.api.nvim_get_current_line(), '\t', { plain = false })
   for i, h in ipairs(header) do
     print(i, h)
