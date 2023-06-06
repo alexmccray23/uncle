@@ -37,10 +37,12 @@ function M.nets()
   local county_data = {}
   local fips_data = {}
   for _, line in ipairs(text) do
+    if vim.trim(line):len() == 0 then goto continue end
     local array = vim.split(line, "\t", { plain = false })
     table.insert(region_data, vim.trim(array[region_col]))
     table.insert(county_data, vim.trim(array[county_col]))
     table.insert(fips_data, vim.trim(array[fips_col]))
+    ::continue::
   end
   vim.api.nvim_exec2("new", {})
   local regionTable = {
@@ -103,9 +105,11 @@ function M.noNets()
   local region_data = {}
   local fips_data = {}
   for _, line in ipairs(text) do
+    if vim.trim(line):len() == 0 then goto continue end
     local array = vim.split(line, "\t", { plain = false })
     table.insert(region_data, vim.trim(array[region_col]))
     table.insert(fips_data, vim.trim(array[fips_col]))
+    ::continue::
   end
   vim.api.nvim_exec2("new", {})
   local regionTable = {
@@ -118,7 +122,7 @@ function M.noNets()
   local main_string = ""
   local nTotal = #fips_data
   local region_string = ""
-  for i = 1, nTotal, 1 do
+  for i = 1, nTotal do
     local region = region_data[i]
     local fips = fips_data[i]
     if i == 1 then
@@ -132,7 +136,7 @@ function M.noNets()
     else
       region_string = region_string .. "," .. fips
     end
-    if i == nTotal - 1 and region ~= region_data[i - 1] then
+    if i == nTotal and region ~= region_data[i - 1] then
       region_string = string.format("R   %s;R(1!%s,%s", region, layout_col, fips)
       main_string = main_string .. region_string .. ")\n"
     end
