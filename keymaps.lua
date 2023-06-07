@@ -1,6 +1,5 @@
 
 local keymap = vim.api.nvim_set_keymap
-
 keymap('n', '<leader>n', ':lua require("user.uncle.indent").indent()<CR>', { noremap = true, silent = true, desc = "Uncle: Indent" })
 keymap('n', '<leader>ds', ':DiffScore<CR>', { noremap = true, silent = true, desc = "Uncle: Difference score" })
 keymap('n', '<leader>k', ':lua require("user.uncle.uncle_syntax").uncleSyntax()<CR>', { noremap = true, silent = true, desc = "Uncle: QX-1 syntax" })
