@@ -8,9 +8,9 @@ local function weight_product()
   local sum = 0
   local new_text = {}
   for _, line in ipairs(text) do
-    local value = string.sub(vim.split(line, ";", { plain = true })[3], 7)
+    local value = string.sub(vim.split(line, ";", { plain = true })[3], 6)
     local new_value = value * product
-    line = line:gsub(value, new_value):gsub("0%.", ".")
+    line = line:gsub(value, new_value):gsub("0%.", " .")
     table.insert(new_text, line)
     sum = sum + new_value
   end

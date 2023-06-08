@@ -133,7 +133,11 @@ function M.stubExec()
     if value == 500 then
       for j = i - 1, 1, -1 do
         if tableNum[j] < 500 and tableNum[j] ~= 300 or tableNum[j] ~= 301 then
+          if end1 == nil then
+          end1 = tableNum[j]
+        else
           end2 = tableNum[j]
+        end
           break
         end
       end
