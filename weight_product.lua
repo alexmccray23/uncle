@@ -10,6 +10,7 @@ local function weight_product()
   for _, line in ipairs(text) do
     local value = string.sub(vim.split(line, ";", { plain = true })[3], 6)
     local new_value = value * product
+    new_value = string.format("%.5f", new_value)
     line = line:gsub(value, new_value):gsub("0%.", " .")
     table.insert(new_text, line)
     sum = sum + new_value
