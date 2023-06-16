@@ -19,9 +19,9 @@ function M.indent()
         elseif string:match("D/S") and #string % 26 > 0 and #string % 26 < 3 then
           copy = copy:gsub(" D//S", "/D//S")
         end
-      elseif #string > 27 and string:sub(1, 4) ~= "&IN2" then
+      elseif #string > 27 and not string:match("&IN2") then
         local pattern = "^(R%s+)(.*)"
-        if string:match("^%d") then
+        if string:match("^(%s*)%d") then
           copy = copy:gsub(pattern, "%1&IN2 %2", 1)
         else
           copy = copy:gsub(pattern, "%1&IN2%2", 1)
