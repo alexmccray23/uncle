@@ -20,6 +20,9 @@ local function weight_product()
     local new_value = value * product
     new_value = string.format("%.5f", new_value):gsub("0+$", "")
     line = line:gsub(value, new_value):gsub("0%.", " .")
+    if line:match("%.$") then
+      line = line:gsub(value, new_value):gsub("%.$", ".0"):gsub("^R ", "*R ")
+    end
     table.insert(new_text, line)
     sum = sum + new_value
   end
