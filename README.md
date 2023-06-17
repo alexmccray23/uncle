@@ -16,7 +16,7 @@ Neovim plugin for combining tables.
 # diff_score.lua
 Plugin that adds difference scores to summary tables.
 
-# executable.lua
+# executables.lua
 Neovim plugin for adding executable tables (500-1000+) to the Uncle E file.
 
 # generation.lua
@@ -33,6 +33,9 @@ Neovim plugin that performs an initial cleaning of the Uncle .E file.
 
 # init_example.lua
 Some useful setup configurations for DP.
+
+# keymaps.lua
+Some suggested keymaps for certain scripts
 
 # layout.lua
 Neovim plugin that converts a survey layout file into a conventional format for data processing.
@@ -60,6 +63,9 @@ Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables.
 
 # region.lua
 Neovim plugin for generating region tables.
+
+# scale.lua
+Neovim plugin that formats numeric scales in Uncle
 
 # series.lua
 Neovim plugin for formatting a series of questions.
