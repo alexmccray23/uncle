@@ -12,3 +12,8 @@ keymap('n', '<leader>p', ':lua require("user.uncle.norank").noRank()<CR>', { nor
 keymap('n', '<leader>or', ':Rank<CR>', { noremap = true, silent = true, desc = "Uncle: O Rank" })
 keymap('n', '<leader>si', ':SumInit<CR>', { noremap = true, silent = true, desc = "Uncle: Summmary initialize" })
 keymap('n', '<leader>br', ':BaseRow<CR>', { noremap = true, silent = true, desc = "Uncle: Base Row" })
+keymap('n', '<leader>ic', ':InitClean<CR>', { noremap = true, silent = true, desc = "Uncle: Initial Cleanup" })
+keymap('n', '<leader>n', ':Nets<CR>', { noremap = true, silent = true, desc = "Uncle: Nets" })
+keymap('n', '<leader>wp', ':WeightProduct<CR>', { noremap = true, silent = true, desc = "Uncle: Weight Product" })
+keymap('n', '<leader>ws', ':WeightSum<CR>', { noremap = true, silent = true, desc = "Uncle: Weight Sum" })
+keymap('n', '<leader>wt', ':WeightTables<CR>', { noremap = true, silent = true, desc = "Uncle: Weight Tables" })

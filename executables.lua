@@ -2,6 +2,49 @@
 
 local M = {}
 
+function M.menu()
+  local choices = {
+    { label = "1. Table 500",    func = M.loadExec },
+    { label = "2. Weight Table", func = M.weightExec },
+    { label = "3. Banner",       func = M.submenu },
+    { label = "4. Stub Ex",      func = M.stubExec },
+    { label = "5. Test Ex",      func = M.testExec },
+    { label = "6. Check Ex",     func = M.checkExec },
+    { label = "7. Final Ex",     func = M.finalExec },
+    { label = "8. Excel Tables", func = M.excelExec },
+  }
+  for _, choice in ipairs(choices) do
+    print(choice.label)
+  end
+  local input = tonumber(vim.fn.input("Select an option: "))
+  if input and input >= 1 and input <= #choices then
+    choices[input].func()
+  else
+    print(" Invalid selection")
+  end
+end
+
+function M.submenu(arg)
+  local sub_choices = {
+    { label = "3.1. POS Footer",    args = arg, func = M.banner },
+    { label = "3.2. NBC Footer",    args = arg, func = M.banner },
+    { label = "3.3. NMB Footer",    args = arg, func = M.banner },
+    { label = "3.4. NBS Footer",    args = arg, func = M.banner },
+    { label = "3.5. Burton Footer", args = arg, func = M.banner },
+  }
+
+  print(" ")
+  print(" ")
+  for _, choice in ipairs(sub_choices) do
+    print(choice.label)
+  end
+  local input = tonumber(vim.fn.input("Select a banner footer option: "))
+  if input and input >= 1 and input <= #sub_choices then
+    sub_choices[input].func(input)
+  else
+    print("Invalid selection")
+  end
+end
 
 function M.loadExec()
   local fullPath = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
@@ -65,7 +108,6 @@ function M.weightExec()
 end
 
 function M.banner(arg)
-  --local footer = ""
   local footer = nil
   if arg == 1 then
     footer = "F &CP P U B L I C   O P I N I O N   S T R A T E G I E S"
@@ -81,10 +123,11 @@ function M.banner(arg)
     return
   end
 
-  local input = vim.fn.input("Banner number?")
-  local text = { "TABLE " .. vim.fn.str2nr(input) + 900 .. "",
-    --"T /BANNER " .. input .. "",
-    "T /",
+  local input = tonumber(vim.fn.input("Banner number?"))
+  local ban_num = ""
+  if input == 0 then ban_num = "T /BANNER 0" else ban_num = "T /" end
+  local text = { "TABLE " .. input + 900 .. "",
+    ban_num,
     "O FORMAT 27 6 1 0 PDP 0 PCTS ZCELL '-' ZPACELL '-' SZR",
     "C &CETOTAL;ALL;COLW 5",
     footer,
@@ -280,52 +323,6 @@ function M.excelExec()
   local nline = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
   vim.api.nvim_win_set_cursor(0, { nline + 7, 0 })
-end
-
--- ...and so on for the rest of your functions
-function M.menu()
-  local choices = {
-    { label = "1. Table 500",    func = M.loadExec },
-    { label = "2. Weight Table", func = M.weightExec },
-    { label = "3. Banner",       func = M.submenu },
-    { label = "4. Stub Ex",      func = M.stubExec },
-    { label = "5. Test Ex",      func = M.testExec },
-    { label = "6. Check Ex",     func = M.checkExec },
-    { label = "7. Final Ex",     func = M.finalExec },
-    { label = "8. Excel Tables", func = M.excelExec },
-    -- ...and so on for the rest of your functions
-  }
-  for _, choice in ipairs(choices) do
-    print(choice.label)
-  end
-  local input = tonumber(vim.fn.input("Select an option: "))
-  if input and input >= 1 and input <= #choices then
-    choices[input].func()
-  else
-    print(" Invalid selection")
-  end
-end
-
-function M.submenu(arg)
-  local sub_choices = {
-    { label = "3.1. POS Footer",    args = arg, func = M.banner },
-    { label = "3.2. NBC Footer",    args = arg, func = M.banner },
-    { label = "3.3. NMB Footer",    args = arg, func = M.banner },
-    { label = "3.4. NBS Footer",    args = arg, func = M.banner },
-    { label = "3.5. Burton Footer", args = arg, func = M.banner },
-  }
-
-  print(" ")
-  print(" ")
-  for _, choice in ipairs(sub_choices) do
-    print(choice.label)
-  end
-  local input = tonumber(vim.fn.input("Select a banner footer option: "))
-  if input and input >= 1 and input <= #sub_choices then
-    sub_choices[input].func(input)
-  else
-    print("Invalid selection")
-  end
 end
 
 vim.api.nvim_create_user_command("T500", M.menu, {})
