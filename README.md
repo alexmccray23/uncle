@@ -58,6 +58,9 @@ Neovim plugin for numbering Uncle tables.
 ### pos_spec_conversion.lua
 Plugin that converts POS specs to the conventional format for data processing.
 
+### qualifier_row.lua
+Neovim plugin for adding a qualifier (Q) row and renamed base row in Uncle
+
 ### r_row.lua
 Neovim plugin for adding 'R' rows to stubs, similar to banner_columns.lua
 
