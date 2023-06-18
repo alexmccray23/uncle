@@ -111,3 +111,5 @@ Neovim plugin for summing weighting table values.
 
 ### weight_tables.lua
 Neovim plugin for adding weighting tables.
+
+<!-- vim: set ft=markdown: -->

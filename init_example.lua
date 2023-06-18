@@ -1,3 +1,35 @@
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("tokyonight").setup {
+        style = "storm",
+        transparent = true,
+        styles = {
+          sidebars = "transparent",
+          floats = "transparent",
+        },
+      }
+      vim.cmd.colorscheme 'tokyonight'
+    end,
+  },
+
+  {
+    -- Set lualine as statusline
+    'nvim-lualine/lualine.nvim',
+    -- See `:help lualine.txt`
+    opts = {
+      options = {
+        icons_enabled = false,
+        --theme = 'onedark',
+        theme = 'tokyonight',
+        component_separators = '|',
+        section_separators = '',
+      },
+    },
+  },
+
 
   {
     -- lean.nivm

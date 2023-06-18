@@ -8,7 +8,7 @@ local function qualifierRow()
   vim.api.nvim_win_set_cursor(0, { line, 0 })
   vim.cmd([[USyntax
             normal k]])
-  local qualifier = vim.split(vim.api.nvim_get_current_line(),';')[2]
+  local qualifier = vim.split(vim.api.nvim_get_current_line(), ';')[2]
   vim.cmd([[normal dd]])
   local text = {
     "Q " .. qualifier,
