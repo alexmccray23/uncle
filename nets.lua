@@ -70,16 +70,13 @@ function M.two()
 end
 
 function M.three()
-  local totRows = 1
   local r_row = {}
   local punches = {}
   local newText = { "" }
-  local prompt = vim.fn.input("How many rows?")
-  if prompt == "" then
-    return
-  else
-    totRows = vim.fn.str2nr(prompt)
-  end
+  local totRows = tonumber(vim.fn.input("How many rows?"))
+  if totRows == nil then return end
+  local label = vim.fn.input("Row label?"):upper()
+  if label == "" then return end
 
   local start_line = vim.fn.line('.')
   local text = vim.api.nvim_buf_get_lines(0, start_line - 1, start_line + totRows - 1, false)
@@ -92,9 +89,8 @@ function M.three()
     punches[i] = vim.fn.substitute(r_row[i][2], pattern, "\\3", "")
   end
   local pValue1 = vim.fn.substitute(r_row[1][2], pattern, "\\1\\2\\3:" .. punches[#text] .. "\\4", "")
-  local pLabel1 = r_row[1][1]
 
-  table.insert(newText, 1, "R TOTAL " .. pLabel1 .. "&UT-;" .. pValue1)
+  table.insert(newText, 1, "R TOTAL " .. label .. "&UT-;" .. pValue1)
 
   local nline = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, nline - 1, nline + totRows - 1, false, newText)
