@@ -16,7 +16,7 @@ function M.weightingTables()
     if flag > 0 then
       local start_line = vim.fn.search('R &IN2BASE==', 'W')
       local end_line = vim.fn.search('^\\*\\n', 'W')
-      local start_line2 = vim.fn.search('R &IN2\\*\\*D//S ', 'b')
+      local start_line2 = vim.fn.search('R &IN2\\*\\*D//S ', 'Wb')
       if start_line2 > start_line then start_line = start_line2 end
       local text = vim.api.nvim_buf_get_lines(0, start_line, end_line - 1, false)
       table.insert(tableArray, "*")
