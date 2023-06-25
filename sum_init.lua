@@ -8,7 +8,7 @@ local function sumInit()
   local current_question = nil
   for _, line in ipairs(lines) do
     if line:match('^Q?%S+') then
-      current_question = line:match('^Q?%S+')
+      current_question = line:match('^Q?%w+_?%w*')
       local diff_score = vim.fn.substitute(line, [[^Q\?\w\+.\?\(\t\+\|\s\+\)]], 'R ', '')
       diff_score = diff_score:gsub('\t+', ' ')
       table.insert(new_lines, diff_score:upper())

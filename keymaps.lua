@@ -9,6 +9,8 @@ keymap('n', '<leader>bc', ':lua require("user.uncle.banner_column").bannerColumn
 keymap('n', '<leader>rr', ':lua require("user.uncle.r_row").rRow()<CR>', { noremap = true, silent = true, desc = "Uncle: Insert R Row" })
 keymap('n', '<leader>u', ':lua require("user.uncle.underline").underline()<CR>', { noremap = true, silent = true, desc = "Uncle: Underline" })
 keymap('n', '<leader>p', ':lua require("user.uncle.norank").noRank()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
+keymap('n', '<leader>sa', ':lua require("user.uncle.state_abbv").stateAbbv()<CR>', { noremap = true, silent = true, desc = "Uncle: State Abbreviation" })
+keymap('n', '<leader>tt', ':lua require("user.uncle.t1001").testTables()<CR>', { noremap = true, silent = true, desc = "Uncle: Test Tables" })
 keymap('n', '<leader>or', ':Rank<CR>', { noremap = true, silent = true, desc = "Uncle: O Rank" })
 keymap('n', '<leader>sb', ':SplitBase<CR>', { noremap = true, silent = true, desc = "Uncle: Split Base" })
 keymap('n', '<leader>si', ':SumInit<CR>', { noremap = true, silent = true, desc = "Uncle: Summmary initialize" })

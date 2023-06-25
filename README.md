@@ -82,6 +82,9 @@ Neovim plugin for adding a total base table below the skip base stub.
 ### split_base.lua
 Neovim plugin for adding split sample qualifiers and base labels
 
+### state_abbv.lua
+Neovim plugin for converting state names in the .rfl to their postal abbreviations
+
 ### state_fips.lua
 Neovim plugin for converting state names and abbreviations to their FIPS codes
 
