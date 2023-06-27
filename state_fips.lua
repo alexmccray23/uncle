@@ -74,14 +74,21 @@ function M.stateFips()
     { name = "Kingman Reef",                   abb = "KR", fips = "89" },
     { name = "Palmyra Atoll",                  abb = "PA", fips = "95" }
   }
-  local text = vim.api.nvim_get_current_line():upper()
-  local line_num = vim.fn.line('.')
-  for i, _ in ipairs(states) do
-    if text == states[i]['name']:upper() or text == states[i]['abb'] then
-      local code = states[i]['fips']
-      vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, { code })
-      vim.api.nvim_win_set_cursor(0, { line_num + 1, 0 })
-      break
+  local count = vim.v.count ~= 0 and vim.v.count or 1
+  local current_line = vim.fn.line('.')
+
+  for _ = 1, count do
+    local text = vim.api.nvim_get_current_line():upper()
+    for i, _ in ipairs(states) do
+      if text == states[i]['name']:upper() or text == states[i]['abb'] then
+        local code = states[i]['fips']
+        vim.api.nvim_buf_set_lines(0, current_line - 1, current_line, false, { code })
+        local next_line = current_line + 1
+        vim.api.nvim_win_set_cursor(0, { next_line, 0 })
+
+        current_line = next_line
+        break
+      end
     end
   end
 end
