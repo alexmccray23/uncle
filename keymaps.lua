@@ -18,6 +18,7 @@ keymap('n', '<leader>br', ':BaseRow<CR>', { noremap = true, silent = true, desc 
 keymap('n', '<leader>ic', ':InitClean<CR>', { noremap = true, silent = true, desc = "Uncle: Initial Cleanup" })
 keymap('n', '<leader>n', ':Nets<CR>', { noremap = true, silent = true, desc = "Uncle: Nets" })
 keymap('n', '<leader>q', ':QualRow<CR>', { noremap = true, silent = true, desc = "Uncle: Qualifier Row" })
+keymap('n', '<leader>t2t', ':Text2tab<CR>', { noremap = true, silent = true, desc = "Uncle: Qualifier Row" })
 keymap('n', '<leader>wp', ':WeightProduct<CR>', { noremap = true, silent = true, desc = "Uncle: Weight Product" })
 keymap('n', '<leader>ws', ':WeightSum<CR>', { noremap = true, silent = true, desc = "Uncle: Weight Sum" })
 keymap('n', '<leader>wt', ':WeightTables<CR>', { noremap = true, silent = true, desc = "Uncle: Weight Tables" })

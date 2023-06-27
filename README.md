@@ -97,6 +97,9 @@ Neovim plugin for setting up summary tables for a question series.
 ### t1001.lua
 Neovim plugin that converts question labels to table numbers in the banner test tables.
 
+### text2tab.lua
+Shortcut regex to convert VD text files to tab delimited ones.
+
 ### titles.lua
 Neovim plugin for shifting banner titles to fit above their columns
 

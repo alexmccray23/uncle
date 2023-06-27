@@ -283,7 +283,7 @@ function M.seven()
       sc_start = tonumber(hs_end) + 1
       sc_end = vim.fn.str2nr(punches[i]) - 1
       if sc_start == sc_end then
-        pValue2 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. punches[i] .. "\\4", "")
+        pValue2 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. sc_start .. "\\4", "")
       else
         pValue2 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. sc_start .. ":" .. sc_end .. "\\4", "")
       end
