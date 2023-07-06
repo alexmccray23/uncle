@@ -41,6 +41,7 @@ function M.insert_column()
       first_col = group_array[group]:gsub(group_pat, '%2')
       local new_end = group_array[group]:gsub(group_pat, '%3') + 1
       ::resubmit::
+      M.viewPoints(tonumber(first_col), tonumber(new_end) - 1)
       point = vim.fn.input(string.format("\nGroup %d will go from %d to %d. Where to?\n", group, first_col, new_end))
       if point == "" then
         return
@@ -151,6 +152,7 @@ function M.delete_column()
       first_col = group_array[group]:gsub(group_pat, '%2')
       local end_col = group_array[group]:gsub(group_pat, '%3')
       ::resubmit::
+      M.viewPoints(tonumber(first_col), tonumber(end_col))
       point = vim.fn.input(string.format("\nGroup %d goes from %d to %d.\n", group, first_col, end_col))
       if point == "" then
         return
@@ -298,6 +300,24 @@ function M.viewGroups()
     if group ~= "" then
       print(index .. "." .. group)
       index = index + 1
+    end
+  end
+end
+
+function M.viewPoints(first, last)
+  local text = M.copyTable()[1]
+  local labels = {}
+  for _, v in ipairs(text) do
+    if v:match("^C &CE") or v:match("^F &CP") then
+      local label = vim.fn.split(v, ";")[1]:sub(6)
+      table.insert(labels, label)
+    end
+  end
+  print(" ")
+  print(" ")
+  for i, v in ipairs(labels) do
+    if i >= first and i <= last then
+      print(string.format("%d. %s", i, v:gsub("=",""):gsub("- ", "-")))
     end
   end
 end
