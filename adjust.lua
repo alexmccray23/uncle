@@ -23,7 +23,7 @@ end
 function M.insert_column()
   M.checkBanner()
   M.viewGroups()
-  local group = tonumber(vim.fn.input("\nWhich group do you want to add to?\n"))
+  local group = tonumber(vim.fn.input("\nWhich group do you want to add to: "))
   if group == nil then return end
   local wholeText = M.copyTable()[1]
   local start_line = M.copyTable()[2]
@@ -42,7 +42,7 @@ function M.insert_column()
       local new_end = group_array[group]:gsub(group_pat, '%3') + 1
       ::resubmit::
       M.viewPoints(tonumber(first_col), tonumber(new_end) - 1)
-      point = vim.fn.input(string.format("\nGroup %d will go from %d to %d. Where to?\n", group, first_col, new_end))
+      point = vim.fn.input(string.format("\nGroup %d will go from %d to %d. Where to: ", group, first_col, new_end))
       if point == "" then
         return
       elseif tonumber(point) < tonumber(first_col) or tonumber(point) > tonumber(new_end) then
@@ -75,7 +75,7 @@ end
 function M.insert_group()
   M.checkBanner()
   M.viewGroups()
-  local group = tonumber(vim.fn.input("\nAfter which group do you want to add? (Enter 0 to add first group.)\n"))
+  local group = tonumber(vim.fn.input("\nAdd after which group? (Enter 0 to add first group): "))
   if group == nil then return end
   local wholeText = M.copyTable()[1]
   local start_line = M.copyTable()[2]
@@ -102,7 +102,7 @@ function M.insert_group()
       break
     end
   end
-  local shift = tonumber(vim.fn.input("How many points?\n"))
+  local shift = tonumber(vim.fn.input("\nHow many points: "))
   if shift == nil then return end
   local fc_chk = tonumber(first_col)
   local nc_start = end_col + 1
@@ -134,7 +134,7 @@ end
 function M.delete_column()
   M.checkBanner()
   M.viewGroups()
-  local group = tonumber(vim.fn.input("\nWhich group do you want to delete from?\n"))
+  local group = tonumber(vim.fn.input("\nWhich group do you want to delete from: "))
   if group == nil then return end
   local wholeText = M.copyTable()[1]
   local start_line = M.copyTable()[2]
@@ -153,7 +153,7 @@ function M.delete_column()
       local end_col = group_array[group]:gsub(group_pat, '%3')
       ::resubmit::
       M.viewPoints(tonumber(first_col), tonumber(end_col))
-      point = vim.fn.input(string.format("\nGroup %d goes from %d to %d.\n", group, first_col, end_col))
+      point = vim.fn.input(string.format("\nGroup %d goes from %d to %d: ", group, first_col, end_col))
       if point == "" then
         return
       elseif tonumber(point) < tonumber(first_col) or tonumber(point) > tonumber(end_col) then
@@ -186,7 +186,7 @@ end
 function M.delete_group()
   M.checkBanner()
   M.viewGroups()
-  local group = tonumber(vim.fn.input("\nWhich group do you want to delete?\n"))
+  local group = tonumber(vim.fn.input("\nWhich group do you want to delete: "))
   if group == nil then return end
   local wholeText = M.copyTable()[1]
   local start_line = M.copyTable()[2]
@@ -237,21 +237,21 @@ function M.delete_group()
 end
 
 function M.checkBanner()
-  local input = 0
+  --local input = 0
   vim.fn.search("\\_^TABLE ", 'b')
-  local banner = vim.api.nvim_get_current_line()
-  --local input = vim.fn.input("\nCorrect banner: " .. banner .. "? [Y]es or [N]o ")
-  input = vim.fn.confirm("Correct banner: " .. banner .. "?", "&Yes\n&No\n&Cancel")
-  if input == 2 then
-    local correct = vim.fn.input("\nWhich banner do you want corrected?\n")
-    if correct == "" then return end
-    local start_line = vim.fn.search("\\_^TABLE " .. correct, 'w')
-    vim.api.nvim_win_set_cursor(0, { start_line + 15, 0 })
-    vim.fn.execute("mode")
-    vim.api.nvim_win_set_cursor(0, { start_line, 0 })
-  elseif input == 3 then
-    return
-  end
+  --local banner = vim.api.nvim_get_current_line()
+  ----local input = vim.fn.input("\nCorrect banner: " .. banner .. "? [Y]es or [N]o ")
+  --input = vim.fn.confirm("Correct banner: " .. banner .. "?", "&Yes\n&No\n&Cancel")
+  --if input == 2 then
+  --  local correct = vim.fn.input("\nWhich banner do you want corrected?\n")
+  --  if correct == "" then return end
+  --  local start_line = vim.fn.search("\\_^TABLE " .. correct, 'w')
+  --  vim.api.nvim_win_set_cursor(0, { start_line + 15, 0 })
+  --  vim.fn.execute("mode")
+  --  vim.api.nvim_win_set_cursor(0, { start_line, 0 })
+  --elseif input == 3 then
+  --  return
+  --end
 end
 
 function M.copyTable()
@@ -297,6 +297,7 @@ function M.viewGroups()
     end
   end
   local index = 1
+  print(" ")
   print(" ")
   for _, group in ipairs(titles) do
     if group ~= "" then
