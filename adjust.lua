@@ -286,8 +286,10 @@ function M.viewGroups()
           local _, end_idx = range:match("CC(%d+):(%d+)")
           local end_idx_num = tonumber(end_idx)
           if titles[end_idx_num] then
+            ---@diagnostic disable-next-line: need-check-nil
             titles[end_idx_num] = titles[end_idx_num] .. " " .. label
           else
+            ---@diagnostic disable-next-line: need-check-nil
             titles[end_idx_num] = label
           end
         end
@@ -317,7 +319,7 @@ function M.viewPoints(first, last)
   print(" ")
   for i, v in ipairs(labels) do
     if i >= first and i <= last then
-      print(string.format("%d. %s", i, v:gsub("=",""):gsub("- ", "-")))
+      print(string.format("%d. %s", i, v:gsub("=", ""):gsub("- ", "-")))
     end
   end
 end
