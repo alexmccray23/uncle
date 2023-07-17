@@ -131,8 +131,9 @@ function M.replaceColumns()
     end
   end
   local line = vim.api.nvim_get_current_line()
-  line = vim.fn.substitute(line, origSpec, fullSpec, '')
-  vim.api.nvim_set_current_line(line:upper())
+  local array = vim.split(line, ";", { plain = true })
+  array[2] = vim.fn.substitute(array[2], origSpec, fullSpec, '')
+  vim.api.nvim_set_current_line(vim.fn.join(array, ";"):upper())
 end
 
 function M.uncleSyntax()
