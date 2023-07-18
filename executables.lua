@@ -123,7 +123,7 @@ function M.banner(arg)
     return
   end
 
-  local input = tonumber(vim.fn.input("Banner number?"))
+  local input = tonumber(vim.fn.input("Banner number?: "))
   local ban_num = ""
   if input == 0 then ban_num = "T /BANNER 0" else ban_num = "T /" end
   local text = { "TABLE " .. input + 900 .. "",
