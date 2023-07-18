@@ -1,7 +1,7 @@
 -- Neovim plugin for recalculating partial weighting table values
 
 local function weight_product()
-  local input = vim.fn.input("Multiply values by what?\n")
+  local input = vim.fn.input("Multiply values by what?: ")
   if input == "" then return end
   local input = vim.fn.split(input, '/')
   local product = nil

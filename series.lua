@@ -5,7 +5,7 @@ local orig_cols = nil
 local new_cols = nil
 
 local function tableSeries()
-  local totTables = tonumber(vim.fn.input("How many tables in series?\n"))
+  local totTables = tonumber(vim.fn.input("How many tables in series?: "))
   if totTables == nil then
     return
   else

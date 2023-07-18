@@ -6,9 +6,9 @@ local Data = {}
 
 function M.summaryTable()
   for i, _ in ipairs(Data) do Data[i] = nil end
-  local specLang = vim.fn.input("Summary of... ")
+  local specLang = vim.fn.input("Summary of?: ")
   if specLang == "" then return else specLang = specLang:upper() end
-  local totTables = vim.fn.input("\n\nHow many tables?")
+  local totTables = vim.fn.input("\n\nHow many tables?: ")
   if totTables == "" then return end
   local nline = vim.fn.line('.')
   for index = 1, totTables do
@@ -55,9 +55,7 @@ end
 
 function M.contains(table, value)
   for _, v in pairs(table) do
-    if v == value then
-      return true
-    end
+    if v == value then return true end
   end
   return false
 end

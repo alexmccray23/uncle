@@ -3,7 +3,7 @@ local M = {}
 
 function M.weightingTables()
   local tableArray = {}
-  local input = vim.fn.input("Which questions do you want to add?\n"):upper()
+  local input = vim.fn.input("Which questions do you want to add?: "):upper()
   if input == "" then return end
   local input_line = vim.fn.line('.')
   vim.fn.search('^TABLE', 'b')

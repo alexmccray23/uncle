@@ -1,8 +1,8 @@
 -- Neovim plugin for numbering Uncle tables
 local function numberTables()
 
-  local start = vim.fn.input("Number to count from: [PRESS ENTER TO START AT 1]\n")
-  local last = vim.fn.input("\nNumber to stop at: [PRESS ENTER FOR INDEFINITE]\n")
+  local start = vim.fn.input("Number to count from? [PRESS ENTER TO START AT 1]: ")
+  local last = vim.fn.input("\nNumber to stop at? [PRESS ENTER FOR INDEFINITE]: ")
 
   local count = 1
   local cutoff = 2

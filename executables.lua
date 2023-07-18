@@ -85,7 +85,7 @@ function M.weightExec()
 
   local lastCol = vim.split(layout[#layout], " +", { plain = false, trimempty = true })[3]
   local layName = vim.split(layFile[#layFile], "/", { plain = true })
-  local input = vim.fn.input("Starting column? (Last column in " .. layName[#layName] .. " is " .. lastCol .. ")")
+  local input = vim.fn.input(string.format("Starting column? (Last column in %s is %d): ",layName[#layName], lastCol))
   if input == "" then return end
   local proj = projName[1]
   local text = {
@@ -139,11 +139,11 @@ end
 
 function M.stubExec()
   local tableNum = {}
-  local title = vim.fn.input("\nHeader title\n"):upper()
-  local date = vim.fn.input("\nField dates (year will be included)\n"):upper()
+  local title = vim.fn.input("\nHeader title?: "):upper()
+  local date = vim.fn.input("\nField dates? (year will be included): "):upper()
   local year = vim.fn.expand("%:p"):gsub(".*kdata/(%d+).*", "%1")
 
-  local project = vim.fn.input("\nProject number\n"):upper()
+  local project = vim.fn.input("\nProject number? "):upper()
   if title == "" or date == "" or year == "" or project == "" then
     return
   end
@@ -212,7 +212,7 @@ end
 
 function M.testExec()
   local text = {}
-  local count = vim.fn.input("\nHow many banner tables?\n")
+  local count = vim.fn.input("\nHow many banner tables?: ")
 
   local end_line = vim.fn.getcurpos()[2] + 1
   local start_line = vim.fn.search('^TABLE 1000', 'b')
