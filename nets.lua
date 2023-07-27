@@ -73,9 +73,9 @@ function M.three()
   local r_row = {}
   local punches = {}
   local newText = { "" }
-  local totRows = tonumber(vim.fn.input("How many rows?"))
+  local totRows = tonumber(vim.fn.input("How many rows?: "))
   if totRows == nil then return end
-  local label = vim.fn.input("Row label?"):upper()
+  local label = vim.fn.input("Row label?: "):upper()
   if label == "" then return end
 
   local start_line = vim.fn.line('.')
@@ -155,7 +155,7 @@ function M.five()
       newText[i] = line
     end
     r_row[i] = vim.split(line, ';', { plain = true })
-    r_row[i][1] = vim.fn.substitute(r_row[i][1], "^R\\s\\+\\(\\S\\+\\s\\)\\?", "", "")
+    r_row[i][1] = vim.fn.substitute(r_row[i][1], "^R\\s\\+\\(\\w\\+\\s\\)\\?", "", "")
     r_row[i][1] = vim.fn.substitute(r_row[i][1], "&IN2\\|&UT-", "", "")
     punches[i] = vim.fn.substitute(r_row[i][2], pattern, "\\3", "")
   end
@@ -165,7 +165,9 @@ function M.five()
   local pLabel2 = r_row[4][1]
   pLabel1 = vim.fn.substitute(pLabel1, '^POOR', 'POOR//WORKING', "")
   pLabel1 = vim.fn.substitute(pLabel1, '^INCOME', 'LOW INCOME//WORKING', "")
+  pLabel1 = vim.fn.substitute(pLabel1, '^LOW-INCOME', 'LOW-INCOME//WORKING', "")
   pLabel2 = vim.fn.substitute(pLabel2, '^MIDDLE CLASS', 'UPPER//WELL-TO-DO', "")
+  pLabel2 = vim.fn.substitute(pLabel2, '^UPPER-MIDDLE CLASS', 'UPPER//WELL-TO-DO', "")
 
   table.insert(newText, 1, "R &IN2**D//S (" .. pLabel1 .. " - " .. pLabel2 .. ");NONE;EX(RD1-RD2) NOSZR")
   table.insert(newText, 2, "R TOTAL " .. pLabel1 .. "&UT-;" .. pValue1)

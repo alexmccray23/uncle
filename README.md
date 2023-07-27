@@ -70,6 +70,9 @@ Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables.
 ### region.lua
 Neovim plugin for generating region tables.
 
+### rfl.lua
+Neovim plugin for matching an .rfl to a exported Promark .lay file
+
 ### scale.lua
 Neovim plugin that formats numeric scales in Uncle
 
