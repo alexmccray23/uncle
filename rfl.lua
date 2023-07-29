@@ -4,36 +4,61 @@ local M = {}
 
 function M.rfl()
   M.parseLayout()
-  local line_num = vim.fn.line('.')
-  local line = vim.api.nvim_get_current_line()
-  local question = M.selectQuestions()[2]
-  local location = M.selectQuestions()[3]
-  local start = M.data_table[question]['startCol']
-  local length = M.data_table[question]['wfield']
-  local remap = ""
-  if location:match("%.") then
-    remap = string.format("[%d.%d", start, length)
-  else
-    remap = string.format("[%d", start)
+  local lflag = vim.fn.search('^Q ', 'c')
+  while lflag > 0 do
+    local line_num = vim.fn.line('.')
+    local line = vim.api.nvim_get_current_line()
+    local array = vim.split(line, ' +', { plain = false, trimempty = true })
+    local question = array[2]
+    local location = array[6]
+    local mflag = false
+    if #array > 6 then mflag = true end
+    if M.contains(M.data_table, question) == false then
+      line = vim.fn.substitute(line, location:sub(0, #location - 1), "[", '')
+      vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, { line })
+      lflag = vim.fn.search('^Q ', 'W')
+    else
+      local start = M.data_table[question]['startCol']
+      local wfield = M.data_table[question]['wfield']
+      local nfield = M.data_table[question]['nfield']
+      local length = wfield * nfield
+      local remap = ""
+      if location:match("%.") then
+        remap = string.format("[%d.%d", start, length)
+      else
+        remap = string.format("[%d", start)
+      end
+      line = vim.fn.substitute(line, location:sub(0, #location - 1), remap, '')
+
+      vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, { line })
+
+      if mflag == false then
+        lflag = vim.fn.search('^Q ', 'W')
+      else
+        local lines = vim.fn.ceil(nfield / 3)
+        local ncol = start
+        for row = 1, lines do
+          vim.fn.search('^X ', 'W')
+          local line = vim.api.nvim_get_current_line()
+          local array = vim.split(line, ' +', { plain = false, trimempty = true })
+          for i = 2, #array do
+            local ocol = array[i]:match("%[%d+"):sub(2)
+            line = line:gsub(ocol, ncol)
+            ncol = ncol + wfield
+          end
+          vim.api.nvim_buf_set_lines(0, line_num - 1 + row, line_num + row, false, { line })
+        end
+        lflag = vim.fn.search('^Q ', 'W')
+      end
+    end
   end
-  line = vim.fn.substitute(line, location:sub(0, #location - 1), remap, '')
-
-  vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, { line })
-  vim.fn.search('^Q ', 'W')
-end
-
-function M.selectQuestions()
-  local buffer = vim.api.nvim_get_current_buf()
-  local line = vim.api.nvim_get_current_line()
-  local array = vim.split(line, ' +', { plain = false, trimempty = true })
-  return { buffer, array[2], array[6] }
 end
 
 M.data_table = {}
 local chk = 0
 local buf_chk = 0
 function M.parseLayout()
-  local current_buffer = M.selectQuestions()[1]
+  local current_buffer = vim.api.nvim_get_current_buf()
   if chk > 1 and buf_chk == current_buffer then
     return M.data_table
   end
@@ -62,6 +87,13 @@ function M.parseLayout()
     }
   end
   return M.data_table
+end
+
+function M.contains(table, key)
+  for i, _ in pairs(table) do
+    if i == key then return true end
+  end
+  return false
 end
 
 vim.api.nvim_create_user_command("Rfl", M.rfl, {})
