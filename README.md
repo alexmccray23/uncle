@@ -34,9 +34,6 @@ Neovim plugin for indenting an R row in Uncle
 ### init_clean.lua
 Neovim plugin that performs an initial cleaning of the Uncle .E file.
 
-### init_example.lua
-Some useful setup configurations for DP.
-
 ### keymaps.lua
 Some suggested keymaps for certain scripts
 
@@ -44,7 +41,7 @@ Some suggested keymaps for certain scripts
 Neovim plugin that converts a survey layout file into a conventional format for data processing.
 
 ### my_snippets.lua
-Some simple snippets for setting up Uncle tables.
+Some simple snippets for QBasic and for setting up Uncle tables.
 
 ### nets.lua
 A collection of scripts used for setting up net rows and difference scores.
@@ -71,7 +68,7 @@ Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables.
 Neovim plugin for generating region tables.
 
 ### rfl.lua
-Neovim plugin for matching an .rfl to a exported Promark .lay file
+Neovim plugin for matching an .rfl to an exported Promark .lay file
 
 ### scale.lua
 Neovim plugin that formats numeric scales in Uncle

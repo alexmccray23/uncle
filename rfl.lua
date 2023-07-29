@@ -1,4 +1,4 @@
--- Neovim plugin for matching an .rfl to a exported Promark .lay file
+-- Neovim plugin for matching an .rfl to an exported Promark .lay file
 
 local M = {}
 

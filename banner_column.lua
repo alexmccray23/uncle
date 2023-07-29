@@ -4,6 +4,7 @@ local M = {}
 
 function M.bannerColumn()
   local count = vim.v.count ~= 0 and vim.v.count or 1
+  local line = vim.fn.line('.')
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
 
   for _ = 1, count do
@@ -19,6 +20,7 @@ function M.bannerColumn()
 
     current_line = next_line
   end
+  vim.api.nvim_win_set_cursor(0, { line, 0 })
 end
 
 vim.api.nvim_create_user_command("BannerCol", M.bannerColumn, {})

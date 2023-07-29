@@ -85,7 +85,7 @@ function M.weightExec()
 
   local lastCol = vim.split(layout[#layout], " +", { plain = false, trimempty = true })[3]
   local layName = vim.split(layFile[#layFile], "/", { plain = true })
-  local input = vim.fn.input(string.format("Starting column? (Last column in %s is %d): ",layName[#layName], lastCol))
+  local input = vim.fn.input(string.format("Starting column? (Last column in %s is %d): ", layName[#layName], lastCol))
   if input == "" then return end
   local proj = projName[1]
   local text = {
@@ -125,16 +125,45 @@ function M.banner(arg)
 
   local input = tonumber(vim.fn.input("Banner number?: "))
   local ban_num = ""
-  if input == 0 then ban_num = "T /BANNER 0" else ban_num = "T /" end
-  local text = { "TABLE " .. input + 900 .. "",
+  local ban_title = ""
+  local ban_ul = ""
+  local shift = nil
+  local tflag = false
+  if input == 0 then
+    ban_num = "T /BANNER 0"
+  else
+    ban_num = "T /"
+    ban_title = vim.fn.input("\nWhat is the title?\n"):upper()
+    if #ban_title == 0 then goto continue end
+    tflag = true
+    shift = tonumber(vim.fn.input("\nHow many points: "))
+    ban_title = string.format("T &CC2:%d %s", shift + 1, ban_title)
+    ban_ul = string.format("T &CC2:%d==", shift + 1)
+  end
+  ::continue::
+  local text = {
+    "TABLE " .. input + 900 .. "",
     ban_num,
     "O FORMAT 27 6 1 0 PDP 0 PCTS ZCELL '-' ZPACELL '-' SZR",
     "C &CETOTAL;ALL;COLW 5",
     footer,
-    "*" }
+    "*"
+  }
+  if tflag == true then
+    table.insert(text, 3, ban_title)
+    table.insert(text, 4, ban_ul)
+    for index = 7, 7 + shift - 1 do
+      table.insert(text, index, "C &CE")
+    end
+  end
+
   local nline = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
-  vim.api.nvim_win_set_cursor(0, { nline + 4, 0 })
+  if tflag == false then
+    vim.api.nvim_win_set_cursor(0, { nline + 4, 0 })
+  else
+    vim.api.nvim_win_set_cursor(0, { nline + 7, 5 })
+  end
 end
 
 function M.stubExec()
