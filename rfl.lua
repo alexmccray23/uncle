@@ -14,7 +14,7 @@ function M.rfl()
     local mflag = false
     if #array > 6 then mflag = true end
     if M.contains(M.data_table, question) == false then
-      line = vim.fn.substitute(line, location:sub(0, #location - 1), "[", '')
+      line = vim.fn.substitute(line, "--> " .. location:sub(0, #location - 1), "[", '')
       vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, { line })
       lflag = vim.fn.search('^Q ', 'W')
     else
@@ -24,11 +24,11 @@ function M.rfl()
       local length = wfield * nfield
       local remap = ""
       if location:match("%.") then
-        remap = string.format("[%d.%d", start, length)
+        remap = string.format("--> [%d.%d", start, length)
       else
-        remap = string.format("[%d", start)
+        remap = string.format("--> [%d", start)
       end
-      line = vim.fn.substitute(line, location:sub(0, #location - 1), remap, '')
+      line = vim.fn.substitute(line, "--> " .. location:sub(0, #location - 1), remap, '')
 
       vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, { line })
 
@@ -39,11 +39,11 @@ function M.rfl()
         local ncol = start
         for row = 1, lines do
           vim.fn.search('^X ', 'W')
-          local line = vim.api.nvim_get_current_line()
-          local array = vim.split(line, ' +', { plain = false, trimempty = true })
-          for i = 2, #array do
-            local ocol = array[i]:match("%[%d+"):sub(2)
-            line = line:gsub(ocol, ncol)
+          local nline = vim.api.nvim_get_current_line()
+          local narray = vim.split(nline, ' +', { plain = false, trimempty = true })
+          for i = 2, #narray do
+            local ocol = narray[i]:match("%[%d+"):sub(2)
+            nline = nline:gsub(ocol, ncol)
             ncol = ncol + wfield
           end
           vim.api.nvim_buf_set_lines(0, line_num - 1 + row, line_num + row, false, { line })
