@@ -14,7 +14,7 @@ function M.rfl()
     local mflag = false
     if #array > 6 then mflag = true end
     if M.contains(M.data_table, question) == false then
-      line = vim.fn.substitute(line, "--> " .. location:sub(0, #location - 1), "[", '')
+      line = vim.fn.substitute(line, "--> " .. location:sub(0, #location - 1), "--> [", '')
       vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, { line })
       lflag = vim.fn.search('^Q ', 'W')
     else
@@ -46,7 +46,7 @@ function M.rfl()
             nline = nline:gsub(ocol, ncol)
             ncol = ncol + wfield
           end
-          vim.api.nvim_buf_set_lines(0, line_num - 1 + row, line_num + row, false, { line })
+          vim.api.nvim_buf_set_lines(0, line_num - 1 + row, line_num + row, false, { nline })
         end
         lflag = vim.fn.search('^Q ', 'W')
       end
