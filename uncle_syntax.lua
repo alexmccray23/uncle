@@ -47,7 +47,7 @@ end
 function M.parseSpec()
   local spec_table = {}
   local data_table = M.data_table
-  local specs = vim.split(M.selectQuestions()[1]:upper(), ' +', { plain = false, trimemtpy = true })
+  local specs = vim.split(M.selectQuestions()[1]:upper():gsub(', ', ','), ' +', { plain = false, trimemtpy = true })
   for index, value in ipairs(specs) do
     if value:match("^[oO][rR]$") then
       spec_table[index] = {
@@ -79,7 +79,7 @@ function M.parseSpec()
 end
 
 function M.replaceColumns()
-  local fullSpec = M.selectQuestions()[1]
+  local fullSpec = M.selectQuestions()[1]:gsub(', ', ',')
   local origSpec = fullSpec
   local spec_table = M.parseSpec()
   for i, k in ipairs(spec_table) do
@@ -132,7 +132,7 @@ function M.replaceColumns()
   end
   local line = vim.api.nvim_get_current_line()
   local array = vim.split(line, ";", { plain = true })
-  array[2] = vim.fn.substitute(array[2], origSpec, fullSpec, '')
+  array[2] = vim.fn.substitute(array[2]:gsub(', ', ','), origSpec, fullSpec, '')
   vim.api.nvim_set_current_line(vim.fn.join(array, ";"):upper())
 end
 
