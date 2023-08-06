@@ -86,7 +86,7 @@ function M.replaceColumns()
     if not k['question']:match("^[oO][rR]$") then
       local syntax = ""
       local code = spec_table[i]['code']
-      local spec = spec_table[i]['spec']
+      local spec = [[\(!\S*\)\@<!]] .. spec_table[i]['spec']
       local scol = M.data_table[spec_table[i]['question']]['startCol']
       local ecol = M.data_table[spec_table[i]['question']]['endCol']
       local wfield = M.data_table[spec_table[i]['question']]['wfield']
@@ -95,19 +95,19 @@ function M.replaceColumns()
       if wfield == 1 then
         if scol == ecol then
           syntax = "1!" .. scol .. "-" .. code
-          fullSpec = vim.fn.substitute(fullSpec, [[\(!\S*\)\@<!]] .. spec, syntax, '')
+          fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         else
           syntax = "1!" .. scol .. ":" .. ecol .. "-" .. code
-          fullSpec = vim.fn.substitute(fullSpec, [[\(!\S*\)\@<!]] .. spec, syntax, '')
+          fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         end
       else
         if nfield == 1 then
           syntax = "R(1!" .. scol .. ":" .. ecol .. "," .. code .. ")"
-          fullSpec = vim.fn.substitute(fullSpec, [[\(!\S*\)\@<!]] .. spec, syntax, '')
+          fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         elseif nfield == 2 then
           syntax = "R(1!" ..
               scol .. ":" .. (scol + wfield - 1) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
-          fullSpec = vim.fn.substitute(fullSpec, [[\(!\S*\)\@<!]] .. spec, syntax, '')
+          fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         elseif nfield == 3 then
           syntax = "R(1!" ..
               scol ..
@@ -116,7 +116,7 @@ function M.replaceColumns()
               "/1!" ..
               (scol + (2 * (wfield - 1))) ..
               ":" .. (scol + (3 * (wfield - 1))) .. "/1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
-          fullSpec = vim.fn.substitute(fullSpec, [[\(!\S*\)\@<!]] .. spec, syntax, '')
+          fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         else
           syntax = "R(1!" ..
               scol ..
@@ -125,7 +125,7 @@ function M.replaceColumns()
               "/1!" ..
               (scol + (2 * (wfield - 1))) ..
               ":" .. (scol + (3 * (wfield - 1))) .. "...1!" .. (ecol - wfield + 1) .. ":" .. ecol .. "," .. code .. ")"
-          fullSpec = vim.fn.substitute(fullSpec, [[\(!\S*\)\@<!]] .. spec, syntax, '')
+          fullSpec = vim.fn.substitute(fullSpec, spec, syntax, '')
         end
       end
     end
