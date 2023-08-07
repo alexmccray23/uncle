@@ -22,13 +22,13 @@ end
 
 function M.nets()
   M.viewColumns()
-  local region_col = tonumber(vim.fn.input("Region/DMA name column #"))
+  local region_col = tonumber(vim.fn.input("Region/DMA name column #: "))
   if region_col == nil then return end
-  local county_col = tonumber(vim.fn.input("State/County name column #"))
+  local county_col = tonumber(vim.fn.input("State/County name column #: "))
   if county_col == nil then return end
-  local fips_col = tonumber(vim.fn.input("FIPS code column #"))
+  local fips_col = tonumber(vim.fn.input("FIPS code column #: "))
   if fips_col == nil then return end
-  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
+  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...: ")
   if layout_col == "" then layout_col = "X:Y" end
   vim.api.nvim_exec2([[g/\(^\t\|^$\)/d]], {})
   local sort_cmd = string.format("2,$!sort -b -t$'\\t' -k%s,%s -k%s,%sn", region_col, region_col, fips_col, fips_col)
@@ -92,11 +92,11 @@ end
 
 function M.noNets()
   M.viewColumns()
-  local region_col = tonumber(vim.fn.input("Region/DMA name column #"))
+  local region_col = tonumber(vim.fn.input("Region/DMA name column #: "))
   if region_col == nil then return end
-  local fips_col = tonumber(vim.fn.input("FIPS code column #"))
+  local fips_col = tonumber(vim.fn.input("FIPS code column #: "))
   if fips_col == nil then return end
-  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
+  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...: ")
   if layout_col == "" then layout_col = "X:Y" end
   vim.api.nvim_exec2([[g/\(^\t\|^$\)/d]], {})
   local sort_cmd = string.format("2,$!sort -b -t$'\\t' -k%s,%s -k%s,%sn", region_col, region_col, fips_col, fips_col)
@@ -148,7 +148,7 @@ function M.noNets()
 end
 
 function M.eightPoinNational()
-  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
+  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...: ")
   if layout_col == "" then layout_col = "X:Y" end
   local line_num = vim.fn.line('.')
   local regionTable = { "*",
@@ -172,7 +172,7 @@ function M.eightPoinNational()
 end
 
 function M.fourPointNational()
-  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...")
+  local layout_col = vim.fn.input("Data columns - X:Y in R(1!X:Y...: ")
   if layout_col == "" then layout_col = "X:Y" end
   local line_num = vim.fn.line('.')
   local regionTable = { "*",

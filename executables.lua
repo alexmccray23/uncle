@@ -49,7 +49,7 @@ end
 function M.loadExec()
   local fullPath = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
   local projNumber = fullPath[6]
-  local input = vim.fn.input("Combined data? [y] or [n]")
+  local input = vim.fn.input("Combined data? [y] or [n]: ")
   local file = nil
   if input:match("[yY]") then
     file = "COMB.FIN"
