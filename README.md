@@ -16,9 +16,6 @@ Neovim plugin for adding the 'TOTAL BASE' row in Uncle tables.
 ### colw.lua
 Neovim plugin for adding the COLW option to Uncle tables
 
-### colw.lua
-Neovim plugin for adding the COLW option to Uncle tables
-
 ### combine.lua
 Neovim plugin for combining tables.
 
@@ -30,9 +27,6 @@ Neovim plugin for adding executable tables (500-1000+) to the Uncle E file.
 
 ### generation.lua
 Neovim plugin for adding generation points
-
-### hbase.lua
-Neovim plugin for adding the HBASE option to Uncle tables
 
 ### hbase.lua
 Neovim plugin for adding the HBASE option to Uncle tables
@@ -123,9 +117,6 @@ Neovim plugin that parses the formatted layout file to convert data processing s
 
 ### underline.lua
 Neovim plugin for adding the underline formatting option
-
-### vbase.lua
-Neovim plugin for adding the VBASE option to Uncle tables
 
 ### vbase.lua
 Neovim plugin for adding the VBASE option to Uncle tables
