@@ -12,8 +12,6 @@ keymap('n', '<leader>p', ':lua require("user.uncle.norank").noRank()<CR>', { nor
 keymap('n', '<leader>vb', ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: VBase" })
 keymap('n', '<leader>hb', ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: HBase" })
 keymap('n', '<leader>vb', ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: VBase" })
-keymap('n', '<leader>hb', ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: HBase" })
-keymap('n', '<leader>sa', ':lua require("user.uncle.state_abbv").stateAbbv()<CR>', { noremap = true, silent = true, desc = "Uncle: [State [A]bbreviation" })
 keymap('n', '<leader>sc', ':lua require("user.uncle.state_fips").stateFips()<CR>', { noremap = true, silent = true, desc = "Uncle: [S]tate (FIPS) [C]ode" })
 keymap('n', '<leader>tt', ':lua require("user.uncle.t1001").testTables()<CR>', { noremap = true, silent = true, desc = "Uncle: [T]est [T]ables" })
 keymap('n', '<leader>or', ':Rank<CR>', { noremap = true, silent = true, desc = "Uncle: O Rank" })
