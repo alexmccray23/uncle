@@ -20,14 +20,7 @@ local function numberTables()
     end
     local line = vim.api.nvim_get_current_line()
     if last ~= "" and line:match("TABLE " .. cutoff) then
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
       vim.fn.search('^TABLE.\\+', 'b')
->>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)
-=======
-      vim.fn.search('^TABLE.\\+', 'b')
->>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)
       break
     end
     local new_line = vim.fn.substitute(line, '.*', 'TABLE ' .. count, "")
