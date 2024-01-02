@@ -49,7 +49,11 @@ end
 function M.loadExec()
   local fullPath = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
 <<<<<<< HEAD
+<<<<<<< HEAD
   local projNumber = fullPath[6]
+=======
+  local projNumber = fullPath[5]
+>>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)
 =======
   local projNumber = fullPath[5]
 >>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)

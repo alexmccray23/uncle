@@ -10,6 +10,11 @@ keymap('n', '<leader>rr', ':lua require("user.uncle.r_row").rRow()<CR>', { norem
 keymap('n', '<leader>u', ':lua require("user.uncle.underline").underline()<CR>', { noremap = true, silent = true, desc = "Uncle: Underline" })
 keymap('n', '<leader>p', ':lua require("user.uncle.norank").noRank()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+keymap('n', '<leader>vb', ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: VBase" })
+keymap('n', '<leader>hb', ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: HBase" })
+>>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)
 =======
 keymap('n', '<leader>vb', ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: VBase" })
 keymap('n', '<leader>hb', ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: HBase" })
