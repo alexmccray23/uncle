@@ -13,6 +13,12 @@ Neovim plugin for checking if any base rows exceed 100%.
 ### base_row.lua
 Neovim plugin for adding the 'TOTAL BASE' row in Uncle tables.
 
+<<<<<<< HEAD
+=======
+### colw.lua
+Neovim plugin for adding the COLW option to Uncle tables
+
+>>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)
 ### combine.lua
 Neovim plugin for combining tables.
 
@@ -25,6 +31,12 @@ Neovim plugin for adding executable tables (500-1000+) to the Uncle E file.
 ### generation.lua
 Neovim plugin for adding generation points
 
+<<<<<<< HEAD
+=======
+### hbase.lua
+Neovim plugin for adding the HBASE option to Uncle tables
+
+>>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)
 ### in2.lua
 Neovim plugin for adding the indent "&IN2" command on long labels in Uncle.
 
@@ -47,7 +59,14 @@ Some simple snippets for QBasic and for setting up Uncle tables.
 A collection of scripts used for setting up net rows and difference scores.
 
 ### norank.lua
+<<<<<<< HEAD
 Neovim plugin for adding the "NORANK" command to Uncle stub tables.
+=======
+Neovim plugin for adding the "NORANK" option to Uncle stub tables.
+
+### noszr.lua
+Neovim plugin for adding the "NOSZR" option to Uncle stub tables.
+>>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)
 
 ### number.lua
 Neovim plugin for numbering Uncle tables.
@@ -109,6 +128,12 @@ Neovim plugin that parses the formatted layout file to convert data processing s
 ### underline.lua
 Neovim plugin for adding the underline formatting option
 
+<<<<<<< HEAD
+=======
+### vbase.lua
+Neovim plugin for adding the VBASE option to Uncle tables
+
+>>>>>>> 961d716 (Adding vbase.lua, hbase.lua and noszr.lua)
 ### weight_product.lua
 Neovim plugin for recalculating split weighting table values
 
