@@ -9,9 +9,14 @@ keymap('n', '<leader>bc', ':lua require("user.uncle.banner_column").bannerColumn
 keymap('n', '<leader>rr', ':lua require("user.uncle.r_row").rRow()<CR>', { noremap = true, silent = true, desc = "Uncle: Insert R Row" })
 keymap('n', '<leader>u', ':lua require("user.uncle.underline").underline()<CR>', { noremap = true, silent = true, desc = "Uncle: Underline" })
 keymap('n', '<leader>p', ':lua require("user.uncle.norank").noRank()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
+<<<<<<< HEAD
 keymap('n', '<leader>vb', ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: VBase" })
 keymap('n', '<leader>hb', ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: HBase" })
 keymap('n', '<leader>vb', ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: VBase" })
+=======
+keymap('n', '<leader>ob', ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
+keymap('n', '<leader>sa', ':lua require("user.uncle.state_abbv").stateAbbv()<CR>', { noremap = true, silent = true, desc = "Uncle: [State [A]bbreviation" })
+>>>>>>> ddc385c (rebase stuf...)
 keymap('n', '<leader>sc', ':lua require("user.uncle.state_fips").stateFips()<CR>', { noremap = true, silent = true, desc = "Uncle: [S]tate (FIPS) [C]ode" })
 keymap('n', '<leader>tt', ':lua require("user.uncle.t1001").testTables()<CR>', { noremap = true, silent = true, desc = "Uncle: [T]est [T]ables" })
 keymap('n', '<leader>or', ':Rank<CR>', { noremap = true, silent = true, desc = "Uncle: O Rank" })
