@@ -25,7 +25,7 @@ end
 
 function M.vBaseWrapper()
   local value = vim.fn.input("Row base value: ")
-  M.vBase(value)
+  if value ~= "" then M.vBase(value) end
 end
 
 vim.api.nvim_create_user_command("VBase", M.vBaseWrapper, {})

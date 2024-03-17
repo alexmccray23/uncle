@@ -13,7 +13,7 @@ local l = extras.lambda
 
 
 
-ls.add_snippets("eiffel", {
+ls.add_snippets("uncle", {
   s("ds", {
     t "R &IN2**D//S (",
     i(1, "PUNCH1"),

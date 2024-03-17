@@ -25,7 +25,7 @@ end
 
 function M.colwWrapper()
   local value = vim.fn.input("Column width: ")
-  M.colw(value)
+  if value ~= "" then M.colw(value) end
 end
 
 vim.api.nvim_create_user_command("Colw", M.colwWrapper, {})

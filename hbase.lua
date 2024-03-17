@@ -25,7 +25,7 @@ end
 
 function M.hBaseWrapper()
   local value = vim.fn.input("Column base value: ")
-  M.hBase(value)
+  if value ~= "" then M.hBase(value) end
 end
 
 vim.api.nvim_create_user_command("HBase", M.hBaseWrapper, {})

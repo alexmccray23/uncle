@@ -5,12 +5,20 @@ local M = {}
 local Data = {}
 
 function M.summaryTable()
-  for i, _ in ipairs(Data) do Data[i] = nil end
-  local specLang = vim.fn.input("Summary of?: ")
-  if specLang == "" then return else specLang = specLang:upper() end
-  local totTables = vim.fn.input("\n\nHow many tables?: ")
-  if totTables == "" then return end
-  local nline = vim.fn.line('.')
+  for i, _ in ipairs(Data) do
+    Data[i] = nil
+  end
+  local specLang = vim.fn.input "Summary of?: "
+  if specLang == "" then
+    return
+  else
+    specLang = specLang:upper()
+  end
+  local totTables = vim.fn.input "\n\nHow many tables?: "
+  if totTables == "" then
+    return
+  end
+  local nline = vim.fn.line "."
   for index = 1, totTables do
     M.parseTable(specLang, index)
   end
@@ -20,9 +28,9 @@ function M.summaryTable()
 end
 
 function M.copyTable()
-  vim.fn.search("^TABLE ", 'W')
+  vim.fn.search("^TABLE ", "W")
   local start_line = vim.fn.getcurpos()[2] + 1
-  local end_line = vim.fn.search('^\\*\\n', 'W')
+  local end_line = vim.fn.search("^\\*\\n", "W")
   local wholeText = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
   return wholeText
 end
@@ -34,17 +42,17 @@ function M.parseTable(specLang, count)
   local qLang = ""
   local spec = ""
   for _, line in ipairs(wholeText) do
-    if line:match("^T /(.*)") then
+    if line:match "^T /(.*)" then
       qLang = line:gsub("^T /(.*)", "%1")
     end
-    if line:match("^Q .*") then
+    if line:match "^Q .*" then
       qualifier = line:gsub("^Q (.*)", "%1")
     end
-    if line:match("^R &IN2BASE==") then
+    if line:match "^R &IN2BASE==" then
       baseLang = line:gsub("^R &IN2BASE==(.-);.*", "%1")
     end
-    if line:match("^R .-" .. specLang) and spec == "" and not line:match("D//S") then
-      spec = vim.split(line, ';', { plain = true })[2]
+    if line:match("%b" .. specLang) and spec == "" and not line:match "D//S" then
+      spec = vim.split(line, ";", { plain = true })[2]
     end
   end
   Data[count] = {
@@ -55,27 +63,26 @@ end
 
 function M.contains(table, value)
   for _, v in pairs(table) do
-    if v == value then return true end
+    if v == value then
+      return true
+    end
   end
   return false
 end
 
 function M.summaryTableConstructor(specLang)
   local baseCount = 2
-  local text = { "T Summary of " .. specLang,
-    "O RANK RANKPCT",
-    "R &IN2BASE==TOTAL SAMPLE;ALL;HP NOVP",
-  }
-  local base = { "TOTAL SAMPLE;ALL;NOPRINT", }
+  local text = { "T Summary of " .. specLang, "O RANK RANKPCT", "R &IN2BASE==TOTAL SAMPLE;ALL;HP NOVP" }
+  local base = { "TOTAL SAMPLE;ALL;NOPRINT" }
   for _, data in ipairs(Data) do
-    if not M.contains(base, data['qualifierText'][1]) then
-      table.insert(base, data['qualifierText'][1])
-      data['questionText'][2] = baseCount
+    if not M.contains(base, data["qualifierText"][1]) then
+      table.insert(base, data["qualifierText"][1])
+      data["questionText"][2] = baseCount
       baseCount = baseCount + 1
     else
       for i, v in ipairs(base) do
-        if v == data['qualifierText'][1] then
-          data['questionText'][2] = i
+        if v == data["qualifierText"][1] then
+          data["questionText"][2] = i
         end
       end
     end
@@ -86,7 +93,7 @@ function M.summaryTableConstructor(specLang)
     end
   end
   for _, data in ipairs(Data) do
-    table.insert(text, data['questionText'][1] .. ";VBASE " .. data['questionText'][2])
+    table.insert(text, data["questionText"][1] .. ";VBASE " .. data["questionText"][2])
   end
   return text
 end
