@@ -19,6 +19,9 @@ Neovim plugin for adding the COLW option to Uncle tables
 ### combine.lua
 Neovim plugin for combining tables.
 
+### cw_count.lua
+Neovim plugin for displaying banner column width information
+
 ### diff_score.lua
 Plugin that adds difference scores to summary tables.
 
@@ -87,6 +90,9 @@ Neovim plugin for formatting a series of questions.
 
 ### skip.lua
 Neovim plugin for adding a total base table below the skip base stub.
+
+### space1.lua
+Neovim plugin for adding the SPACE 1 option to Uncle tables
 
 ### split_base.lua
 Neovim plugin for adding split sample qualifiers and base labels

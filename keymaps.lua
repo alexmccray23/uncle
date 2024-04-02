@@ -107,6 +107,12 @@ keymap(
 )
 keymap(
   "n",
+  "<leader>sp",
+  ':lua require("user.uncle.space1").space1()<CR>',
+  { noremap = true, silent = true, desc = "Uncle: Space 1" }
+)
+keymap(
+  "n",
   "<leader>sz",
   ':lua require("user.uncle.noszr").noszr()<CR>',
   { noremap = true, silent = true, desc = "Uncle: Noszr" }
