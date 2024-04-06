@@ -70,9 +70,6 @@ Plugin that converts POS specs to the conventional format for data processing.
 ### qualifier_row.lua
 Neovim plugin for adding a qualifier (Q) row and renamed base row in Uncle
 
-### r_row.lua
-Neovim plugin for adding 'R' rows to stubs, similar to banner_columns.lua
-
 ### rank_table.lua
 Neovim plugin for adding the "O RANK RANKPCT" row to Uncle stub tables.
 
@@ -81,6 +78,9 @@ Neovim plugin for generating region tables.
 
 ### rfl.lua
 Neovim plugin for matching an .rfl to an exported Promark .lay file
+
+### r_row.lua
+Neovim plugin for adding 'R' rows to stubs, similar to banner_columns.lua
 
 ### scale.lua
 Neovim plugin that formats numeric scales in Uncle
@@ -111,6 +111,9 @@ Neovim plugin for setting up summary tables for a question series.
 
 ### t1001.lua
 Neovim plugin that converts question labels to table numbers in the banner test tables.
+
+### teledb.lua
+Neovim plugin for fuzzy searching a local project database by client id or project name.
 
 ### text2tab.lua
 Shortcut regex to convert VD text files to tab delimited ones.
