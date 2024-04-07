@@ -13,7 +13,7 @@ require("telescope").load_extension "file_browser"
 
 local M = {}
 
-local path = "/home/alexm/.config/nvim/lua/user/uncle/projects.json"
+local path = "/home/alexanderm/rust/xl2json/projects.json"
 
 -- Function to read and parse the JSON file
 M.read_and_parse_json = function(file_path)
@@ -45,7 +45,7 @@ M.studies_prompt = function(opts)
           return {
             value = entry,
             display = entry.label,
-            ordinal = entry.label,
+            ordinal = entry.label .. " " .. entry.year,
           }
         end,
       },
