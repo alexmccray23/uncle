@@ -38,7 +38,7 @@ M.studies_prompt = function(opts)
 
   pickers
     .new(opts, {
-      prompt_title = "Projects",
+      prompt_title = "🚀 Projects 🚀",
       finder = finders.new_table {
         results = items,
         entry_maker = function(entry)
@@ -77,7 +77,15 @@ M.studies_prompt = function(opts)
 end
 
 function M.study_selector()
-  M.studies_prompt(require("telescope.themes").get_dropdown {})
+  M.studies_prompt(require("telescope.themes").get_dropdown {
+    layout_config = {
+      center = {
+        height = 0.65,
+        preview_height = 10,
+        width = 0.65,
+      },
+    },
+  })
 end
 
 vim.api.nvim_create_user_command("Teledb", M.study_selector, {})
