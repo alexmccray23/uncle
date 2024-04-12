@@ -1,4 +1,4 @@
--- https://github.com/nvim-telescope/telescope.nvim/blob/master/developers.md
+-- Neovim plugin for fuzzy searching a local project database by client id or project name.
 
 local pickers = require "telescope.pickers"
 local finders = require "telescope.finders"
@@ -13,7 +13,7 @@ require("telescope").load_extension "file_browser"
 
 local M = {}
 
-local path = "/home/alexanderm/rust/xl2json/projects.json"
+local path = "/home/alexm/rust/vd/xl2json/projects.json"
 
 -- Function to read and parse the JSON file
 M.read_and_parse_json = function(file_path)
@@ -67,7 +67,7 @@ M.studies_prompt = function(opts)
         actions.select_default:replace(function()
           actions.close(prompt_bufnr)
           local selection = action_state.get_selected_entry()
-          local command = ":Telescope file_browser path=" .. selection.value.path .. " select_buffer=true hidden=true<cr>"
+          local command = ":Telescope file_browser path=" .. selection.value.path .. "/uncle select_buffer=true hidden=true<cr>"
           vim.cmd(command)
         end)
         return true

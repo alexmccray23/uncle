@@ -1,9 +1,9 @@
 -- Neovim plugin for recalculating partial weighting table values
 
 local function weight_product()
-  local input = vim.fn.input("Multiply values by what?: ")
+  local input = vim.fn.input "Multiply values by what?: "
   if input == "" then return end
-  local input = vim.fn.split(input, '/')
+  local input = vim.fn.split(input, "/")
   local product = nil
   if #input > 1 then
     product = tonumber(input[1]) / tonumber(input[2])
@@ -11,7 +11,7 @@ local function weight_product()
     product = tonumber(input[1])
   end
   local start_line = vim.fn.getcurpos()[2]
-  local end_line = vim.fn.search('^\\*', 'W')
+  local end_line = vim.fn.search("^\\*", "W")
   local text = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
   local sum = 0
   local new_text = {}
@@ -20,7 +20,7 @@ local function weight_product()
     local new_value = value * product
     new_value = string.format("%.5f", new_value):gsub("0+$", "")
     line = line:gsub(value, new_value):gsub("0%.", " .")
-    if line:match("%.$") then
+    if line:match "%.$" then
       line = line:gsub(value, new_value):gsub("%.$", ".0"):gsub("^R ", "*R ")
     end
     table.insert(new_text, line)

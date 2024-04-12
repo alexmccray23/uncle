@@ -13,23 +13,23 @@ local M = {}
 function M.menu()
   local choices = {
     { label = "1. POS (QAGE & AGEGROUP)", func = M.standard },
-    { label = "2. NBC (AGE & Q2A)",       func = M.nbc },
+    { label = "2. NBC (AGE & Q2A)", func = M.nbc },
   }
   for _, choice in ipairs(choices) do
     print(choice.label)
   end
-  local input = tonumber(vim.fn.input("Select an option: "))
+  local input = tonumber(vim.fn.input "Select an option: ")
   if input and input >= 1 and input <= #choices then
     choices[input].func()
   else
-    print(" Invalid selection")
+    print " Invalid selection"
   end
 end
 
 function M.standard()
   local text = {}
-  local qage = M.getColumns()['QAGE']
-  local agrp = M.getColumns()['AGEGROUP']
+  local qage = M.getColumns()["QAGE"]
+  local agrp = M.getColumns()["AGEGROUP"]
   local year = vim.fn.expand("%:p"):gsub(".*kdata/(%d+).*", "%1")
   local labels = { "GEN Z", "MILL=ENIAL", "GEN X", "BABY BOOM- ERS", "SILENT GEN", "GI GEN" }
   local start_years = { 1997, 1981, 1965, 1946, 1928, 1901 }
@@ -38,8 +38,8 @@ function M.standard()
   for i = 1, #labels do
     local start_age = year - end_years[i]
     local end_age = year - start_years[i]
-    local range = string.format("R(1!%s:%s,%s:%s)", qage['startCol'], qage['endCol'], start_age, end_age)
-    local agegroup = string.format(" OR 1!%s", agrp['startCol'])
+    local range = string.format("R(1!%s:%s,%s:%s)", qage["startCol"], qage["endCol"], start_age, end_age)
+    local agegroup = string.format(" OR 1!%s", agrp["startCol"])
     local grp = ""
 
     if start_age <= 18 and end_age >= 24 then grp = "-1" end
@@ -52,15 +52,15 @@ function M.standard()
     table.insert(text, "C &CE" .. labels[i] .. ";" .. range .. agegroup)
   end
 
-  local nline = vim.fn.line('.')
+  local nline = vim.fn.line "."
   vim.api.nvim_buf_set_lines(0, nline - 1, nline - 1, false, text)
   vim.api.nvim_win_set_cursor(0, { nline, 0 })
 end
 
 function M.nbc()
   local text = {}
-  local qage = M.getColumns()['AGE']
-  local agrp = M.getColumns()['Q2A']
+  local qage = M.getColumns()["AGE"]
+  local agrp = M.getColumns()["Q2A"]
   local year = vim.fn.expand("%:p"):gsub(".*kdata/(%d+).*", "%1")
   local labels = { "GEN Z", "MILL=ENIAL", "GEN X", "BABY BOOM- ERS", "SILENT GEN", "GI GEN" }
   local start_years = { 1997, 1981, 1965, 1946, 1928, 1901 }
@@ -69,8 +69,8 @@ function M.nbc()
   for i = 1, #labels do
     local start_age = year - end_years[i]
     local end_age = year - start_years[i]
-    local range = string.format("R(1!%s:%s,%s:%s)", qage['startCol'], qage['endCol'], start_age, end_age)
-    local agegroup = string.format(" OR R(1!%s:%s", agrp['startCol'], agrp['endCol'])
+    local range = string.format("R(1!%s:%s,%s:%s)", qage["startCol"], qage["endCol"], start_age, end_age)
+    local agegroup = string.format(" OR R(1!%s:%s", agrp["startCol"], agrp["endCol"])
     local grp = ""
 
     if start_age <= 18 and end_age >= 24 then grp = ",01" end
@@ -83,20 +83,20 @@ function M.nbc()
     table.insert(text, "C &CE" .. labels[i] .. ";" .. range .. agegroup)
   end
 
-  local nline = vim.fn.line('.')
+  local nline = vim.fn.line "."
   vim.api.nvim_buf_set_lines(0, nline - 1, nline - 1, false, text)
   vim.api.nvim_win_set_cursor(0, { nline, 0 })
 end
 
 function M.getColumns()
   local data = {}
-  local layDir = vim.split(vim.fn.expand("%:p"), "/", { plain = true })
+  local layDir = vim.split(vim.fn.expand "%:p", "/", { plain = true })
   table.remove(layDir, #layDir)
   local fullPath = table.concat(layDir, "/") .. "/*.[Ll][Aa][Yy]"
   local temp = vim.fn.glob(fullPath, false, true)
   local layout = vim.fn.readfile(temp[#temp])
   for _, value in ipairs(layout) do
-    local column = vim.split(value, ' +', { plain = false, trimempty = true })
+    local column = vim.split(value, " +", { plain = false, trimempty = true })
     if column[1] == "QAGE" or column[1] == "AGEGROUP" or column[1] == "AGE" or column[1] == "Q2A" then
       data[column[1]] = {
         startCol = tonumber(column[2]),
@@ -104,7 +104,7 @@ function M.getColumns()
       }
     end
   end
-  return (data)
+  return data
 end
 
 vim.api.nvim_create_user_command("Generation", M.menu, {})

@@ -12,42 +12,44 @@ function M.menu()
   for _, choice in ipairs(choices) do
     print(choice.label)
   end
-  local input = tonumber(vim.fn.input("Select an option: "))
+  local input = tonumber(vim.fn.input "Select an option: ")
   if input and input >= 1 and input <= #choices then
     choices[input].func()
   else
-    print(" Invalid selection")
+    print " Invalid selection"
   end
 end
 
 function M.insert_column()
-  M.checkBanner()
-  M.viewGroups()
-  local group = tonumber(vim.fn.input("\nWhich group do you want to add to: "))
-  if group == nil then return end
-  local wholeText = M.copyTable()[1]
-  local start_line = M.copyTable()[2]
-  local end_line = M.copyTable()[3]
+  local curr_line = M.viewGroups()
+  local group = tonumber(vim.fn.input "\nWhich group do you want to add to: ")
+  if group == nil then
+    vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
+    return
+  end
+  local wholeText, start_line, end_line = unpack(M.copyTable())
   local first_col = nil
   local point = ""
   for _, line in ipairs(wholeText) do
-    if line:match("^(T .*)&CC%d+:%d+==") then
+    if line:match "^(T .*)&CC%d+:%d+==" then
       local group_array = vim.split(line, "==", { plain = true })
       if group < 0 or group > #group_array - 1 then
         print(" Invalid group. Only " .. #group_array - 1 .. " groups total in banner.")
+        vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
         return
       end
       local group_pat = "(.-)(%d+):(%d+)"
-      first_col = group_array[group]:gsub(group_pat, '%2')
-      local new_end = group_array[group]:gsub(group_pat, '%3') + 1
-      ::resubmit::
+      first_col = group_array[group]:gsub(group_pat, "%2")
+      local new_end = group_array[group]:gsub(group_pat, "%3") + 1
       M.viewPoints(tonumber(first_col), tonumber(new_end) - 1)
+      ::resubmit::
       point = vim.fn.input(string.format("\nGroup %d will go from %d to %d. Where to: ", group, first_col, new_end))
       if point == "" then
+        vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
         return
       elseif tonumber(point) < tonumber(first_col) or tonumber(point) > tonumber(new_end) then
-        print(" ")
-        print("Invalid column.")
+        -- print " "
+        print "\nInvalid column."
         goto resubmit
       end
       break
@@ -60,7 +62,7 @@ function M.insert_column()
   local col = 0
   local cursor_point = 0
   for index, row in ipairs(new_text) do
-    if row:match("^C &CE") or row:match("^F &CP") then
+    if row:match "^C &CE" or row:match "^F &CP" then
       col = col + 1
       if col == tonumber(point) then
         cursor_point = index
@@ -73,51 +75,55 @@ function M.insert_column()
 end
 
 function M.insert_group()
-  M.checkBanner()
-  M.viewGroups()
-  local group = tonumber(vim.fn.input("\nAdd after which group? (Enter 0 to add first group): "))
-  if group == nil then return end
-  local wholeText = M.copyTable()[1]
-  local start_line = M.copyTable()[2]
-  local end_line = M.copyTable()[3]
+  local curr_line = M.viewGroups()
+  local group = tonumber(vim.fn.input "\nAdd after which group? (Enter 0 to add first group): ")
+  if group == nil then
+    vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
+    return
+  end
+  local wholeText, start_line, end_line = unpack(M.copyTable())
   local first_col = nil
   local end_col = nil
   local ul_chk = 1
   for i, line in ipairs(wholeText) do
-    if line:match("^(T .*)&CC%d+:%d+==") then
+    if line:match "^(T .*)&CC%d+:%d+==" then
       ul_chk = i - 1
       local group_array = vim.split(line, "==", { plain = true })
       if group < 0 or group > #group_array - 1 then
         print(" Invalid group. Only " .. #group_array - 1 .. " groups total in banner.")
+        vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
         return
       end
       local group_pat = "(.-)(%d+):(%d+)"
       if group == 0 then
         first_col = 1
-        end_col = 1;
+        end_col = 1
         break
       end
-      first_col = group_array[group]:gsub(group_pat, '%2')
-      end_col = group_array[group]:gsub(group_pat, '%3')
+      first_col = group_array[group]:gsub(group_pat, "%2")
+      end_col = group_array[group]:gsub(group_pat, "%3")
       break
     end
   end
-  local shift = tonumber(vim.fn.input("\nHow many points: "))
-  if shift == nil then return end
+  local shift = tonumber(vim.fn.input "\nHow many points: ")
+  if shift == nil then
+    vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
+    return
+  end
   local fc_chk = tonumber(first_col)
   local nc_start = end_col + 1
   local nc_end = end_col + shift
-  local title = vim.fn.input("\nWhat is the title?\n")
+  local title = vim.fn.input "\nWhat is the title?\n"
   title = title:upper()
   local new_text = M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
 
   local col = 0
   local cursor_point = 0
   for index, row in ipairs(new_text) do
-    if row:match("^T $") then
+    if row:match "^T $" then
       table.remove(new_text, index)
     end
-    if row:match("^C &CE") or row:match("^F &CP") then
+    if row:match "^C &CE" or row:match "^F &CP" then
       col = col + 1
       if col == nc_start then
         cursor_point = index
@@ -132,33 +138,34 @@ function M.insert_group()
 end
 
 function M.delete_column()
-  M.checkBanner()
-  M.viewGroups()
-  local group = tonumber(vim.fn.input("\nWhich group do you want to delete from: "))
-  if group == nil then return end
-  local wholeText = M.copyTable()[1]
-  local start_line = M.copyTable()[2]
-  local end_line = M.copyTable()[3]
+  local curr_line = M.viewGroups()
+  local group = tonumber(vim.fn.input "\nWhich group do you want to delete from: ")
+  if group == nil then
+    vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
+    return
+  end
+  local wholeText, start_line, end_line = unpack(M.copyTable())
   local point = ""
   local first_col = nil
   for _, line in ipairs(wholeText) do
-    if line:match("^(T .*)&CC%d+:%d+==") then
+    if line:match "^(T .*)&CC%d+:%d+==" then
       local group_array = vim.split(line, "==", { plain = true })
       if group < 0 or group > #group_array - 1 then
         print(" Invalid group. Only " .. #group_array - 1 .. " groups total in banner.")
+        vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
         return
       end
       local group_pat = "(.-)(%d+):(%d+)"
-      first_col = group_array[group]:gsub(group_pat, '%2')
-      local end_col = group_array[group]:gsub(group_pat, '%3')
-      ::resubmit::
+      first_col = group_array[group]:gsub(group_pat, "%2")
+      local end_col = group_array[group]:gsub(group_pat, "%3")
       M.viewPoints(tonumber(first_col), tonumber(end_col))
+      ::resubmit::
       point = vim.fn.input(string.format("\nGroup %d goes from %d to %d: ", group, first_col, end_col))
       if point == "" then
+        vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
         return
       elseif tonumber(point) < tonumber(first_col) or tonumber(point) > tonumber(end_col) then
-        print(" ")
-        print("Invalid column.")
+        print "\nInvalid column."
         goto resubmit
       end
       break
@@ -171,7 +178,7 @@ function M.delete_column()
   local col = 0
   local cursor_point = 0
   for index, row in ipairs(new_text) do
-    if row:match("^C &CE") then
+    if row:match "^C &CE" then
       col = col + 1
       if col == tonumber(point) then
         cursor_point = index
@@ -184,30 +191,31 @@ function M.delete_column()
 end
 
 function M.delete_group()
-  M.checkBanner()
-  M.viewGroups()
-  local group = tonumber(vim.fn.input("\nWhich group do you want to delete: "))
-  if group == nil then return end
-  local wholeText = M.copyTable()[1]
-  local start_line = M.copyTable()[2]
-  local end_line = M.copyTable()[3]
+  local curr_line = M.viewGroups()
+  local group = tonumber(vim.fn.input "\nWhich group do you want to delete: ")
+  if group == nil then
+    vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
+    return
+  end
+  local wholeText, start_line, end_line = unpack(M.copyTable())
   local first_col = nil
   local end_col = nil
   for _, line in ipairs(wholeText) do
-    if line:match("^(T .*)&CC%d+:%d+==") then
+    if line:match "^(T .*)&CC%d+:%d+==" then
       local group_array = vim.split(line, "==", { plain = true })
       if group < 0 or group > #group_array - 1 then
         print(" Invalid group. Only " .. #group_array - 1 .. " groups total in banner.")
+        vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
         return
       end
       local group_pat = "(.-)(%d+):(%d+)"
       if group == 0 then
         first_col = 1
-        end_col = 1;
+        end_col = 1
         break
       end
-      first_col = group_array[group]:gsub(group_pat, '%2')
-      end_col = group_array[group]:gsub(group_pat, '%3')
+      first_col = group_array[group]:gsub(group_pat, "%2")
+      end_col = group_array[group]:gsub(group_pat, "%3")
       break
     end
   end
@@ -219,10 +227,10 @@ function M.delete_group()
   local col = 0
   local cursor_point = 0
   for index, row in ipairs(new_text) do
-    if row:match("^T $") then
+    if row:match "^T $" then
       table.remove(new_text, index)
     end
-    if row:match("^C &CE") then
+    if row:match "^C &CE" then
       col = col + 1
       if col == oc_start then
         cursor_point = index
@@ -236,40 +244,24 @@ function M.delete_group()
   vim.api.nvim_win_set_cursor(0, { start_line + cursor_point - 1, 0 })
 end
 
-function M.checkBanner()
-  --local input = 0
-  vim.fn.search("\\_^TABLE ", 'b')
-  --local banner = vim.api.nvim_get_current_line()
-  ----local input = vim.fn.input("\nCorrect banner: " .. banner .. "? [Y]es or [N]o ")
-  --input = vim.fn.confirm("Correct banner: " .. banner .. "?", "&Yes\n&No\n&Cancel")
-  --if input == 2 then
-  --  local correct = vim.fn.input("\nWhich banner do you want corrected?\n")
-  --  if correct == "" then return end
-  --  local start_line = vim.fn.search("\\_^TABLE " .. correct, 'w')
-  --  vim.api.nvim_win_set_cursor(0, { start_line + 15, 0 })
-  --  vim.fn.execute("mode")
-  --  vim.api.nvim_win_set_cursor(0, { start_line, 0 })
-  --elseif input == 3 then
-  --  return
-  --end
-end
-
 function M.copyTable()
   local start_line = vim.fn.getcurpos()[2] + 1
-  local end_line = vim.fn.search('^\\*\\n\\|F \\&CP', 'W')
+  local end_line = vim.fn.search("^\\*\\n\\|F \\&CP", "W")
   local wholeText = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
-  vim.fn.search("\\_^TABLE ", 'b')
+  vim.fn.search("\\_^TABLE ", "b")
   return { wholeText, start_line, end_line }
 end
 
 function M.viewGroups()
+  local curr_line = vim.fn.line "."
+  vim.fn.search("\\_^TABLE ", "b")
   local text = M.copyTable()[1]
   local titles = {}
   for i = 1, 50 do
     titles[i] = ""
   end
   for _, line in ipairs(text) do
-    if line:match("^(T .*)&CC(%d+):(%d+)") then
+    if line:match "^(T .*)&CC(%d+):(%d+)" then
       local segments = {}
       for segment in string.gmatch(line, "([^&]+)") do
         table.insert(segments, segment)
@@ -280,16 +272,14 @@ function M.viewGroups()
           table.insert(parts, part)
         end
         local range = parts[1]
-        local label = table.concat(parts, ' ', 2)
+        local label = table.concat(parts, " ", 2)
 
-        if range:find(":") then
-          local _, end_idx = range:match("CC(%d+):(%d+)")
+        if range:find ":" then
+          local _, end_idx = range:match "CC(%d+):(%d+)"
           local end_idx_num = tonumber(end_idx)
-          if titles[end_idx_num] then
-            ---@diagnostic disable-next-line: need-check-nil
+          if end_idx_num ~= nil and titles[end_idx_num] then
             titles[end_idx_num] = titles[end_idx_num] .. " " .. label
-          else
-            ---@diagnostic disable-next-line: need-check-nil
+          elseif end_idx_num ~= nil then
             titles[end_idx_num] = label
           end
         end
@@ -297,27 +287,28 @@ function M.viewGroups()
     end
   end
   local index = 1
-  print(" ")
-  print(" ")
+  print " "
+  print " "
   for _, group in ipairs(titles) do
     if group ~= "" then
       print(index .. "." .. group)
       index = index + 1
     end
   end
+  return curr_line
 end
 
 function M.viewPoints(first, last)
   local text = M.copyTable()[1]
   local labels = {}
   for _, v in ipairs(text) do
-    if v:match("^C &CE") or v:match("^F &CP") then
+    if v:match "^C &CE" or v:match "^F &CP" then
       local label = vim.fn.split(v, ";")[1]:sub(6)
       table.insert(labels, label)
     end
   end
-  print(" ")
-  print(" ")
+  print " "
+  print " "
   for i, v in ipairs(labels) do
     if i >= first and i <= last then
       print(string.format("%d. %s", i, v:gsub("=", ""):gsub("- ", "-")))
@@ -330,21 +321,22 @@ function M.adjustTitles(shift, fc_chk)
   local new_text = {}
   for _, line in ipairs(text) do
     local title_row = ""
-    if line:match("^(T .*)&CC(%d+):(%d+)") then
+    line = vim.fn.substitute(line, "%", "%%", "g")
+    if line:match "^(T .*)&CC(%d+):(%d+)" then
       local title_array = vim.split(line, "&CC", { plain = true })
       local title_pat = "(%d+):(%d+)(.*)"
       for _, col in ipairs(title_array) do
         if col:match(title_pat) then
-          local title_chk = col:gsub(title_pat, '%1')
+          local title_chk = col:gsub(title_pat, "%1")
           if fc_chk == tonumber(title_chk) then
-            local title_begin = col:gsub(title_pat, '%1')
-            local title_end = col:gsub(title_pat, '%2') + shift
-            local title_text = col:gsub(title_pat, '%3')
+            local title_begin = col:gsub(title_pat, "%1")
+            local title_end = col:gsub(title_pat, "%2") + shift
+            local title_text = col:gsub(title_pat, "%3")
             title_row = title_row .. "&CC" .. title_begin .. ":" .. title_end .. title_text
           elseif fc_chk < tonumber(title_chk) then
-            local title_begin = col:gsub(title_pat, '%1') + shift
-            local title_end = col:gsub(title_pat, '%2') + shift
-            local title_text = col:gsub(title_pat, '%3')
+            local title_begin = col:gsub(title_pat, "%1") + shift
+            local title_end = col:gsub(title_pat, "%2") + shift
+            local title_text = col:gsub(title_pat, "%3")
             title_row = title_row .. "&CC" .. title_begin .. ":" .. title_end .. title_text
           else
             local title_text = "&CC" .. col
@@ -363,7 +355,7 @@ function M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
   local text = M.copyTable()[1]
   local new_text = {}
   for i, line in ipairs(text) do
-    if line:match("^(T .*)&CC(%d+):(%d+)") then
+    if line:match "^(T .*)&CC(%d+):(%d+)" then
       local title_row = ""
       local title_array = vim.split(line, "&CC", { plain = true })
       local title_pat = "^(%d+):(%d+)(.*)"
@@ -377,9 +369,9 @@ function M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
             local title_addition = string.format("&CC%d:%d==", nc_start, nc_end)
             title_row = title_addition
           elseif j > 1 then
-            local title_begin = col:gsub(title_pat, '%1') + shift
-            local title_end = col:gsub(title_pat, '%2') + shift
-            local title_text = col:gsub(title_pat, '%3')
+            local title_begin = col:gsub(title_pat, "%1") + shift
+            local title_end = col:gsub(title_pat, "%2") + shift
+            local title_text = col:gsub(title_pat, "%3")
             title_row = title_row .. "&CC" .. title_begin .. ":" .. title_end .. title_text
           end
         elseif group == #title_array - 1 then
@@ -394,7 +386,7 @@ function M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
             title_row = title_row .. title_text
           end
         elseif col:match(title_pat) then
-          local title_chk = col:gsub(title_pat, '%1')
+          local title_chk = col:gsub(title_pat, "%1")
           local title_text = ""
           if tonumber(title_chk) > fc_chk then
             if group_chk == 1 then
@@ -404,15 +396,15 @@ function M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
               elseif i == ul_chk + 1 then
                 title_addition = string.format("&CC%d:%d==", nc_start, nc_end)
               end
-              local title_begin = col:gsub(title_pat, '%1') + shift
-              local title_end = col:gsub(title_pat, '%2') + shift
-              title_text = col:gsub(title_pat, '%3')
+              local title_begin = col:gsub(title_pat, "%1") + shift
+              local title_end = col:gsub(title_pat, "%2") + shift
+              title_text = col:gsub(title_pat, "%3")
               title_row = title_row .. title_addition .. "&CC" .. title_begin .. ":" .. title_end .. title_text
               group_chk = 0
             else
-              local title_begin = col:gsub(title_pat, '%1') + shift
-              local title_end = col:gsub(title_pat, '%2') + shift
-              title_text = col:gsub(title_pat, '%3')
+              local title_begin = col:gsub(title_pat, "%1") + shift
+              local title_end = col:gsub(title_pat, "%2") + shift
+              title_text = col:gsub(title_pat, "%3")
               title_row = title_row .. "&CC" .. title_begin .. ":" .. title_end .. title_text
             end
           else
@@ -433,17 +425,17 @@ function M.removeGroups(shift, fc_chk)
   local new_text = {}
   for _, line in ipairs(text) do
     local title_row = ""
-    if line:match("^(T .*)&CC(%d+):(%d+)") then
+    if line:match "^(T .*)&CC(%d+):(%d+)" then
       local title_array = vim.split(line, "&CC", { plain = true })
       local title_pat = "(%d+):(%d+)(.*)"
       for _, col in ipairs(title_array) do
         if col:match(title_pat) then
-          local title_chk = col:gsub(title_pat, '%1')
+          local title_chk = col:gsub(title_pat, "%1")
           if fc_chk == tonumber(title_chk) then
           elseif fc_chk < tonumber(title_chk) then
-            local title_begin = col:gsub(title_pat, '%1') + shift
-            local title_end = col:gsub(title_pat, '%2') + shift
-            local title_text = col:gsub(title_pat, '%3')
+            local title_begin = col:gsub(title_pat, "%1") + shift
+            local title_end = col:gsub(title_pat, "%2") + shift
+            local title_text = col:gsub(title_pat, "%3")
             title_row = title_row .. "&CC" .. title_begin .. ":" .. title_end .. title_text
           else
             local title_text = "&CC" .. col
