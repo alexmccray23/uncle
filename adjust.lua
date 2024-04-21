@@ -321,8 +321,8 @@ function M.adjustTitles(shift, fc_chk)
   local new_text = {}
   for _, line in ipairs(text) do
     local title_row = ""
-    line = vim.fn.substitute(line, "%", "%%", "g")
     if line:match "^(T .*)&CC(%d+):(%d+)" then
+      line = vim.fn.substitute(line, "%", "%%", "g")
       local title_array = vim.split(line, "&CC", { plain = true })
       local title_pat = "(%d+):(%d+)(.*)"
       for _, col in ipairs(title_array) do
