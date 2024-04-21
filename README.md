@@ -139,4 +139,7 @@ Neovim plugin for summing weighting table values.
 ### weight_tables.lua
 Neovim plugin for adding weighting tables.
 
+### zero_pad.lua
+Neovim plugin for adding and removing zero-padding
+
 <!-- vim: set ft=markdown: -->

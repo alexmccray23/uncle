@@ -37,6 +37,7 @@ require "user.uncle.weight_product"
 require "user.uncle.weight_sum"
 require "user.uncle.weight_tables"
 require "user.uncle.teledb"
+require "user.uncle.zero_pad"
 
 local keymap = vim.api.nvim_set_keymap
 keymap("n", "<leader>cc", ':lua require("user.uncle.cw_count").getColumnWidth()<CR>', { noremap = true, silent = true, desc = "Uncle: [C]olumns [C]ount" })

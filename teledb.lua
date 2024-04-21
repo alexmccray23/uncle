@@ -13,7 +13,7 @@ require("telescope").load_extension "file_browser"
 
 local M = {}
 
-local path = "/home/alexm/rust/vd/xl2json/projects.json"
+local path = "/home/alexanderm/rust/xl2json/projects.json"
 
 -- Function to read and parse the JSON file
 M.read_and_parse_json = function(file_path)
