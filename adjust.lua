@@ -85,6 +85,7 @@ function M.insert_group()
   local first_col = nil
   local end_col = nil
   local ul_chk = 1
+  local last_group = nil
   for i, line in ipairs(wholeText) do
     if line:match "^(T .*)&CC%d+:%d+==" then
       ul_chk = i - 1
@@ -94,6 +95,7 @@ function M.insert_group()
         vim.api.nvim_win_set_cursor(0, { curr_line, 0 })
         return
       end
+      last_group = #group_array - 1
       local group_pat = "(.-)(%d+):(%d+)"
       if group == 0 then
         first_col = 1
@@ -115,7 +117,7 @@ function M.insert_group()
   local nc_end = end_col + shift
   local title = vim.fn.input "\nWhat is the title?\n"
   title = title:upper()
-  local new_text = M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
+  local new_text = M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title, last_group)
 
   local col = 0
   local cursor_point = 0
@@ -351,7 +353,7 @@ function M.adjustTitles(shift, fc_chk)
   return new_text
 end
 
-function M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
+function M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title, last_group)
   local text = M.copyTable()[1]
   local new_text = {}
   for i, line in ipairs(text) do
@@ -374,7 +376,8 @@ function M.adjustGroups(group, shift, ul_chk, fc_chk, nc_start, nc_end, title)
             local title_text = col:gsub(title_pat, "%3")
             title_row = title_row .. "&CC" .. title_begin .. ":" .. title_end .. title_text
           end
-        elseif group == #title_array - 1 then
+          -- elseif group == #title_array - 1 then
+        elseif group == last_group then
           if i == ul_chk and j == #title_array then
             local title_addition = string.format("&CC%d:%d %s", nc_start, nc_end, title)
             title_row = title_row .. "&CC" .. col .. title_addition
