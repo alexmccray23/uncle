@@ -29,6 +29,7 @@ require "user.uncle.state_fips"
 require "user.uncle.sum_init"
 require "user.uncle.summary_setup"
 require "user.uncle.t1001"
+require "user.uncle.tab_columns"
 require "user.uncle.titles"
 require "user.uncle.text2tab"
 require "user.uncle.uncle_syntax"
@@ -59,6 +60,7 @@ keymap("n", "<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>',
 keymap("n", "<leader>sa", ':lua require("user.uncle.state_abbv").stateAbbv()<CR>', { noremap = true, silent = true, desc = "Uncle: [State [A]bbreviation" })
 keymap("n", "<leader>sc", ':lua require("user.uncle.state_fips").stateFips()<CR>', { noremap = true, silent = true, desc = "Uncle: [S]tate (FIPS) [C]ode" })
 keymap("n", "<leader>tt", ':lua require("user.uncle.t1001").testTables()<CR>', { noremap = true, silent = true, desc = "Uncle: [T]est [T]ables" })
+keymap("n", "<leader>zp", ':lua require("user.uncle.zero_pad").wrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: [Z]ero [P]ad" })
 keymap("n", "<leader>or", ":Rank<CR>", { noremap = true, silent = true, desc = "Uncle: O Rank" })
 keymap("n", "<leader>sb", ":SplitBase<CR>", { noremap = true, silent = true, desc = "Uncle: Split Base" })
 keymap("n", "<leader>si", ":SumInit<CR>", { noremap = true, silent = true, desc = "Uncle: Summmary initialize" })
@@ -67,6 +69,7 @@ keymap("n", "<leader>ic", ":InitClean<CR>", { noremap = true, silent = true, des
 keymap("n", "<leader>n", ":Nets<CR>", { noremap = true, silent = true, desc = "Uncle: [N]ets" })
 keymap("n", "<leader>qr", ":QualRow<CR>", { noremap = true, silent = true, desc = "Uncle: [Q]ualifier [R]ow" })
 keymap("n", "<leader>rn", ":Renumber<CR>", { noremap = true, silent = true, desc = "Uncle: [R]e[N]umber" })
+keymap("n", "<leader>tc", ":TabCol<CR>", { noremap = true, silent = true, desc = "Uncle: Columnize tab-delimited text" })
 keymap("n", "<leader>t2t", ":Text2tab<CR>", { noremap = true, silent = true, desc = "Uncle: Text-to-tab" })
 keymap("n", "<leader>wp", ":WeightProduct<CR>", { noremap = true, silent = true, desc = "Uncle: Weight Product" })
 keymap("n", "<leader>ws", ":WeightSum<CR>", { noremap = true, silent = true, desc = "Uncle: Weight Sum" })

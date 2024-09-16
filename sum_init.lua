@@ -18,9 +18,9 @@ local function sumInit()
       r_row = vim.fn.substitute(r_row, [[\(^\t\+\|^\s\+\)]], "R   ", "")
       r_row = r_row:gsub(" %(", ";(")
       table.insert(new_lines, r_row:upper())
-    elseif vim.fn.match(line, [[\(^\t\+\|^\s\+\)\(%\?\)\(\d\+-\?\d*\)]]) >= 0 then
+    elseif vim.fn.match(line, [[\(^\t\+\|^\s\+\)\(\$\?\|%\?\)\(\d\+-\?\d*\)]]) >= 0 then
       local r_row = nil
-      local group_pat = [[\(^\t\+\|^\s\+\)\(%\?\)\(\d\+-\?\d*\)]]
+      local group_pat = [[\(^\t\+\|^\s\+\)\(\$\?\|%\?\)\(\d\+-\?\d*\)]]
       local replacement = string.format([[R   \2\3;(%s:\3)]], current_question)
       r_row = vim.fn.substitute(line, group_pat, replacement, "")
       table.insert(new_lines, r_row:upper())
