@@ -1,4 +1,4 @@
--- Shortcut regex to convert VD text files to tab delimited ones.
+-- Convert tab-delimited text to a fixed-width columnized format
 
 local function text2tab()
   vim.cmd [[sil %s/\t/|/g

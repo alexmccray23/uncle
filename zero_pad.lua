@@ -24,7 +24,7 @@ end
 
 -- wrapper function for generic zero-padding
 function M.wrapper()
-  local value = vim.fn.input "How many zeros?"
+  local value = vim.fn.input "How many zeros? "
   if value ~= "" then
     M.add_generic(value)
   end

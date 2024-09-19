@@ -112,6 +112,9 @@ Neovim plugin for setting up summary tables for a question series.
 ### t1001.lua
 Neovim plugin that converts question labels to table numbers in the banner test tables.
 
+### tab_columns.lua
+Convert tab-delimited text to a fixed-width columnized format
+
 ### teledb.lua
 Neovim plugin for fuzzy searching a local project database by client id or project name.
 
@@ -140,6 +143,6 @@ Neovim plugin for summing weighting table values.
 Neovim plugin for adding weighting tables.
 
 ### zero_pad.lua
-Neovim plugin for adding and removing zero-padding
+Neovim plugin for adding zero-padding
 
 <!-- vim: set ft=markdown: -->
