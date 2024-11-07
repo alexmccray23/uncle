@@ -32,14 +32,16 @@ function M.parseLayout()
   local layout = vim.fn.readfile(temp[#temp])
   for _, value in ipairs(layout) do
     local column = vim.split(value, ' +', { plain = false, trimempty = true })
-    chk = #column[1]
-    buf_chk = current_buffer
-    M.data_table[column[1]] = {
-      startCol = tonumber(column[2]),
-      endCol = tonumber(column[3]),
-      nfield = tonumber(column[5]),
-      wfield = tonumber(column[6])
-    }
+    if #column >= 6 then
+        chk = #column[1]
+        buf_chk = current_buffer
+        M.data_table[column[1]] = {
+          startCol = tonumber(column[2]),
+          endCol = tonumber(column[3]),
+          nfield = tonumber(column[5]),
+          wfield = tonumber(column[6])
+        }
+      end
   end
   return M.data_table
 end
