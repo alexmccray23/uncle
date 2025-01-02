@@ -5,8 +5,8 @@ local M = {}
 function M.splitBase()
   local sample = vim.fn.input("Which split sample? (A, B, C, 'D,F', etc): "):upper():gsub(",", "//")
   local choices = {
-    { case = "A",    question = "VERSION",  code = "1" },
-    { case = "B",    question = "VERSION",  code = "2" },
+    { case = "A",    question = "VERSION ",  code = "1" },
+    { case = "B",    question = "VERSION ",  code = "2" },
     { case = "C",    question = "VERSION2", code = "3" },
     { case = "D",    question = "VERSION2", code = "4" },
     { case = "E",    question = "VERSION2", code = "5" },
