@@ -75,3 +75,4 @@ keymap("n", "<leader>wp", ":WeightProduct<CR>", { noremap = true, silent = true,
 keymap("n", "<leader>ws", ":WeightSum<CR>", { noremap = true, silent = true, desc = "Uncle: Weight Sum" })
 keymap("n", "<leader>wt", ":WeightTables<CR>", { noremap = true, silent = true, desc = "Uncle: Weight Tables" })
 keymap("n", "<leader>ld", ':Teledb<CR>', { noremap = true, silent = true, desc = "Uncle: [L]ookup [D]atabase" })
+keymap("n", "<leader>x", ':T500<CR>', { noremap = true, silent = true, desc = "Uncle: e[X]ecutable tables" })

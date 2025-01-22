@@ -38,14 +38,19 @@ end
 function M.parseTable(specLang, count)
   local wholeText = M.copyTable()
   local qual = "ALL"
+  local question = ""
   local qLang = ""
   local spec = ""
   local rqual = ""
   local tqual = ""
   local fdp = 2
+  local qualifierText = {}
   for _, line in ipairs(wholeText) do
     if line:match "^T /(.*)" then
       qLang = line:gsub("^T /(.*)", "%1")
+    end
+    if line:match "^T QUESTION" then
+      question = line:gsub("^T QUESTION (.*):", "%1")
     end
     if line:match "^R" and vim.fn.match(line, specLang) > 0 and spec == "" and not line:match "D//S" then
       spec = vim.split(line, ";", { plain = true })[2]
@@ -57,24 +62,28 @@ function M.parseTable(specLang, count)
         local len = tonumber(flds[2]) - tonumber(flds[1]) + 1
         local ext = M.my_repeat("9", len)
         qual = rqual .. ",1:" .. ext .. ")"
+        qualifierText = { "Q" .. question .. " BASE;" .. qual .. ";NOPRINT", "", fdp }
       elseif tqual:match "^1!" then
         qual = tqual .. "-1:9"
+        qualifierText = { "Q" .. question .. " BASE;" .. qual .. ";NOPRINT", "", fdp }
       elseif spec:match "^A%(" then
         local fst = spec:gsub("A%(1?!?(%d-):(%d-)%).*", "%1")
         local snd = spec:gsub("A%(1?!?(%d-):(%d-)%).*", "%2")
         local len = tonumber(snd) - tonumber(fst) + 1
         fdp = vim.fn.max { fdp - len + 1, 0 }
+        qualifierText = { "TOTAL ASKED;ALL;NOPRINT", "", fdp }
       elseif spec:match "^PC%(" then
         local fst = spec:gsub("PC%(1?!?(%d-):(%d-), 50%).*", "%1")
         local snd = spec:gsub("PC%(1?!?(%d-):(%d-), 50%).*", "%2")
         local len = tonumber(snd) - tonumber(fst) + 1
         fdp = vim.fn.max { fdp - len + 1, 0 }
+        qualifierText = { "TOTAL ASKED;ALL;NOPRINT", "", fdp }
       end
     end
   end
   Data[count] = {
     questionText = { "R &IN2" .. qLang:upper() .. ";" .. spec, "", fdp },
-    qualifierText = { "TOTAL ASKED;" .. qual .. ";NOPRINT", "", fdp },
+    qualifierText = qualifierText,
   }
 end
 
@@ -108,7 +117,7 @@ end
 function M.summaryTableConstructor(specLang)
   local baseCount = 2
   local text = { "T Summary of " .. specLang, "O RANK RANKPCT", "R &IN2BASE==TOTAL SAMPLE;ALL;HP NOVP" }
-  local base = {  "TOTAL SAMPLE;ALL;NOPRINT", "TOTAL ASKED;ALL;NOPRINT" }
+  local base = { "TOTAL ASKED;ALL;NOPRINT" }
   for _, data in ipairs(Data) do
     if not M.contains(base, data["qualifierText"][1]) then
       table.insert(base, data["qualifierText"][1])
@@ -123,8 +132,8 @@ function M.summaryTableConstructor(specLang)
     end
   end
   for index, value in ipairs(base) do
-    if index > 2 then
-      table.insert(text, string.format("R   %2d %s", index - 1, value))
+    if index > 1 then
+      table.insert(text, string.format("R   %2d %s", index, value))
     end
   end
   for _, data in ipairs(Data) do
