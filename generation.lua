@@ -31,7 +31,7 @@ function M.standard()
   local qage = M.getColumns()["QAGE"]
   local agrp = M.getColumns()["AGEGROUP"]
   local year = vim.fn.expand("%:p"):gsub(".*kdata/(%d+).*", "%1")
-  local labels = { "GEN Z", "MILL=ENIAL", "GEN X", "BABY BOOM- ERS", "SILENT GEN", "GI GEN" }
+  local labels = { "GEN Z", "MILL=ENIAL", "GEN X", "BOOM- ERS", "SILENT", "GI GEN" }
   local start_years = { 1997, 1981, 1965, 1946, 1928, 1901 }
   local end_years = { 2012, 1996, 1980, 1964, 1945, 1927 }
 
@@ -62,7 +62,7 @@ function M.nbc()
   local qage = M.getColumns()["AGE"]
   local agrp = M.getColumns()["Q2A"]
   local year = vim.fn.expand("%:p"):gsub(".*kdata/(%d+).*", "%1")
-  local labels = { "GEN Z", "MILL=ENIAL", "GEN X", "BABY BOOM- ERS", "SILENT GEN", "GI GEN" }
+  local labels = { "GEN Z", "MILL=ENIAL", "GEN X", "BOOM- ERS", "SILENT", "GI GEN" }
   local start_years = { 1997, 1981, 1965, 1946, 1928, 1901 }
   local end_years = { 2012, 1996, 1980, 1964, 1945, 1927 }
 
