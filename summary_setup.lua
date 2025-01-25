@@ -1,4 +1,4 @@
--- Neovim plugin for setting up summary tables for a question series
+-- Neovim plugin for setting up standard summary tables for a question series
 
 local M = {}
 
@@ -142,5 +142,5 @@ function M.summaryTableConstructor(specLang)
   return text
 end
 
-vim.api.nvim_create_user_command("Summary", M.summaryTable, {})
+vim.api.nvim_create_user_command("Sum", M.summaryTable, {})
 return M

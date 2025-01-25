@@ -107,7 +107,10 @@ Neovim plugin for converting state names and abbreviations to their FIPS codes
 Plugin that performs an initial cleanup of the specs used for summary tables.
 
 ### summary_setup.lua
-Neovim plugin for setting up summary tables for a question series.
+Neovim plugin for setting up standard summary tables for a question series.
+
+### sum2_setup.lua
+Neovim plugin for setting up multiple-field summary tables for a question series
 
 ### t1001.lua
 Neovim plugin that converts question labels to table numbers in the banner test tables.
