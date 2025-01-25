@@ -6,28 +6,48 @@ local Data = {}
 
 function M.menu()
   local choices = {
-    { label = "1. Rank by d/s", func = M.get_fields },
-    { label = "2. Rank by value", func = M.get_fields },
+    { label = "1. Rank by d/s" },
+    { label = "2. Rank by value" },
   }
   for _, choice in ipairs(choices) do
     print(choice.label)
   end
-  local input = tonumber(vim.fn.input "Select an option: ")
-  if input and input >= 1 and input <= #choices then
-    M.summaryTable(input)
+  local input = M.get_user_input("Select an option: ", function(input)
+    return M.validate_range(input, 1, #choices)
+  end)
+  if input then
+    M.summaryTable(tonumber(input))
   else
-    print " Invalid selection"
+    vim.notify("Invalid selection", vim.log.levels.ERROR)
   end
 end
 
+function M.get_user_input(prompt, validator)
+  local input = vim.fn.input(prompt)
+  if validator then
+    return validator(input) and input or nil
+  end
+  return input
+end
+
+function M.validate_number(input)
+  return tonumber(input) ~= nil
+end
+
+function M.validate_range(input, min, max)
+  local num = tonumber(input)
+  return num and num >= min and num <= max
+end
+
 function M.get_fields()
-  local rows = tonumber(vim.fn.input "Number of rows: ")
-  if rows == "" then
+  local rows = M.get_user_input("Number of rows: ", M.validate_number)
+  if not rows then
     return
   end
+
   local fields = {}
   for i = 1, rows do
-    local field = vim.fn.input("row #" .. i .. ": ")
+    local field = M.get_user_input("row #" .. i .. ": ")
     if field == "" then
       return
     end
@@ -37,18 +57,22 @@ function M.get_fields()
 end
 
 function M.summaryTable(choice)
-  for i, _ in ipairs(Data) do
-    Data[i] = nil
-  end
+  Data = {} -- Reset Data
   local fields = M.get_fields()
-  local totTables = vim.fn.input "\n\nHow many tables?: "
-  if totTables == "" then
+  if not fields then
     return
   end
+
+  local totTables = M.get_user_input("\n\nHow many tables?: ", M.validate_number)
+  if not totTables then
+    return
+  end
+
   local nline = vim.fn.line "."
   for index = 1, totTables do
     M.parseTable(fields, index, choice)
   end
+
   local text = M.summaryTableConstructor()
   vim.api.nvim_buf_set_lines(0, nline, nline, false, text)
   vim.api.nvim_win_set_cursor(0, { nline + #text, 0 })
@@ -56,52 +80,47 @@ end
 
 function M.parseTable(fields, count, choice)
   local wholeText = M.copyTable()
-  local qLang = ""
-  local qual = ""
-  local rqual = ""
-  local tqual = ""
-  local question = ""
-  local questionText = {}
-  local qualifierText = {}
+  local qLang, qual, question = "", "", ""
+  local questionText, qualifierText = {}, {}
+
   for _, line in ipairs(wholeText) do
     if line:match "^T /(.*)" then
-      qLang = line:gsub("^T /(.*)", "%1")
+      qLang = line:match "^T /(.*)"
+    elseif line:match "^T QUESTION" then
+      question = line:match "^T QUESTION (.*):"
     end
-    if line:match "^T QUESTION" then
-      question = line:gsub("^T QUESTION (.*):", "%1")
-    end
+
     if choice == 1 then
-      questionText[choice] = "R " .. qLang:upper() .. "&UT-;NONE;EX(RD1-RD2) NOSZR VBASE " .. count + 1 .. " NG" .. count .. "* PAG " .. #fields + 1
+      questionText[choice] = string.format("R %s&UT-;NONE;EX(RD1-RD2) NOSZR VBASE %d NG%d* PAG %d", qLang:upper(), count + 1, count, #fields + 1)
     else
-      questionText[choice] = "R " .. qLang:upper() .. "&UT-;NONE;EX(RD1-RD2) NOSZR VBASE " .. count + 1 .. " NG" .. count .. "@"
+      questionText[choice] = string.format("R %s&UT-;NONE;EX(RD1-RD2) NOSZR VBASE %d NG%d@", qLang:upper(), count + 1, count)
     end
+
     for i = 1, #fields do
-      local j = i + choice
       if line:match "^R" and vim.fn.match(line, fields[i]) > 0 and not line:match "D//S" then
         local spec = vim.split(line, ";", { plain = true })[2]
         if vim.fn.match(line, fields[1]) > 0 and choice == 2 then
-          questionText[1] = "R --RANK LINE--;" .. spec .. ";NOPRINT VBASE " .. count + 1 .. " NG" .. count .. "* PAG " .. #fields + 2
+          questionText[1] = string.format("R --RANK LINE--;%s;NOPRINT VBASE %d NG%d* PAG %d", spec, count + 1, count, #fields + 2)
         end
-        questionText[j] = "R   " .. fields[i] .. ";" .. spec .. ";VBASE " .. count + 1 .. " NG" .. count .. "@"
+        questionText[i + choice] = string.format("R   %s;%s;VBASE %d NG%d@", fields[i], spec, count + 1, count)
+
         if qual == "" then
-          spec = vim.split(line, ";", { plain = true })[2]
-          rqual = vim.split(spec, ",", { plain = true })[1]
-          tqual = vim.split(spec, "-", { plain = true })[1]
           if spec:match "^R%(1" then
-            local vals = spec:gsub("R%(1!(%d+)", "%1")
+            local rqual = vim.split(spec, ",", { plain = true })[1]
+            local vals = rqual:gsub("R%(1!(%d+)", "%1")
             local flds = vim.split(vals, ":", { plain = true })
             local len = tonumber(flds[2]) - tonumber(flds[1]) + 1
-            local ext = M.my_repeat("9", len)
-            qual = rqual .. ",1:" .. ext .. ")"
-            qualifierText = { "Q" .. question .. " BASE;" .. qual .. ";NOPRINT", "" }
+            qual = string.format("%s,1:%s)", rqual, string.rep("9", len))
+            qualifierText = { string.format("Q%s BASE;%s;NOPRINT", question, qual) }
           elseif spec:match "^1!" then
-            qual = tqual .. "-1:9"
-            qualifierText = { "Q" .. question .. " BASE;" .. qual .. ";NOPRINT", "" }
+            qual = string.format("%s-1:9", vim.split(spec, "-", { plain = true })[1])
+            qualifierText = { string.format("Q%s BASE;%s;NOPRINT", question, qual) }
           end
         end
       end
     end
   end
+
   Data[count] = {
     questionText = questionText,
     qualifierText = qualifierText,
@@ -110,19 +129,13 @@ end
 
 function M.summaryTableConstructor()
   local text = { "T Summary of ", "O RANK RANKPCT", "R &IN2BASE==TOTAL SAMPLE;ALL;HP NOVP" }
-  local base = { "TOTAL ASKED;ALL;NOPRINT" }
-  for _, data in ipairs(Data) do
-    if not M.contains(base, data["qualifierText"][1]) then
-      table.insert(base, data["qualifierText"][1])
-    end
-  end
-  for index, value in ipairs(base) do
-    if index > 1 then
-      table.insert(text, string.format("R   %2d %s", index, value))
+  for i, data in ipairs(Data) do
+    for _, field in ipairs(data.qualifierText) do
+      table.insert(text, string.format("R   %2d %s", i + 1, field))
     end
   end
   for _, data in ipairs(Data) do
-    for _, field in ipairs(data["questionText"]) do
+    for _, field in ipairs(data.questionText) do
       table.insert(text, field)
     end
   end
@@ -133,25 +146,7 @@ function M.copyTable()
   vim.fn.search("^TABLE ", "W")
   local start_line = vim.fn.getcurpos()[2] + 1
   local end_line = vim.fn.search("^\\*\\n", "W")
-  local wholeText = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
-  return wholeText
-end
-
-function M.contains(table, value)
-  for _, v in pairs(table) do
-    if v == value then
-      return true
-    end
-  end
-  return false
-end
-
-function M.my_repeat(pattern, count)
-  local string = ""
-  for _ = 1, count do
-    string = string .. pattern
-  end
-  return string
+  return vim.api.nvim_buf_get_lines(0, start_line - 1, end_line - 1, false)
 end
 
 vim.api.nvim_create_user_command("Sum2", M.menu, {})
