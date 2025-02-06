@@ -45,7 +45,7 @@ M.studies_prompt = function(opts)
           return {
             value = entry,
             display = entry.label,
-            ordinal = entry.label .. " " .. entry.year,
+            ordinal = entry.label .. " " .. entry.vd_id .. " " .. entry.year,
           }
         end,
       },
