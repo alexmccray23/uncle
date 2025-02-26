@@ -91,16 +91,30 @@ function M.parseTable(fields, count, choice)
     end
 
     if choice == 1 then
-      questionText[choice] = string.format("R %s&UT-;NONE;EX(RD1-RD2) NOSZR VBASE %d NG%d* PAG %d", qLang:upper(), count + 1, count, #fields + 1)
+      questionText[choice] = string.format(
+        "R %s&UT-;NONE;EX(RD1-RD2) NOSZR VBASE %d NG%d* PAG %d",
+        qLang:upper(),
+        count + 1,
+        count,
+        #fields + 1
+      )
     else
-      questionText[choice] = string.format("R %s&UT-;NONE;EX(RD1-RD2) NOSZR VBASE %d NG%d@", qLang:upper(), count + 1, count)
+      questionText[choice] =
+        string.format("R %s&UT-;NONE;EX(RD1-RD2) NOSZR VBASE %d NG%d@", qLang:upper(), count + 1, count)
     end
 
     for i = 1, #fields do
-      if line:match "^R" and vim.fn.match(line, fields[i]) > 0 and not line:match "D//S" then
+      if
+        line:match "^R"
+        and vim.fn.match(line, fields[i]) > 0
+        and not line:match "HP NOVP"
+        and not line:match "D//S"
+        and questionText[i + choice] == nil
+      then
         local spec = vim.split(line, ";", { plain = true })[2]
         if vim.fn.match(line, fields[1]) > 0 and choice == 2 then
-          questionText[1] = string.format("R --RANK LINE--;%s;NOPRINT VBASE %d NG%d* PAG %d", spec, count + 1, count, #fields + 2)
+          questionText[1] =
+            string.format("R --RANK LINE--;%s;NOPRINT VBASE %d NG%d* PAG %d", spec, count + 1, count, #fields + 2)
         end
         questionText[i + choice] = string.format("R   %s;%s;VBASE %d NG%d@", fields[i], spec, count + 1, count)
 
