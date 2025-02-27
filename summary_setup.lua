@@ -43,7 +43,7 @@ function M.parseTable(specLang, count)
   local spec = ""
   local rqual = ""
   local tqual = ""
-  local fdp = 2
+  local fdp = 0
   local qualifierText = {}
   for _, line in ipairs(wholeText) do
     if line:match "^T /(.*)" then
@@ -70,12 +70,13 @@ function M.parseTable(specLang, count)
         local fst = spec:gsub("A%(1?!?(%d-):(%d-)%).*", "%1")
         local snd = spec:gsub("A%(1?!?(%d-):(%d-)%).*", "%2")
         local len = tonumber(snd) - tonumber(fst) + 1
-        fdp = vim.fn.max { fdp - len + 1, 0 }
+        if len < 3 then fdp = 1 end
         qualifierText = { "TOTAL ASKED;ALL;NOPRINT", "", fdp }
       elseif spec:match "^PC%(" then
         local fst = spec:gsub("PC%(1?!?(%d-):(%d-), 50%).*", "%1")
         local snd = spec:gsub("PC%(1?!?(%d-):(%d-), 50%).*", "%2")
         local len = tonumber(snd) - tonumber(fst) + 1
+        if len < 3 then fdp = 1 end
         fdp = vim.fn.max { fdp - len + 1, 0 }
         qualifierText = { "TOTAL ASKED;ALL;NOPRINT", "", fdp }
       end
