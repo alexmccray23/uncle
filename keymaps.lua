@@ -13,6 +13,7 @@ require "user.uncle.init_clean"
 require "user.uncle.layout"
 require "user.uncle.nets"
 require "user.uncle.norank"
+require "user.uncle.noprint"
 require "user.uncle.number"
 require "user.uncle.pos_spec_conversion"
 require "user.uncle.qualifier_row"
@@ -56,7 +57,8 @@ keymap("n", "<leader>rr", ':lua require("user.uncle.r_row").rRow()<CR>', { norem
 keymap("n", "<leader>u", ':lua require("user.uncle.underline").underline()<CR>', { noremap = true, silent = true, desc = "Uncle: Underline" })
 keymap("n", "<leader>sp", ':lua require("user.uncle.space1").space1()<CR>', { noremap = true, silent = true, desc = "Uncle: Space 1" })
 keymap("n", "<leader>sz", ':lua require("user.uncle.noszr").noszr()<CR>', { noremap = true, silent = true, desc = "Uncle: Noszr" })
-keymap("n", "<leader>p", ':lua require("user.uncle.norank").noRank()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
+keymap("n", "<leader>np", ':lua require("user.uncle.noprint").noPrint()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
+keymap("n", "<leader>nr", ':lua require("user.uncle.norank").noRank()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
 keymap("n", "<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
 keymap("n", "<leader>sa", ':lua require("user.uncle.state_abbv").stateAbbv()<CR>', { noremap = true, silent = true, desc = "Uncle: [State [A]bbreviation" })
 keymap("n", "<leader>sc", ':lua require("user.uncle.state_fips").stateFips()<CR>', { noremap = true, silent = true, desc = "Uncle: [S]tate (FIPS) [C]ode" })
@@ -67,7 +69,7 @@ keymap("n", "<leader>sb", ":SplitBase<CR>", { noremap = true, silent = true, des
 keymap("n", "<leader>si", ":SumInit<CR>", { noremap = true, silent = true, desc = "Uncle: Summmary initialize" })
 keymap("n", "<leader>br", ":BaseRow<CR>", { noremap = true, silent = true, desc = "Uncle: Base Row" })
 keymap("n", "<leader>ic", ":InitClean<CR>", { noremap = true, silent = true, desc = "Uncle: Initial Cleanup" })
-keymap("n", "<leader>n", ":Nets<CR>", { noremap = true, silent = true, desc = "Uncle: [N]ets" })
+keymap("n", "<leader>nn", ":Nets<CR>", { noremap = true, silent = true, desc = "Uncle: [N]ets" })
 keymap("n", "<leader>qr", ":QualRow<CR>", { noremap = true, silent = true, desc = "Uncle: [Q]ualifier [R]ow" })
 keymap("n", "<leader>rn", ":Renumber<CR>", { noremap = true, silent = true, desc = "Uncle: [R]e[N]umber" })
 keymap("n", "<leader>tc", ":TabCol<CR>", { noremap = true, silent = true, desc = "Uncle: Columnize tab-delimited text" })

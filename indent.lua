@@ -11,6 +11,7 @@ function M.indent()
     if line[1]:match('^R') then line[1] = line[1] .. "  " end
     local new_line = table.concat(line, " ")
     vim.api.nvim_set_current_line(new_line)
+    vim.cmd([[In2]])
     local next_line = current_line + 1
     vim.api.nvim_win_set_cursor(0, { next_line, 0 })
 
