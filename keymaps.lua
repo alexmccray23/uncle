@@ -14,6 +14,7 @@ require "user.uncle.layout"
 require "user.uncle.nets"
 require "user.uncle.norank"
 require "user.uncle.noprint"
+require "user.uncle.noweight"
 require "user.uncle.number"
 require "user.uncle.pos_spec_conversion"
 require "user.uncle.qualifier_row"
@@ -57,8 +58,9 @@ keymap("n", "<leader>rr", ':lua require("user.uncle.r_row").rRow()<CR>', { norem
 keymap("n", "<leader>u", ':lua require("user.uncle.underline").underline()<CR>', { noremap = true, silent = true, desc = "Uncle: Underline" })
 keymap("n", "<leader>sp", ':lua require("user.uncle.space1").space1()<CR>', { noremap = true, silent = true, desc = "Uncle: Space 1" })
 keymap("n", "<leader>sz", ':lua require("user.uncle.noszr").noszr()<CR>', { noremap = true, silent = true, desc = "Uncle: Noszr" })
-keymap("n", "<leader>np", ':lua require("user.uncle.noprint").noPrint()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
+keymap("n", "<leader>np", ':lua require("user.uncle.noprint").noPrint()<CR>', { noremap = true, silent = true, desc = "Uncle: No print" })
 keymap("n", "<leader>nr", ':lua require("user.uncle.norank").noRank()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
+keymap("n", "<leader>nw", ':lua require("user.uncle.noweight").noWeight()<CR>', { noremap = true, silent = true, desc = "Uncle: No weight" })
 keymap("n", "<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
 keymap("n", "<leader>sa", ':lua require("user.uncle.state_abbv").stateAbbv()<CR>', { noremap = true, silent = true, desc = "Uncle: [State [A]bbreviation" })
 keymap("n", "<leader>sc", ':lua require("user.uncle.state_fips").stateFips()<CR>', { noremap = true, silent = true, desc = "Uncle: [S]tate (FIPS) [C]ode" })
