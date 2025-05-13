@@ -55,11 +55,17 @@ Some simple snippets for QBasic and for setting up Uncle tables.
 ### nets.lua
 A collection of scripts used for setting up net rows and difference scores.
 
+### noprint.lua
+Neovim plugin for adding the NOPRINT command to Uncle tables
+
 ### norank.lua
 Neovim plugin for adding the "NORANK" option to Uncle stub tables.
 
 ### noszr.lua
 Neovim plugin for adding the "NOSZR" option to Uncle stub tables.
+
+### noweight.lua
+Neovim plugin for adding the NOWEIGHT command to Uncle tables
 
 ### number.lua
 Neovim plugin for numbering Uncle tables.
