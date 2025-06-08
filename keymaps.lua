@@ -28,7 +28,7 @@ require "user.uncle.skip"
 require "user.uncle.split_base"
 require "user.uncle.state_abbv"
 require "user.uncle.state_fips"
-require "user.uncle.sum_init"
+require "user.uncle.sum_init2"
 require "user.uncle.summary_setup"
 require "user.uncle.sum2_setup"
 require "user.uncle.t1001"
@@ -50,8 +50,12 @@ keymap("n", "<leader>hb", ':lua require("user.uncle.hbase").hBaseWrapper()<CR>',
 keymap("n", "<leader>cw", ':lua require("user.uncle.colw").colwWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: Colw" })
 keymap("n", "<leader>ds", ":DiffScore<CR>", { noremap = true, silent = true, desc = "Uncle: [D]ifference [S]core" })
 keymap("n", "<leader>in", ':lua require("user.uncle.indent").indent()<CR>', { noremap = true, silent = true, desc = "Uncle: Indent" })
-keymap("n", "<leader>k", ':lua require("user.uncle.uncle_syntax").uncleSyntax()<CR>', { noremap = true, silent = true, desc = "Uncle: QX-1 syntax" })
-keymap("n", "<leader>j", ':lua require("user.uncle.uncle_syntax").combFix()<CR>', { noremap = true, silent = true, desc = "Uncle: QX:1 syntax" })
+
+keymap("n", "<leader>k", ':lua require("user.uncle.us2").process_uncle_syntax()<CR>', { noremap = true, silent = true, desc = "Uncle: QX-1 syntax" })
+keymap("n", "<leader>j", ':lua require("user.uncle.us2").combined_fix()<CR>', { noremap = true, silent = true, desc = "Uncle: QX:1 syntax" })
+
+-- keymap("n", "<leader>k", ':lua require("user.uncle.uncle_syntax").uncleSyntax()<CR>', { noremap = true, silent = true, desc = "Uncle: QX-1 syntax" })
+-- keymap("n", "<leader>j", ':lua require("user.uncle.uncle_syntax").combFix()<CR>', { noremap = true, silent = true, desc = "Uncle: QX:1 syntax" })
 keymap("n", "<leader>ii", ':lua require("user.uncle.in2").indent()<CR>', { noremap = true, silent = true, desc = "Uncle: &IN2" })
 keymap("n", "<leader>bc", ':lua require("user.uncle.banner_column").bannerColumn()<CR>', { noremap = true, silent = true, desc = "Uncle: Insert [B]anner [C]olumns" })
 keymap("n", "<leader>rr", ':lua require("user.uncle.r_row").rRow()<CR>', { noremap = true, silent = true, desc = "Uncle: Insert R Row" })
