@@ -43,6 +43,6 @@ This is a specialized Neovim configuration module for **Venture Data** that prov
 
 ## File Types and Extensions
 - `.lay` - Survey layout files (input format)
-- `.rfl` - Promark exported files
-- `.E` - Uncle executable files
+- `.rfl` - Readable format layout files
+- `.E` - Uncle syntax files
 - No specific test files or build processes - this is a runtime Neovim configuration
