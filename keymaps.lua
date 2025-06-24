@@ -44,49 +44,59 @@ require "user.uncle.weight_tables"
 require "user.uncle.teledb"
 require "user.uncle.zero_pad"
 
-local keymap = vim.api.nvim_set_keymap
-
-if vim.bo.filetype == "uncle" or vim.bo.filetype == "text" then
-  keymap("n", "<leader>cc", ':lua require("user.uncle.cw_count").getColumnWidth()<CR>', { noremap = true, silent = true, desc = "Uncle: [C]olumns [C]ount" })
-  keymap("n", "<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: VBase" })
-  keymap("n", "<leader>hb", ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: HBase" })
-  keymap("n", "<leader>cw", ':lua require("user.uncle.colw").colwWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: Colw" })
-  keymap("n", "<leader>ds", ":DiffScore<CR>", { noremap = true, silent = true, desc = "Uncle: [D]ifference [S]core" })
-  keymap("n", "<leader>in", ':lua require("user.uncle.indent").indent()<CR>', { noremap = true, silent = true, desc = "Uncle: Indent" })
-
-  keymap("n", "<leader>k", ':lua require("user.uncle.us2").process_uncle_syntax()<CR>', { noremap = true, silent = true, desc = "Uncle: QX-1 syntax" })
-  keymap("n", "<leader>j", ':lua require("user.uncle.us2").combined_fix()<CR>', { noremap = true, silent = true, desc = "Uncle: QX:1 syntax" })
-
-  -- keymap("n", "<leader>k", ':lua require("user.uncle.uncle_syntax").uncleSyntax()<CR>', { noremap = true, silent = true, desc = "Uncle: QX-1 syntax" })
-  -- keymap("n", "<leader>j", ':lua require("user.uncle.uncle_syntax").combFix()<CR>', { noremap = true, silent = true, desc = "Uncle: QX:1 syntax" })
-  keymap("n", "<leader>ii", ':lua require("user.uncle.in2").indent()<CR>', { noremap = true, silent = true, desc = "Uncle: &IN2" })
-  keymap("n", "<leader>bc", ':lua require("user.uncle.banner_column").bannerColumn()<CR>', { noremap = true, silent = true, desc = "Uncle: Insert [B]anner [C]olumns" })
-  keymap("n", "<leader>rr", ':lua require("user.uncle.r_row").rRow()<CR>', { noremap = true, silent = true, desc = "Uncle: Insert R Row" })
-  keymap("n", "<leader>u", ':lua require("user.uncle.underline").underline()<CR>', { noremap = true, silent = true, desc = "Uncle: Underline" })
-  keymap("n", "<leader>sp", ':lua require("user.uncle.space1").space1()<CR>', { noremap = true, silent = true, desc = "Uncle: Space 1" })
-  keymap("n", "<leader>sz", ':lua require("user.uncle.noszr").noszr()<CR>', { noremap = true, silent = true, desc = "Uncle: Noszr" })
-  keymap("n", "<leader>np", ':lua require("user.uncle.noprint").noPrint()<CR>', { noremap = true, silent = true, desc = "Uncle: No print" })
-  keymap("n", "<leader>nr", ':lua require("user.uncle.norank").noRank()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
-  keymap("n", "<leader>nw", ':lua require("user.uncle.noweight").noWeight()<CR>', { noremap = true, silent = true, desc = "Uncle: No weight" })
-  keymap("n", "<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: No rank" })
-  keymap("n", "<leader>sc", ':lua require("user.uncle.state_fips").stateFips()<CR>', { noremap = true, silent = true, desc = "Uncle: [S]tate (FIPS) [C]ode" })
-  keymap("n", "<leader>tt", ':lua require("user.uncle.t1001").testTables()<CR>', { noremap = true, silent = true, desc = "Uncle: [T]est [T]ables" })
-  keymap("n", "<leader>or", ":Rank<CR>", { noremap = true, silent = true, desc = "Uncle: O Rank" })
-  keymap("n", "<leader>sb", ":SplitBase<CR>", { noremap = true, silent = true, desc = "Uncle: Split Base" })
-  keymap("n", "<leader>si", ":SumInit<CR>", { noremap = true, silent = true, desc = "Uncle: Summmary initialize" })
-  keymap("n", "<leader>br", ":BaseRow<CR>", { noremap = true, silent = true, desc = "Uncle: Base Row" })
-  keymap("n", "<leader>nn", ":Nets<CR>", { noremap = true, silent = true, desc = "Uncle: [N]ets" })
-  keymap("n", "<leader>qr", ":QualRow<CR>", { noremap = true, silent = true, desc = "Uncle: [Q]ualifier [R]ow" })
-  keymap("n", "<leader>rn", ":Renumber<CR>", { noremap = true, silent = true, desc = "Uncle: [R]e[N]umber" })
-  keymap("n", "<leader>tc", ":TabCol<CR>", { noremap = true, silent = true, desc = "Uncle: Columnize tab-delimited text" })
-  keymap("n", "<leader>wp", ":WeightProduct<CR>", { noremap = true, silent = true, desc = "Uncle: Weight Product" })
-  keymap("n", "<leader>ws", ":WeightSum<CR>", { noremap = true, silent = true, desc = "Uncle: Weight Sum" })
-  keymap("n", "<leader>wt", ":WeightTables<CR>", { noremap = true, silent = true, desc = "Uncle: Weight Tables" })
-  keymap("n", "<leader>x", ":T500<CR>", { noremap = true, silent = true, desc = "Uncle: e[X]ecutable tables" })
+local function nmap(keys, func, desc)
+  vim.api.nvim_set_keymap("n", keys, func, { noremap = true, silent = true, desc = desc })
 end
 
-keymap("n", "<leader>ic", ":InitClean<CR>", { noremap = true, silent = true, desc = "Uncle: Initial Cleanup" })
-keymap("n", "<leader>t2t", ":Text2tab<CR>", { noremap = true, silent = true, desc = "Uncle: Text-to-tab" })
-keymap("n", "<leader>ld", ":Teledb<CR>", { noremap = true, silent = true, desc = "Uncle: [L]ookup [D]atabase" })
-keymap("n", "<leader>zp", ':lua require("user.uncle.zero_pad").wrapper()<CR>', { noremap = true, silent = true, desc = "Uncle: [Z]ero [P]ad" })
-keymap("n", "<leader>sa", ':lua require("user.uncle.state_abbv").stateAbbv()<CR>', { noremap = true, silent = true, desc = "Uncle: [State [A]bbreviation" })
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "uncle", "text"},
+  callback = function()
+    nmap("<leader>cc", ':lua require("user.uncle.cw_count").getColumnWidth()<CR>', "Uncle: [C]olumn [C]ount")
+    nmap("<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', "Uncle: VBase")
+    nmap("<leader>hb", ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', "Uncle: HBase")
+    nmap("<leader>cw", ':lua require("user.uncle.colw").colwWrapper()<CR>', "Uncle: Colw")
+    nmap("<leader>ds", ":DiffScore<CR>", "Uncle: [D]ifference [S]core")
+    nmap("<leader>in", ':lua require("user.uncle.indent").indent()<CR>', "Uncle: Indent")
+
+    nmap("<leader>k", ':lua require("user.uncle.uncle_syntax2").process_uncle_syntax()<CR>', "Uncle: QX-1 syntax")
+    nmap("<leader>j", ':lua require("user.uncle.uncle_syntax2").combined_fix()<CR>', "Uncle: QX:1 syntax")
+    -- nmap("<leader>k", ':lua require("user.uncle.uncle_syntax").uncleSyntax()<CR>', "Uncle: QX-1 syntax")
+    -- nmap("<leader>j", ':lua require("user.uncle.uncle_syntax").combFix()<CR>', "Uncle: QX:1 syntax")
+
+    nmap("<leader>ii", ':lua require("user.uncle.in2").indent()<CR>', "Uncle: &IN2")
+    nmap("<leader>bc", ':lua require("user.uncle.banner_column").bannerColumn()<CR>', "Uncle: Insert [B]anner [C]olumns")
+    nmap("<leader>rr", ':lua require("user.uncle.r_row").rRow()<CR>', "Uncle: Insert R Row")
+    nmap("<leader>u", ':lua require("user.uncle.underline").underline()<CR>', "Uncle: Underline")
+    nmap("<leader>sp", ':lua require("user.uncle.space1").space1()<CR>', "Uncle: Space 1")
+    nmap("<leader>sz", ':lua require("user.uncle.noszr").noszr()<CR>', "Uncle: Noszr")
+    nmap("<leader>np", ':lua require("user.uncle.noprint").noPrint()<CR>', "Uncle: No print")
+    nmap("<leader>nr", ':lua require("user.uncle.norank").noRank()<CR>', "Uncle: No rank")
+    nmap("<leader>nw", ':lua require("user.uncle.noweight").noWeight()<CR>', "Uncle: No weight")
+    nmap("<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', "Uncle: No rank")
+    nmap("<leader>sc", ':lua require("user.uncle.state_fips").stateFips()<CR>', "Uncle: [S]tate (FIPS) [C]ode")
+    nmap("<leader>tt", ':lua require("user.uncle.t1001").testTables()<CR>', "Uncle: [T]est [T]ables")
+    nmap("<leader>or", ":Rank<CR>", "Uncle: O Rank")
+    nmap("<leader>sb", ":SplitBase<CR>", "Uncle: Split Base")
+    nmap("<leader>si", ":SumInit<CR>", "Uncle: Summmary initialize")
+    nmap("<leader>br", ":BaseRow<CR>", "Uncle: Base Row")
+    nmap("<leader>nn", ":Nets<CR>", "Uncle: [N]ets")
+    nmap("<leader>qr", ":QualRow<CR>", "Uncle: [Q]ualifier [R]ow")
+    nmap("<leader>rn", ":Renumber<CR>", "Uncle: [R]e[N]umber")
+    nmap("<leader>wp", ":WeightProduct<CR>", "Uncle: Weight Product")
+    nmap("<leader>ws", ":WeightSum<CR>", "Uncle: Weight Sum")
+    nmap("<leader>wt", ":WeightTables<CR>", "Uncle: Weight Tables")
+    nmap("<leader>x", ":T500<CR>", "Uncle: e[X]ecutable tables")
+  end
+})
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = "rfl",
+  callback = function()
+    nmap("<leader>sa", ':lua require("user.uncle.state_abbv").stateAbbv()<CR>', "Uncle: [State [A]bbreviation")
+  end
+})
+
+nmap("<leader>ic", ":InitClean<CR>", "Uncle: Initial Cleanup")
+nmap("<leader>t2t", ":Text2tab<CR>", "Uncle: Text-to-tab")
+nmap("<leader>ld", ":Teledb<CR>", "Uncle: [L]ookup [D]atabase")
+nmap("<leader>zp", ':lua require("user.uncle.zero_pad").wrapper()<CR>', "Uncle: [Z]ero [P]ad")
+    nmap("<leader>tc", ":TabCol<CR>", "Uncle: Columnize tab-delimited text")

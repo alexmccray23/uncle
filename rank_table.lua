@@ -2,7 +2,7 @@
 local function rankRow()
   local line = vim.fn.line "."
   vim.fn.search("^R &IN2BASE==", "bc")
-  local base = "O RANK RANKPCT"
+  local base = "O RANK"
   vim.fn.append(vim.fn.line "." - 1, base)
   vim.api.nvim_win_set_cursor(0, { line + 1, 0 })
 end
