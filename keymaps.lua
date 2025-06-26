@@ -51,6 +51,7 @@ end
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "uncle", "text"},
   callback = function()
+    nmap("<leader>a", ':lua require("user.uncle.adjust").menu()<CR>', "Uncle: [A]djust banners")
     nmap("<leader>cc", ':lua require("user.uncle.cw_count").getColumnWidth()<CR>', "Uncle: [C]olumn [C]ount")
     nmap("<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', "Uncle: VBase")
     nmap("<leader>hb", ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', "Uncle: HBase")
@@ -86,6 +87,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     nmap("<leader>ws", ":WeightSum<CR>", "Uncle: Weight Sum")
     nmap("<leader>wt", ":WeightTables<CR>", "Uncle: Weight Tables")
     nmap("<leader>x", ":T500<CR>", "Uncle: e[X]ecutable tables")
+  end
+})
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "bigfile", "text"},
+  callback = function()
+    nmap("<leader>bk", ':BaseCheck<CR>', "Uncle: [B]aseChec[k]")
   end
 })
 vim.api.nvim_create_autocmd({ "FileType" }, {
