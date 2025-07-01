@@ -56,6 +56,15 @@ ls.add_snippets("basic", {
           i(1), i(2), i(3), i(4), i(5)
         }),
       fmt([[
+          SELECT CASE VAL(MID$(A$, 1, 9))
+            CASE {}
+              PRINTCASE = 0
+          END SELECT
+        ]],
+        {
+          i(1)
+        }),
+      fmt([[
           SELECT CASE VAL(MID$(A$, {}, {}))
             CASE {}: MID$(A$, {}, {}) = "{}"
           END SELECT
