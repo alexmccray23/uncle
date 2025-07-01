@@ -12,6 +12,11 @@ local extras = require("luasnip.extras")
 local l = extras.lambda
 
 
+local function same(index)
+  return f(function(arg)
+    return arg[1]
+  end, { index })
+end
 
 ls.add_snippets("uncle", {
   s("ds", {
@@ -25,13 +30,19 @@ ls.add_snippets("uncle", {
     i(4, "2"),
     t { ") NOSZR", "R" }
   }),
+  s("a(1",
+      fmt([[A(1!{}), R(1!{},{});FDP {}]],
+        {
+          i(1), same(1), i(2), i(3)
+        })
+    ),
+  s("pc(1",
+    fmt([[PC(1!{}, 50), R(1!{},{});FDP {}]],
+      {
+        i(1), same(1), i(2), i(3)
+      })
+    ),
 })
-
-local function same(index)
-  return f(function(arg)
-    return arg[1]
-  end, { index })
-end
 
 ls.add_snippets("basic", {
   s("select case",

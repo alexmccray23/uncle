@@ -35,7 +35,7 @@ function M.add_generic(value)
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
 
   for _ = 1, count do
-    local sort_cmd = string.format("s/\\d\\+$/\\=printf('%%0%dd', submatch(0))", value)
+    local sort_cmd = string.format("s/^\\d\\+/\\=printf('%%0%dd', submatch(0))", value)
     vim.api.nvim_exec2(sort_cmd, {})
 
     --vim.api.nvim_set_current_line(new_line)
