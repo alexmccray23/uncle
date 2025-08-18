@@ -259,7 +259,7 @@ function M.viewGroups()
   vim.fn.search("\\_^TABLE ", "b")
   local text = M.copyTable()[1]
   local titles = {}
-  for i = 1, 50 do
+  for i = 1, 150 do
     titles[i] = ""
   end
   for _, line in ipairs(text) do

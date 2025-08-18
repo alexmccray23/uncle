@@ -97,7 +97,7 @@ function M.getColumns()
   local layout = vim.fn.readfile(temp[#temp])
   for _, value in ipairs(layout) do
     local column = vim.split(value, " +", { plain = false, trimempty = true })
-    if column[1] == "QAGE" or column[1] == "AGEGROUP" or column[1] == "AGE" or column[1] == "Q2A" then
+    if column[1] == "QD1" or column[1] == "QAGE" or column[1] == "AGEGROUP" or column[1] == "AGE" or column[1] == "Q2A" then
       data[column[1]] = {
         startCol = tonumber(column[2]),
         endCol = tonumber(column[3]),
