@@ -30,6 +30,7 @@ function M.insert_column()
   local wholeText, start_line, end_line = unpack(M.copyTable())
   local first_col = nil
   local point = ""
+  --- @cast wholeText string[]
   for _, line in ipairs(wholeText) do
     if line:match "^(T .*)&CC%d+:%d+==" then
       local group_array = vim.split(line, "==", { plain = true })
@@ -86,6 +87,7 @@ function M.insert_group()
   local end_col = nil
   local ul_chk = 1
   local last_group = nil
+  --- @cast wholeText string[]
   for i, line in ipairs(wholeText) do
     if line:match "^(T .*)&CC%d+:%d+==" then
       ul_chk = i - 1
@@ -149,6 +151,7 @@ function M.delete_column()
   local wholeText, start_line, end_line = unpack(M.copyTable())
   local point = ""
   local first_col = nil
+  --- @cast wholeText string[]
   for _, line in ipairs(wholeText) do
     if line:match "^(T .*)&CC%d+:%d+==" then
       local group_array = vim.split(line, "==", { plain = true })
@@ -202,6 +205,7 @@ function M.delete_group()
   local wholeText, start_line, end_line = unpack(M.copyTable())
   local first_col = nil
   local end_col = nil
+  --- @cast wholeText string[]
   for _, line in ipairs(wholeText) do
     if line:match "^(T .*)&CC%d+:%d+==" then
       local group_array = vim.split(line, "==", { plain = true })
