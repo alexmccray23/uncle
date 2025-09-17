@@ -152,8 +152,8 @@ function M.getFormat()
       "R 50;R(1!X:Y,50)",
       "R 1-49;R(1!X:Y,1:49)",
       "R DON'T KNOW//REFUSED;R(1!X:Y,99)",
-      "R /&DFMEAN;A(X:Y), R(1!X:Y,0:10);FDP 1",
-      "R MEDIAN;PC(X:Y, 50), R(1!X:Y,0:10);FDP 1",
+      "R /&DFMEAN;A(X:Y), R(1!X:Y,0:100);FDP 1",
+      "R MEDIAN;PC(X:Y, 50), R(1!X:Y,0:100);FDP 1",
     }
   elseif input == 32 then
     wholeText = {
@@ -162,8 +162,8 @@ function M.getFormat()
       "R 50-79;R(1!X:Y,50:79)",
       "R 1-49;R(1!X:Y,1:49)",
       "R DON'T KNOW//REFUSED;R(1!X:Y,99)",
-      "R /&DFMEAN;A(X:Y), R(1!X:Y,0:10);FDP 1",
-      "R MEDIAN;PC(X:Y, 50), R(1!X:Y,0:10);FDP 1",
+      "R /&DFMEAN;A(X:Y), R(1!X:Y,0:100);FDP 1",
+      "R MEDIAN;PC(X:Y, 50), R(1!X:Y,0:100);FDP 1",
     }
   elseif input == 41 then
     wholeText = {
@@ -173,8 +173,8 @@ function M.getFormat()
       "R 50;R(1!X:Y,50)",
       "R 0-49;R(1!X:Y,0:49)",
       "R DON'T KNOW//REFUSED;R(1!X:Y,99)",
-      "R /&DFMEAN;A(X:Y), R(1!X:Y,0:10);FDP 1",
-      "R MEDIAN;PC(X:Y, 50), R(1!X:Y,0:10);FDP 1",
+      "R /&DFMEAN;A(X:Y), R(1!X:Y,0:100);FDP 1",
+      "R MEDIAN;PC(X:Y, 50), R(1!X:Y,0:100);FDP 1",
     }
   elseif input == 42 then
     wholeText = {
@@ -183,8 +183,8 @@ function M.getFormat()
       "R 50-79;R(1!X:Y,50:79)",
       "R 0-49;R(1!X:Y,0:49)",
       "R DON'T KNOW//REFUSED;R(1!X:Y,99)",
-      "R /&DFMEAN;A(X:Y), R(1!X:Y,0:10);FDP 1",
-      "R MEDIAN;PC(X:Y, 50), R(1!X:Y,0:10);FDP 1",
+      "R /&DFMEAN;A(X:Y), R(1!X:Y,0:100);FDP 1",
+      "R MEDIAN;PC(X:Y, 50), R(1!X:Y,0:100);FDP 1",
     }
   elseif input == 51 then
     wholeText = {

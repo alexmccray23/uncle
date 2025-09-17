@@ -31,6 +31,8 @@ function M.submenu(arg)
     { label = "3.3. NMB Footer", args = arg, func = M.banner },
     { label = "3.4. NBS Footer", args = arg, func = M.banner },
     { label = "3.5. Burton Footer", args = arg, func = M.banner },
+    { label = "3.6. UpOne Footer", args = arg, func = M.banner },
+    { label = "3.7. DeepRoot Footer", args = arg, func = M.banner },
   }
 
   print " "
@@ -78,16 +80,24 @@ end
 function M.weightExec()
   local fullPath = vim.split(vim.fn.expand "%:p", "/", { plain = true })
   local projName = vim.split(fullPath[#fullPath], ".", { plain = true })
+  local input = ""
 
   table.remove(fullPath, #fullPath)
   local layList = table.concat(fullPath, "/") .. "/*.[Ll][Aa][Yy]"
   local layFile = vim.fn.glob(layList, false, true)
-  local layout = vim.fn.readfile(layFile[#layFile])
+  if #layFile > 0 then
+    local layout = vim.fn.readfile(layFile[#layFile])
 
-  local lastCol = vim.split(layout[#layout], " +", { plain = false, trimempty = true })[3]
-  local layName = vim.split(layFile[#layFile], "/", { plain = true })
-  local input = vim.fn.input(string.format("Starting column? (Last column in %s is %d): ", layName[#layName], lastCol))
-  if input == "" then return end
+    local lastCol = vim.split(layout[#layout], " +", { plain = false, trimempty = true })[3]
+    local layName = vim.split(layFile[#layFile], "/", { plain = true })
+    input = vim.fn.input(string.format("Starting column? (Last column in %s is %d): ", layName[#layName], lastCol))
+  else
+    input = vim.fn.input(string.format "Starting column? (No layout file found): ")
+  end
+
+  if input == "" then
+    return
+  end
   local proj = projName[1]
   local text = {
     "*************************           WEIGHTING           ************************",
@@ -121,6 +131,10 @@ function M.banner(arg)
     footer = "F &CP N E W   B R I D G E   S T R A T E G Y"
   elseif arg == 5 then
     footer = "F &CP B U R T O N   R E S E A R C H   A N D   S T R A T E G I E S"
+  elseif arg == 6 then
+    footer = "F &CP U P O N E   I N S I G H T S"
+  elseif arg == 7 then
+    footer = "F &CP D E E P  R O O T  A N A L Y T I C S"
   else
     return
   end
@@ -276,9 +290,8 @@ function M.checkExec()
   local stub_start = vim.fn.search("^TABLE 1000", "b")
   local stub_end = vim.fn.search("^TABLE 1001", "W")
   local stubText = vim.api.nvim_buf_get_lines(0, stub_start - 1, stub_end - 1, false)
-
   local testText = vim.api.nvim_buf_get_lines(0, stub_end, test_end - 1, false)
-  vim.fn.search("^X WEIGHT \\d\\{3\\}", "w")
+
   local wt_line = vim.api.nvim_get_current_line()
   vim.api.nvim_win_set_cursor(0, { test_end - 1, 0 })
   local bans = {}
@@ -287,7 +300,9 @@ function M.checkExec()
     if not line:match "X SET TITLE '&CP STUB TABLES'" then
       line = line:gsub("TABLE 1000", "TABLE 1002")
       line = line:gsub(".STB", ".CHK")
-      line = line:gsub("X WEIGHT UNWEIGHT", "X IF(ALL) CWEIGHT(F" .. wt_line .. ")")
+      if wt_line ~= nil then
+        line = line:gsub("X WEIGHT UNWEIGHT", "X IF(ALL) CWEIGHT(F" .. wt_line .. ")")
+      end
       if line:match "900 PAGE 1" then
         for _, v in ipairs(testText) do
           if v:match "X RUN" then

@@ -80,7 +80,7 @@ function M.three()
 
   local start_line = vim.fn.line('.')
   local text = vim.api.nvim_buf_get_lines(0, start_line - 1, start_line + totRows - 1, false)
-  local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
+  local pattern = [[\(.*\)\(-\|,\|=\)\(\d\+\)\()\?\)]]
   for i, line in ipairs(text) do
     newText[i] = vim.fn.substitute(line, "^R ", "R   ", "")
     r_row[i] = vim.split(line, ';', { plain = true })
@@ -88,7 +88,11 @@ function M.three()
     r_row[i][1] = vim.fn.substitute(r_row[i][1], "&IN2\\|&UT-", "", "")
     punches[i] = vim.fn.substitute(r_row[i][2], pattern, "\\3", "")
   end
+
   local pValue1 = vim.fn.substitute(r_row[1][2], pattern, "\\1\\2\\3:" .. punches[#text] .. "\\4", "")
+
+  -- Accounting for Uncle files generated from loaded spss files (uses '=')
+  pValue1 = pValue1:gsub("=","-")
 
   table.insert(newText, 1, "R TOTAL " .. label .. "&UT-;" .. pValue1)
 
@@ -105,7 +109,7 @@ function M.four()
   vim.api.nvim_win_set_cursor(0, { start_line + 1, 0 })
   local end_line = start_line + 4
   local text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
-  local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
+  local pattern = [[\(.*\)\(-\|,\|=\)\(\d\+\)\()\?\)]]
   for i, line in ipairs(text) do
     newText[i] = vim.fn.substitute(line, "^R ", "R   ", "")
     r_row[i] = vim.split(line, ';', { plain = true })
@@ -130,6 +134,10 @@ function M.four()
     pLabel2 = vim.fn.substitute(pLabel2, '^NOT', "DOESN'T", "")
   end
 
+  -- Accounting for Uncle files generated from loaded spss files (uses '=')
+  pValue1 = pValue1:gsub("=","-")
+  pValue2 = pValue2:gsub("=","-")
+
   table.insert(newText, 1, "R &IN2**D//S (" .. pLabel1 .. " - " .. pLabel2 .. ");NONE;EX(RD1-RD2) NOSZR")
   table.insert(newText, 2, "R TOTAL " .. pLabel1 .. "&UT-;" .. pValue1)
   table.insert(newText, 3, "R TOTAL " .. pLabel2 .. "&UT-;" .. pValue2)
@@ -147,7 +155,7 @@ function M.five()
   vim.api.nvim_win_set_cursor(0, { start_line + 1, 0 })
   local end_line = start_line + 5
   local text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
-  local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
+  local pattern = [[\(.*\)\(-\|,\|=\)\(\d\+\)\()\?\)]]
   for i, line in ipairs(text) do
     if i ~= 3 then
       newText[i] = vim.fn.substitute(line, "^R ", "R   ", "")
@@ -169,6 +177,11 @@ function M.five()
   pLabel2 = vim.fn.substitute(pLabel2, '^MIDDLE CLASS', 'UPPER//WELL-TO-DO', "")
   pLabel2 = vim.fn.substitute(pLabel2, '^UPPER-MIDDLE CLASS', 'UPPER//WELL-TO-DO', "")
 
+
+  -- Accounting for Uncle files generated from loaded spss files (uses '=')
+  pValue1 = pValue1:gsub("=","-")
+  pValue2 = pValue2:gsub("=","-")
+
   table.insert(newText, 1, "R &IN2**D//S (" .. pLabel1 .. " - " .. pLabel2 .. ");NONE;EX(RD1-RD2) NOSZR")
   table.insert(newText, 2, "R TOTAL " .. pLabel1 .. "&UT-;" .. pValue1)
   table.insert(newText, 3, "R TOTAL " .. pLabel2 .. "&UT-;" .. pValue2)
@@ -188,7 +201,7 @@ function M.six_one()
   vim.api.nvim_win_set_cursor(0, { start_line + 1, 0 })
   local end_line = start_line + 7
   local text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
-  local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
+  local pattern = [[\(.*\)\(-\|,\|=\)\(\d\+\)\()\?\)]]
   for i, line in ipairs(text) do
     if i ~= 4 then
       newText[i] = vim.fn.substitute(line, "^R ", "R   \\&IN2", "")
@@ -204,6 +217,10 @@ function M.six_one()
   local pValue2 = vim.fn.substitute(r_row[5][2], pattern, "\\1\\2\\3:" .. punches[7] .. "\\4", "")
   local pLabel1 = r_row[1][1]
   local pLabel2 = r_row[7][1]
+
+  -- Accounting for Uncle files generated from loaded spss files (uses '=')
+  pValue1 = pValue1:gsub("=","-")
+  pValue2 = pValue2:gsub("=","-")
 
   table.insert(newText, 1, "R &IN2**D//S (" .. pLabel1 .. " - " .. pLabel2 .. ");NONE;EX(RD1-RD2) NOSZR")
   table.insert(newText, 2, "R TOTAL " .. pLabel1 .. "&UT-;" .. pValue1)
@@ -224,7 +241,7 @@ function M.six_two()
   vim.api.nvim_win_set_cursor(0, { start_line + 1, 0 })
   local end_line = start_line + 7
   local text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
-  local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
+  local pattern = [[\(.*\)\(-\|,\|=\)\(\d\+\)\()\?\)]]
   for i, line in ipairs(text) do
     newText[i] = vim.fn.substitute(line, "^R ", "R   \\&IN2", "")
     r_row[i] = vim.split(line, ';', { plain = true })
@@ -237,6 +254,10 @@ function M.six_two()
   local pValue3 = vim.fn.substitute(r_row[3][2], pattern, "\\1\\2\\3:" .. punches[5] .. "\\4", "")
   local pLabel1 = r_row[1][1]
   local pLabel2 = r_row[7][1]
+
+  -- Accounting for Uncle files generated from loaded spss files (uses '=')
+  pValue1 = pValue1:gsub("=","-")
+  pValue2 = pValue2:gsub("=","-")
 
   table.insert(newText, 1, "R &IN2**D//S (" .. pLabel1 .. " - " .. pLabel2 .. ");NONE;EX(RD1-RD2) NOSZR")
   table.insert(newText, 2, "R TOTAL " .. pLabel1 .. "&UT-;" .. pValue1)
@@ -256,7 +277,7 @@ function M.seven()
   vim.api.nvim_win_set_cursor(0, { start_line + 1, 0 })
   local end_line = start_line + 7
   local text = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
-  local pattern = "\\(.*\\)\\(-\\|,\\)\\(\\d\\+\\)\\()\\?\\)"
+  local pattern = [[\(.*\)\(-\|,\|=\)\(\d\+\)\()\?\)]]
   local pValue1 = ""
   local pValue2 = ""
   local pValue3 = ""
@@ -293,6 +314,11 @@ function M.seven()
       pValue3 = vim.fn.substitute(r_row[i][2], pattern, "\\1\\2" .. sc_end + 1 .. ":\\3\\4", "")
     end
   end
+
+  -- Accounting for Uncle files generated from loaded spss files (uses '=')
+  pValue1 = pValue1:gsub("=","-")
+  pValue2 = pValue2:gsub("=","-")
+  pValue3 = pValue3:gsub("=","-")
 
   table.insert(newText, 1, "R HIGH SCHOOL OR LESS&UT-;" .. pValue1)
   table.insert(newText, 2, "R SOME COLLEGE&UT-;" .. pValue2)
