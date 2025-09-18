@@ -182,7 +182,7 @@ function M.two()
   local r_row, punches = process_lines(text)
 
   local new_line = string.format([[R &IN2**D//S (%s - %s);NONE;EX(RD1-RD2) NOSZR]], r_row[1][1], r_row[2][1])
-  vim.fn.append(vim.fn.line ".", new_line)
+  vim.fn.append(vim.fn.line "." - 1, new_line)
   vim.api.nvim_win_set_cursor(0, { start_line + 2, 0 })
 end
 
