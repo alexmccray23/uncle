@@ -132,7 +132,7 @@ end
 -- Helper function: Update buffer with new lines
 local function update_buffer(newText, start_line, original_count)
   local nline = vim.fn.line "."
-  vim.api.nvim_buf_set_lines(0, nline - 1, nline + original_count - 1, false, newText)
+  vim.api.nvim_buf_set_lines(0, nline - 1, nline + original_count, false, newText)
   vim.api.nvim_win_set_cursor(0, { nline + 1, 0 })
 end
 

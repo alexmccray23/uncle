@@ -292,6 +292,7 @@ function M.checkExec()
   local stubText = vim.api.nvim_buf_get_lines(0, stub_start - 1, stub_end - 1, false)
   local testText = vim.api.nvim_buf_get_lines(0, stub_end, test_end - 1, false)
 
+  vim.fn.search("^X WEIGHT \\d\\{3\\}", "w")
   local wt_line = vim.api.nvim_get_current_line()
   vim.api.nvim_win_set_cursor(0, { test_end - 1, 0 })
   local bans = {}
