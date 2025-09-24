@@ -6,6 +6,7 @@ local M = {}
 local PATTERNS = {
   punch_extract = [[\(.*\)\(-\|,\|=\)\(\d\+\)\()\?\)]],
   r_prefix_clean = [[^R\s\+\(\S\+\s\)\?]],
+  ds_clean = [[^R\s\+\(TOTAL\s\)\?]],
   r_prefix_clean_word = [[^R\s\+\(\w\+\s\)\?]],
   formatting_clean = [[&IN2\|&UT-]],
 }
@@ -95,7 +96,12 @@ local function process_lines(text, options)
 
     -- Split and clean line data
     r_row[i] = vim.split(line, ";", { plain = true })
-    local clean_pattern = options.use_word_clean and PATTERNS.r_prefix_clean_word or PATTERNS.r_prefix_clean
+    local clean_pattern = ""
+    if options.ds_clean then
+      clean_pattern = options.ds_clean and PATTERNS.ds_clean
+    else
+      clean_pattern = options.use_word_clean and PATTERNS.r_prefix_clean_word or PATTERNS.r_prefix_clean
+    end
     r_row[i][1] = vim.fn.substitute(r_row[i][1], clean_pattern, "", "")
     r_row[i][1] = vim.fn.substitute(r_row[i][1], PATTERNS.formatting_clean, "", "")
     punches[i] = vim.fn.substitute(r_row[i][2], PATTERNS.punch_extract, "\\3", "")
@@ -179,7 +185,7 @@ end
 
 function M.two()
   local text, start_line = get_buffer_context(2)
-  local r_row, punches = process_lines(text)
+  local r_row, punches = process_lines(text, { ds_clean = true})
 
   local new_line = string.format([[R &IN2**D//S (%s - %s);NONE;EX(RD1-RD2) NOSZR]], r_row[1][1], r_row[2][1])
   vim.fn.append(vim.fn.line "." - 1, new_line)
