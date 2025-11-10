@@ -28,7 +28,8 @@ ls.add_snippets("uncle", {
     i(3, "1"),
     t "-RD",
     i(4, "2"),
-    t { ") NOSZR", "R" },
+    -- t { ") NOSZR", "R" }, -- for cmp
+    t { ") NOSZR", ""  }, -- for blink
   }),
   s("a(1",
     fmt([[A(1!{}), R(1!{},{});FDP {}]],
