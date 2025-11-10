@@ -73,7 +73,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     nmap("<leader>np", ':lua require("user.uncle.noprint").noPrint()<CR>', "Uncle: No print")
     nmap("<leader>nr", ':lua require("user.uncle.norank").noRank()<CR>', "Uncle: No rank")
     nmap("<leader>nw", ':lua require("user.uncle.noweight").noWeight()<CR>', "Uncle: No weight")
-    nmap("<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', "Uncle: No rank")
     nmap("<leader>sc", ':lua require("user.uncle.state_fips").stateFips()<CR>', "Uncle: [S]tate (FIPS) [C]ode")
     nmap("<leader>tt", ':lua require("user.uncle.t1001").testTables()<CR>', "Uncle: [T]est [T]ables")
     nmap("<leader>or", ":Rank<CR>", "Uncle: O Rank")
