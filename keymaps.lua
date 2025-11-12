@@ -1,4 +1,4 @@
-require "user.uncle.adjust"
+require "user.uncle.adjust2"
 require "user.uncle.banner_column"
 require "user.uncle.base_check"
 require "user.uncle.base_row"
@@ -51,7 +51,7 @@ end
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "uncle", "text"},
   callback = function()
-    nmap("<leader>a", ':lua require("user.uncle.adjust").menu()<CR>', "Uncle: [A]djust banners")
+    nmap("<leader>a", ':lua require("user.uncle.adjust2").menu()<CR>', "Uncle: [A]djust banners")
     nmap("<leader>cc", ':lua require("user.uncle.cw_count").getColumnWidth()<CR>', "Uncle: [C]olumn [C]ount")
     nmap("<leader>vb", ':lua require("user.uncle.vbase").vBaseWrapper()<CR>', "Uncle: VBase")
     nmap("<leader>hb", ':lua require("user.uncle.hbase").hBaseWrapper()<CR>', "Uncle: HBase")
