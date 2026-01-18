@@ -106,7 +106,7 @@ function M.parseTable(fields, count, choice)
     for i = 1, #fields do
       if
         line:match "^R"
-        and vim.fn.match(line, fields[i]) > 0
+        and vim.fn.match(vim.split(line, ";", { plain = true })[1], fields[i]) > 0
         and not line:match "HP NOVP"
         and not line:match "D//S"
         and questionText[i + choice] == nil

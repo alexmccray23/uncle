@@ -24,7 +24,7 @@ local function tableSeries()
 
   local function getColumnsFirst()
     vim.fn.search("^R &IN2BASE==", "b")
-    vim.fn.search("^R \\w", "W")
+    vim.fn.search("^R \\(\\w\\|%\\)", "W")
     local orig_line = vim.api.nvim_get_current_line()
     local pattern = [[\(.\+;\s\?\)\(R\?(\?1\?!\?\|A\?(\?1\?!\?\|PC\?(\?1\?!\?\)\(.\{-}\)\(,\|-\|=\)\(.\+\)]]
     orig_cols = vim.fn.substitute(orig_line, pattern, "\\3", "")
@@ -33,7 +33,7 @@ local function tableSeries()
 
   local function getColumnsRest()
     vim.fn.search("^R &IN2BASE==", "W")
-    vim.fn.search("^R \\w", "W")
+    vim.fn.search("^R \\(\\w\\|%\\)", "W")
     local new_line = vim.api.nvim_get_current_line()
     local pattern = [[\(.\+;\s\?\)\(R\?(\?1\?!\?\|A\?(\?1\?!\?\|PC\?(\?1\?!\?\)\(.\{-}\)\(,\|-\|=\)\(.\+\)]]
     new_cols = vim.fn.substitute(new_line, pattern, "\\3", "")
