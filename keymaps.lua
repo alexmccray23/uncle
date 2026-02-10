@@ -1,4 +1,4 @@
-require "user.uncle.adjust2"
+require "user.uncle.adjust"
 require "user.uncle.banner_column"
 require "user.uncle.base_check"
 require "user.uncle.base_row"
